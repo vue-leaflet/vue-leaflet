@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>vue-leaflet</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <link rel="stylesheet" href="assets/app.css" />
+  </head>
+  <body>
+    <div id="app" style="width: 500px; height:500px;">
+      <l-map :zoom="3" :center="[47.413220, -1.219482]">
+        <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png">
+        </l-tile-layer>
+      </l-map>
+    </div>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
