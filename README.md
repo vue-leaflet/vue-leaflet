@@ -2,10 +2,28 @@
 
 > Vue Leaflet Next
 
+## Description
+
+This repo contains the WIP to rewrite the vue2-leaflet codebase for vue3 this is High experimental and can be broken at any time, is not actually working as a plugin for now.
+The aim is to experiment with various techniques and architectures for vue3.
+
+## Current architecture
+
+- replace mixins with composition API
+- use provide/inject instead of `findRealParent`
+- simplify simplify and simplify the old codebase
+- SSR compatible from the get-go
+
+## What is available now
+
+- a playground page with a working map
+- example on how we should build the functions
+
 ## Build setup
 
 ### [yarn](https://yarnpkg.com) - recommend
-``` bash
+
+```bash
 # Install dependencies
 yarn install
 
@@ -17,7 +35,8 @@ yarn run build
 ```
 
 ### [npm](https://www.npmjs.com/)
-``` bash
+
+```bash
 # Install dependencies
 npm install
 

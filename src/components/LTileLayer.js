@@ -1,5 +1,4 @@
 import { tileLayer } from 'leaflet/dist/leaflet-src.esm';
-const { onMounted, ref, computed, inject } = window.Vue;
 import { props as layerProps, setup as layerSetup } from '../functions/layer';
 import {
   props as gridLayerProps,
@@ -9,6 +8,8 @@ import {
   props as tileLayerProps,
   setup as tileLayerSetup
 } from '../functions/tileLayer';
+
+const { onMounted, ref, computed, inject } = window.Vue;
 
 export default {
   props: {
