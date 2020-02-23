@@ -127,7 +127,7 @@
             activeEffect.deps.push(dep);
         }
     }
-    function trigger(target, type, key, extraInfo) {
+    function trigger(target, type, key, newValue, oldValue, oldTarget) {
         const depsMap = targetMap.get(target);
         if (depsMap === void 0) {
             // never been tracked
@@ -136,9 +136,17 @@
         const effects = new Set();
         const computedRunners = new Set();
         if (type === "clear" /* CLEAR */) {
-            // collection being cleared, trigger all effects for target
+            // collection being cleared
+            // trigger all effects for target
             depsMap.forEach(dep => {
                 addRunners(effects, computedRunners, dep);
+            });
+        }
+        else if (key === 'length' && isArray(target)) {
+            depsMap.forEach((dep, key) => {
+                if (key === 'length' || key >= newValue) {
+                    addRunners(effects, computedRunners, dep);
+                }
             });
         }
         else {
@@ -200,16 +208,20 @@
     const get = /*#__PURE__*/ createGetter();
     const readonlyGet = /*#__PURE__*/ createGetter(true);
     const shallowReadonlyGet = /*#__PURE__*/ createGetter(true, true);
-    const arrayIdentityInstrumentations = {};
+    const arrayInstrumentations = {};
     ['includes', 'indexOf', 'lastIndexOf'].forEach(key => {
-        arrayIdentityInstrumentations[key] = function (value, ...args) {
-            return toRaw(this)[key](toRaw(value), ...args);
+        arrayInstrumentations[key] = function (...args) {
+            const arr = toRaw(this);
+            for (let i = 0, l = this.length; i < l; i++) {
+                track(arr, "get" /* GET */, i + '');
+            }
+            return arr[key](...args.map(toRaw));
         };
     });
     function createGetter(isReadonly = false, shallow = false) {
         return function get(target, key, receiver) {
-            if (isArray(target) && hasOwn(arrayIdentityInstrumentations, key)) {
-                return Reflect.get(arrayIdentityInstrumentations, key, receiver);
+            if (isArray(target) && hasOwn(arrayInstrumentations, key)) {
+                return Reflect.get(arrayInstrumentations, key, receiver);
             }
             const res = Reflect.get(target, key, receiver);
             if (isSymbol(key) && builtInSymbols.has(key)) {
@@ -220,7 +232,8 @@
                 // TODO strict mode that returns a shallow-readonly version of the value
                 return res;
             }
-            if (isRef(res)) {
+            // ref unwrapping, only for Objects, not for Arrays.
+            if (isRef(res) && !isArray(target)) {
                 return res.value;
             }
             track(target, "get" /* GET */, key);
@@ -244,7 +257,7 @@
             const oldValue = target[key];
             if (!shallow) {
                 value = toRaw(value);
-                if (isRef(oldValue) && !isRef(value)) {
+                if (!isArray(target) && isRef(oldValue) && !isRef(value)) {
                     oldValue.value = value;
                     return true;
                 }
@@ -253,14 +266,11 @@
             const result = Reflect.set(target, key, value, receiver);
             // don't trigger if target is something up in the prototype chain of original
             if (target === toRaw(receiver)) {
-                /* istanbul ignore else */
-                {
-                    if (!hadKey) {
-                        trigger(target, "add" /* ADD */, key);
-                    }
-                    else if (hasChanged(value, oldValue)) {
-                        trigger(target, "set" /* SET */, key);
-                    }
+                if (!hadKey) {
+                    trigger(target, "add" /* ADD */, key, value);
+                }
+                else if (hasChanged(value, oldValue)) {
+                    trigger(target, "set" /* SET */, key, value);
                 }
             }
             return result;
@@ -271,10 +281,7 @@
         const oldValue = target[key];
         const result = Reflect.deleteProperty(target, key);
         if (result && hadKey) {
-            /* istanbul ignore else */
-            {
-                trigger(target, "delete" /* DELETE */, key);
-            }
+            trigger(target, "delete" /* DELETE */, key, undefined);
         }
         return result;
     }
@@ -344,10 +351,7 @@
         const hadKey = proto.has.call(target, value);
         const result = proto.add.call(target, value);
         if (!hadKey) {
-            /* istanbul ignore else */
-            {
-                trigger(target, "add" /* ADD */, value);
-            }
+            trigger(target, "add" /* ADD */, value, value);
         }
         return result;
     }
@@ -359,14 +363,11 @@
         const hadKey = proto.has.call(target, key);
         const oldValue = proto.get.call(target, key);
         const result = proto.set.call(target, key, value);
-        /* istanbul ignore else */
-        {
-            if (!hadKey) {
-                trigger(target, "add" /* ADD */, key);
-            }
-            else if (hasChanged(value, oldValue)) {
-                trigger(target, "set" /* SET */, key);
-            }
+        if (!hadKey) {
+            trigger(target, "add" /* ADD */, key, value);
+        }
+        else if (hasChanged(value, oldValue)) {
+            trigger(target, "set" /* SET */, key, value);
         }
         return result;
     }
@@ -379,10 +380,7 @@
         // forward the operation before queueing reactions
         const result = proto.delete.call(target, key);
         if (hadKey) {
-            /* istanbul ignore else */
-            {
-                trigger(target, "delete" /* DELETE */, key);
-            }
+            trigger(target, "delete" /* DELETE */, key, undefined);
         }
         return result;
     }
@@ -392,10 +390,7 @@
         // forward the operation before queueing reactions
         const result = getProto(target).clear.call(target);
         if (hadItems) {
-            /* istanbul ignore else */
-            {
-                trigger(target, "clear" /* CLEAR */);
-            }
+            trigger(target, "clear" /* CLEAR */, undefined, undefined);
         }
         return result;
     }
@@ -523,6 +518,9 @@
         if (readonlyValues.has(target)) {
             return readonly(target);
         }
+        if (isRef(target)) {
+            return target;
+        }
         return createReactiveObject(target, rawToReactive, reactiveToRaw, mutableHandlers, mutableCollectionHandlers);
     }
     function readonly(target) {
@@ -573,6 +571,9 @@
     }
     function isRef(r) {
         return r ? r._isRef === true : false;
+    }
+    function unref(ref) {
+        return isRef(ref) ? ref.value : ref;
     }
 
     function computed(getterOrOptions) {
@@ -975,7 +976,7 @@
     // fallthrough can be suppressed.
     let accessedAttrs = false;
     function renderComponentRoot(instance) {
-        const { type: Component, vnode, proxy, withProxy, props, slots, attrs, vnodeHooks, emit, renderCache } = instance;
+        const { type: Component, parent, vnode, proxy, withProxy, props, slots, attrs, vnodeHooks, emit, renderCache } = instance;
         let result;
         currentRenderingInstance = instance;
         try {
@@ -1014,6 +1015,11 @@
             // inherit vnode hooks
             if (vnodeHooks !== EMPTY_OBJ$1) {
                 result = cloneVNode(result, vnodeHooks);
+            }
+            // inherit scopeId
+            const parentScopeId = parent && parent.type.__scopeId;
+            if (parentScopeId) {
+                result = cloneVNode(result, { [parentScopeId]: '' });
             }
             // inherit directives
             if (vnode.dirs != null) {
@@ -2930,7 +2936,6 @@
         $nextTick: () => nextTick,
         $watch:  i => instanceWatch.bind(i) 
     };
-    const unwrapRef = (val) => (isRef(val) ? val.value : val);
     const PublicInstanceProxyHandlers = {
         get(target, key) {
             const { renderContext, data, props, propsProxy, accessCache, type, sink } = target;
@@ -2947,7 +2952,7 @@
                         case 0 /* DATA */:
                             return data[key];
                         case 1 /* CONTEXT */:
-                            return unwrapRef(renderContext[key]);
+                            return unref(renderContext[key]);
                         case 2 /* PROPS */:
                             return propsProxy[key];
                         // default: just fallthrough
@@ -2959,7 +2964,7 @@
                 }
                 else if (hasOwn$1(renderContext, key)) {
                     accessCache[key] = 1 /* CONTEXT */;
-                    return unwrapRef(renderContext[key]);
+                    return unref(renderContext[key]);
                 }
                 else if (type.props != null) {
                     // only cache other properties when instance has declared (this stable)

@@ -11,7 +11,7 @@
     "start": "serve dist"
   },
   "dependencies": {
-    "vue": "^3.0.0-alpha.5"
+    "vue": "^3.0.0-alpha.6"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
