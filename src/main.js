@@ -1,11 +1,25 @@
-import 'vue/dist/vue.global.js';
-import 'leaflet/dist/leaflet.css';
-import LMap from './components/LMap';
-import LTileLayer from './components/LTileLayer';
+import { createApp, onMounted } from 'vue';
 
-const { createApp } = window.Vue;
-const App = {};
+const App = {
+  setup() {
+    onMounted(() => {
+      console.log('main app mounted');
+    });
+  }
+};
+
 const app = createApp(App);
-app.component('l-map', LMap);
-app.component('l-tile-layer', LTileLayer);
+
+app.component('foo', {
+  setup() {
+    onMounted(() => {
+      console.log('foo mounted');
+    });
+  },
+  template: '<div>I am foo</div>'
+  // using the render function produces the same results
+  // render() {
+  //   return 'I am foo';
+  // }
+});
 app.mount('#app');
