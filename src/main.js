@@ -1,11 +1,19 @@
-import 'vue/dist/vue.global.js';
-import 'leaflet/dist/leaflet.css';
-import LMap from './components/LMap';
-import LTileLayer from './components/LTileLayer';
-
-const { createApp } = window.Vue;
-const App = {};
+const { createApp, onMounted } = window.Vue;
+const App = {
+  setup() {
+    onMounted(() => {
+      console.log('main app mounted');
+    });
+  }
+};
 const app = createApp(App);
-app.component('l-map', LMap);
-app.component('l-tile-layer', LTileLayer);
+
+app.component('foo', {
+  setup() {
+    onMounted(() => {
+      console.log('foo mounted');
+    });
+  },
+  template: '<div>I am foo</div>'
+});
 app.mount('#app');
