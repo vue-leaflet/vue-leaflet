@@ -1,34 +1,34 @@
 export const props = {
   pane: {
     type: String,
-    default: 'tilePane'
+    default: "tilePane",
   },
   opacity: {
     type: Number,
     custom: false,
-    default: 1.0
+    default: 1.0,
   },
   zIndex: {
     type: Number,
-    default: 1
+    default: 1,
   },
   tileSize: {
     type: Number,
-    default: 256
+    default: 256,
   },
   noWrap: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 };
 
-export const setup = props => {
+export const setup = (props) => {
   const options = {
     pane: props.pane,
     opacity: props.opacity,
     zIndex: props.zIndex,
     tileSize: props.tileSize,
-    noWrap: props.noWrap
+    noWrap: props.noWrap,
   };
   return options;
 };

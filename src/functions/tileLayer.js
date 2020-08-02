@@ -1,23 +1,23 @@
 export const props = {
   tms: {
     type: Boolean,
-    default: false
+    default: false,
   },
   subdomains: {
     type: String,
-    default: 'abc'
+    default: "abc",
   },
   detectRetina: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 };
 
-export const setup = props => {
+export const setup = (props) => {
   const options = {
     tms: props.tms,
     subdomains: props.subdomains,
-    detectRetina: props.detectRetina
+    detectRetina: props.detectRetina,
   };
   return options;
 };

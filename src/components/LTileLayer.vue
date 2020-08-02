@@ -1,14 +1,16 @@
 <script>
-import { onMounted, ref, computed, inject } from 'vue';
-import { props as layerProps, setup as layerSetup } from '../functions/layer';
+/* eslint-disable */
+import { onMounted, ref, computed, inject } from "vue";
+import { props as layerProps, setup as layerSetup } from "../functions/layer";
+import { remapEvents, propsBinder } from "../utils.js";
 import {
   props as gridLayerProps,
-  setup as gridLayerSetup
-} from '../functions/gridLayer';
+  setup as gridLayerSetup,
+} from "../functions/gridLayer";
 import {
   props as tileLayerProps,
-  setup as tileLayerSetup
-} from '../functions/tileLayer';
+  setup as tileLayerSetup,
+} from "../functions/tileLayer";
 
 export default {
   props: {
@@ -17,27 +19,59 @@ export default {
     ...tileLayerProps,
     url: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
-  setup(props) {
+  setup(props, context) {
     const mapRef = ref({});
-    const addLayer = inject('addLayer');
+    const addLayer = inject("addLayer");
+
+    const { options: layerOptions, methods: layerMethods } = layerSetup(
+      props,
+      mapRef
+    );
+
+    const {
+      options: gridLayerOptions,
+      methods: gridLayerMethods,
+    } = gridLayerSetup(props);
+
+    const {
+      options: tileLayerOptions,
+      methods: tileLayerMethods,
+    } = tileLayerSetup(props);
+
     const options = {
-      ...layerSetup(props),
-      ...gridLayerSetup(props),
-      ...tileLayerSetup(props)
+      ...layerOptions,
+      ...gridLayerOptions,
+      ...tileLayerOptions,
     };
+
+    const methods = {
+      ...layerMethods,
+      ...gridLayerMethods,
+      ...tileLayerMethods,
+    };
+
     onMounted(async () => {
-      const { tileLayer } = await import('leaflet/dist/leaflet-src.esm');
+      const { tileLayer, DomEvent } = await import(
+        "leaflet/dist/leaflet-src.esm"
+      );
       mapRef.value = tileLayer(props.url, options);
+
+      const listeners = remapEvents(context.attrs);
+      DomEvent.on(mapRef.value, listeners);
+
+      propsBinder(methods, mapRef.value, props);
+
       addLayer(mapRef.value);
     });
+
     const mapObject = computed(() => mapRef.value);
     return { mapObject };
   },
   render() {
     return null;
-  }
+  },
 };
 </script>

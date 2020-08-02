@@ -1,43 +1,44 @@
-import { inject, onUnmounted } from 'vue';
+import { inject, onUnmounted } from "vue";
 
 export const props = {
   pane: {
     type: String,
-    default: 'overlayPane'
+    default: "overlayPane",
   },
   attribution: {
     type: String,
-    default: null
+    default: null,
   },
   name: {
     type: String,
     custom: true,
-    default: undefined
+    default: undefined,
   },
   layerType: {
     type: String,
     custom: true,
-    default: undefined
+    default: undefined,
   },
   visible: {
     type: Boolean,
     custom: true,
-    default: true
-  }
+    default: true,
+  },
 };
 
-export const setup = (props, mapObject) => {
-  const removeLayer = inject('removeLayer');
+export const setup = (props, mapRef) => {
+  const removeLayer = inject("removeLayer");
+  const addLayer = inject("addLayer");
 
   const unbindTooltip = () => {
-    const tooltip = mapObject ? mapObject.getTooltip() : null;
+    const tooltip = mapRef.value ? mapRef.value.getTooltip() : null;
     if (tooltip) {
       tooltip.unbindTooltip();
     }
   };
 
   const unbindPopup = () => {
-    const popup = mapObject ? mapObject.getPopup() : null;
+    const popup = mapRef.value ? mapRef.value.getPopup() : null;
     if (popup) {
       popup.unbindPopup();
     }
@@ -45,72 +46,63 @@ export const setup = (props, mapObject) => {
 
   const options = {
     attribution: props.attribution,
-    pane: props.pane
+    pane: props.pane,
+  };
+
+  const methods = {
+    setAttribution(val, old) {
+      const attributionControl = this.$parent.mapObject.attributionControl;
+      attributionControl.removeAttribution(old).addAttribution(val);
+    },
+    setName() {
+      removeLayer(mapRef.value);
+      if (props.visible) {
+        addLayer(mapRef.value);
+      }
+    },
+    setLayerType() {
+      removeLayer(mapRef.value);
+      if (props.visible) {
+        addLayer(mapRef.value);
+      }
+    },
+    setVisible(isVisible) {
+      if (mapRef.value) {
+        if (isVisible) {
+          addLayer(mapRef.value);
+        } else {
+          removeLayer(mapRef.value);
+        }
+      }
+    },
+
+    unbindTooltip() {
+      const tooltip = mapRef.value ? mapRef.value.getTooltip() : null;
+      if (tooltip) {
+        tooltip.unbindTooltip();
+      }
+    },
+    unbindPopup() {
+      const popup = mapRef.value ? mapRef.value.getPopup() : null;
+      if (popup) {
+        popup.unbindPopup();
+      }
+    },
+    updateVisibleProp(value) {
+      /**
+       * Triggers when the visible prop needs to be updated
+       * @type {boolean}
+       * @property {boolean} value - value of the visible property
+       */
+      this.$emit("update:visible", value);
+    },
   };
 
   onUnmounted(() => {
     unbindPopup();
     unbindTooltip();
-    removeLayer(this);
+    removeLayer(mapRef.value);
   });
 
-  return options;
+  return { options, methods };
 };
-
-//   beforeDestroy() {
-//     this.unbindPopup();
-//     this.unbindTooltip();
-//     this.parentContainer.removeLayer(this);
-//   },
-//   methods: {
-//     setAttribution(val, old) {
-//       const attributionControl = this.$parent.mapObject.attributionControl;
-//       attributionControl.removeAttribution(old).addAttribution(val);
-//     },
-//     setName() {
-//       this.parentContainer.removeLayer(this);
-//       if (this.visible) {
-//         this.parentContainer.addLayer(this);
-//       }
-//     },
-//     setLayerType() {
-//       this.parentContainer.removeLayer(this);
-//       if (this.visible) {
-//         this.parentContainer.addLayer(this);
-//       }
-//     },
-//     setVisible(isVisible) {
-//       if (this.mapObject) {
-//         if (isVisible) {
-//           this.parentContainer.addLayer(this);
-//         } else {
-//           if (this.parentContainer.hideLayer) {
-//             this.parentContainer.hideLayer(this);
-//           } else {
-//             this.parentContainer.removeLayer(this);
-//           }
-//         }
-//       }
-//     },
-//     unbindTooltip() {
-//       const tooltip = this.mapObject ? this.mapObject.getTooltip() : null;
-//       if (tooltip) {
-//         tooltip.unbindTooltip();
-//       }
-//     },
-//     unbindPopup() {
-//       const popup = this.mapObject ? this.mapObject.getPopup() : null;
-//       if (popup) {
-//         popup.unbindPopup();
-//       }
-//     },
-//     updateVisibleProp(value) {
-//       /**
-//        * Triggers when the visible prop needs to be updated
-//        * @type {boolean}
-//        * @property {boolean} value - value of the visible property
-//        */
-//       this.$emit('update:visible', value);
-//     },
-//   },
-// };
