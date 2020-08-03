@@ -1,8 +1,7 @@
 <script>
-/* eslint-disable */
 import { remapEvents, propsBinder, debounce } from "../utils.js";
 
-import { onMounted, ref, computed, inject, watch } from "vue";
+import { onMounted, ref, computed, inject } from "vue";
 import { props as layerProps, setup as layerSetup } from "../functions/layer";
 
 /**
@@ -58,7 +57,7 @@ export default {
       const methods = {
         setDraggable(value) {
           if (mapRef.value.dragging) {
-            newVal
+            value
               ? mapRef.value.dragging.enable()
               : mapRef.value.dragging.disable();
           }
@@ -74,7 +73,7 @@ export default {
 
           if (mapRef.value) {
             const oldLatLng = mapRef.value.getLatLng();
-            const newLatLng = latlng(newVal);
+            const newLatLng = latLng(newVal);
             if (
               newLatLng.lat !== oldLatLng.lat ||
               newLatLng.lng !== oldLatLng.lng

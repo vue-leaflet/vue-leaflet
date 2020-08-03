@@ -3,7 +3,11 @@
     <l-map :zoom="3" :center="[47.41322, -1.219482]" @move="log('move')">
       <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png">
       </l-tile-layer>
-      <l-marker :lat-lng="[0, 0]" draggable></l-marker>
+      <l-marker
+        :lat-lng="[0, 0]"
+        draggable
+        @moveend="log('moveend')"
+      ></l-marker>
     </l-map>
   </div>
 </template>

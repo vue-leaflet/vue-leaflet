@@ -1,12 +1,6 @@
 <script>
-/* eslint-disable */
 import { onMounted, ref, computed, inject } from "vue";
-import { props as layerProps, setup as layerSetup } from "../functions/layer";
 import { remapEvents, propsBinder } from "../utils.js";
-import {
-  props as gridLayerProps,
-  setup as gridLayerSetup,
-} from "../functions/gridLayer";
 import {
   props as tileLayerProps,
   setup as tileLayerSetup,
@@ -14,8 +8,6 @@ import {
 
 export default {
   props: {
-    ...layerProps,
-    ...gridLayerProps,
     ...tileLayerProps,
     url: {
       type: String,
@@ -26,32 +18,7 @@ export default {
     const mapRef = ref({});
     const addLayer = inject("addLayer");
 
-    const { options: layerOptions, methods: layerMethods } = layerSetup(
-      props,
-      mapRef
-    );
-
-    const {
-      options: gridLayerOptions,
-      methods: gridLayerMethods,
-    } = gridLayerSetup(props);
-
-    const {
-      options: tileLayerOptions,
-      methods: tileLayerMethods,
-    } = tileLayerSetup(props);
-
-    const options = {
-      ...layerOptions,
-      ...gridLayerOptions,
-      ...tileLayerOptions,
-    };
-
-    const methods = {
-      ...layerMethods,
-      ...gridLayerMethods,
-      ...tileLayerMethods,
-    };
+    const { options, methods } = tileLayerSetup(props, mapRef);
 
     onMounted(async () => {
       const { tileLayer, DomEvent } = await import(

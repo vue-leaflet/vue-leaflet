@@ -1,4 +1,7 @@
+import { props as layerProps, setup as layerSetup } from "./layer";
+
 export const props = {
+  ...layerProps,
   pane: {
     type: String,
     default: "tilePane",
@@ -22,13 +25,18 @@ export const props = {
   },
 };
 
-export const setup = (props) => {
+export const setup = (props, mapRef) => {
+  const { options: layerOptions, methods: layerMethods } = layerSetup(
+    props,
+    mapRef
+  );
   const options = {
+    ...layerOptions,
     pane: props.pane,
     opacity: props.opacity,
     zIndex: props.zIndex,
     tileSize: props.tileSize,
     noWrap: props.noWrap,
   };
-  return options;
+  return { options, methods: { ...layerMethods } };
 };
