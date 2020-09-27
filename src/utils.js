@@ -1,4 +1,3 @@
-import { setOptions } from "leaflet";
 import { watch } from "vue";
 
 export const debounce = (fn, time) => {
@@ -23,7 +22,7 @@ export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const propsBinder = (methods, leafletElement, props) => {
+export const propsBinder = (methods, leafletElement, props, setOptions) => {
   for (const key in props) {
     const setMethodName = "set" + capitalizeFirstLetter(key);
     if (methods[setMethodName]) {
@@ -51,51 +50,6 @@ export const propsBinder = (methods, leafletElement, props) => {
   }
 };
 
-export const collectionCleaner = (options) => {
-  const result = {};
-  for (const key in options) {
-    const value = options[key];
-    if (value !== null && value !== undefined) {
-      result[key] = value;
-    }
-  }
-  return result;
-};
-
-export const optionsMerger = (props, instance) => {
-  const options =
-    instance.options && instance.options.constructor === Object
-      ? instance.options
-      : {};
-  props = props && props.constructor === Object ? props : {};
-  const result = collectionCleaner(options);
-  props = collectionCleaner(props);
-  const defaultProps = instance.$options.props;
-  for (const key in props) {
-    const def = defaultProps[key]
-      ? defaultProps[key].default &&
-        typeof defaultProps[key].default === "function"
-        ? defaultProps[key].default.call()
-        : defaultProps[key].default
-      : Symbol("unique");
-    let isEqual = false;
-    if (Array.isArray(def)) {
-      isEqual = JSON.stringify(def) === JSON.stringify(props[key]);
-    } else {
-      isEqual = def === props[key];
-    }
-    if (result[key] && !isEqual) {
-      console.warn(
-        `${key} props is overriding the value passed in the options props`
-      );
-      result[key] = props[key];
-    } else if (!result[key]) {
-      result[key] = props[key];
-    }
-  }
-  return result;
-};
-
 export const remapEvents = (onEvent) => {
   const result = {};
   for (const eventName in onEvent) {
@@ -103,4 +57,14 @@ export const remapEvents = (onEvent) => {
     result[newName] = onEvent[eventName];
   }
   return result;
+};
+
+export const resetWebpackIcon = (Icon) => {
+  delete Icon.Default.prototype._getIconUrl;
+
+  Icon.Default.mergeOptions({
+    iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+    iconUrl: require("leaflet/dist/images/marker-icon.png"),
+    shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+  });
 };

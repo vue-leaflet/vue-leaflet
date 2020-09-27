@@ -5,8 +5,20 @@
 </template>
 
 <script>
-import { onMounted, onBeforeUnmount, ref, computed, provide } from "vue";
-import { remapEvents, propsBinder, debounce } from "../utils.js";
+import {
+  onMounted,
+  onBeforeUnmount,
+  computed,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import {
+  remapEvents,
+  propsBinder,
+  debounce,
+  resetWebpackIcon,
+} from "../utils.js";
 
 export default {
   props: {
@@ -137,16 +149,12 @@ export default {
   },
   setup(props, context) {
     const root = ref(null);
-    const ready = ref(false);
-    const mapRef = ref(null);
-    const layerControl = ref(null);
-    const layersToAdd = ref([]);
-    const layersInControl = ref([]);
-    const lastSetCenter = ref(null);
-    const lastSetBounds = ref(null);
-    const paddingBottomRight = ref(null);
-    const paddingTopLeft = ref(null);
-    const padding = ref(null);
+    const blueprint = reactive({
+      ready: false,
+      mapRef: {},
+      layersToAdd: [],
+      layersInControl: [],
+    });
 
     const options = {
       minZoom: props.minZoom,
@@ -167,66 +175,13 @@ export default {
       markerZoomAnimation: props.markerZoomAnimation,
     };
 
-    const methods = {
-      addLayer(layer) {
-        mapRef.value.addLayer(layer);
-      },
-      removeLayer(layer, alreadyRemoved) {
-        if (layer.layerType !== undefined) {
-          if (layerControl.value === undefined) {
-            layersToAdd.value = layersToAdd.value.filter(
-              (l) => l.name !== layer.name
-            );
-          } else {
-            layerControl.value.removeLayer(layer);
-            layersInControl.value = layersInControl.value.filter(
-              (l) => l.mapObject._leaflet_id !== layer.mapObject._leaflet_id
-            );
-          }
-        }
-        if (!alreadyRemoved) {
-          mapRef.value.removeLayer(layer.mapObject);
-        }
-      },
+    const schematics = reactive({
+      addLayer() {},
+      removeLayer() {},
+      registerLayerControl() {},
+    });
 
-      registerLayerControl(lControlLayers) {
-        layerControl.value = lControlLayers;
-        mapRef.value.addControl(lControlLayers.mapObject);
-        layersToAdd.value.forEach((layer) => {
-          layerControl.value.addLayer(layer);
-        });
-        layersToAdd.value = [];
-      },
-
-      setZoom(newVal) {
-        mapRef.value.setZoom(newVal, {
-          animate: props.noBlockingAnimations ? false : null,
-        });
-      },
-
-      setPaddingBottomRight(newVal) {
-        paddingBottomRight.value = newVal;
-      },
-      setPaddingTopLeft(newVal) {
-        paddingTopLeft.value = newVal;
-      },
-      setPadding(newVal) {
-        padding.value = newVal;
-      },
-      setCrs(newVal) {
-        const prevBounds = mapRef.value.getBounds();
-        mapRef.value.options.crs = newVal;
-        mapRef.value.fitBounds(prevBounds, { animate: false, padding: [0, 0] });
-      },
-      fitBounds(bounds) {
-        mapRef.value.fitBounds(bounds, {
-          animate: this.noBlockingAnimations ? false : null,
-        });
-      },
-    };
-
-    provide("addLayer", methods.addLayer);
-    provide("removeLayer", methods.removeLayer);
+    provide("leafLetMethods", schematics);
 
     const eventHandlers = {
       moveEndHandler() {
@@ -234,14 +189,14 @@ export default {
          * Triggers when zoom is updated
          * @type {number,string}
          */
-        context.emit("update:zoom", mapRef.value.getZoom());
-        const center = mapRef.value.getCenter();
+        context.emit("update:zoom", blueprint.mapRef.getZoom());
+        const center = blueprint.mapRef.getCenter();
         /**
          * Triggers when center is updated
          * @type {object,array}
          */
         context.emit("update:center", center);
-        const bounds = mapRef.value.getBounds();
+        const bounds = blueprint.mapRef.getBounds();
         /**
          * Triggers when bounds are updated
          * @type {object}
@@ -249,13 +204,13 @@ export default {
         context.emit("update:bounds", bounds);
       },
       overlayAddHandler(e) {
-        const layer = layersInControl.value.find((l) => l.name === e.name);
+        const layer = blueprint.layersInControl.find((l) => l.name === e.name);
         if (layer) {
           layer.updateVisibleProp(true);
         }
       },
       overlayRemoveHandler(e) {
-        const layer = layersInControl.value.find((l) => l.name === e.name);
+        const layer = blueprint.layersInControl.find((l) => l.name === e.name);
         if (layer) {
           layer.updateVisibleProp(false);
         }
@@ -263,20 +218,90 @@ export default {
     };
 
     onMounted(async () => {
-      const { map, CRS, Icon, latLngBounds, latLng, DomEvent } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
-      delete Icon.Default.prototype._getIconUrl;
-
-      Icon.Default.mergeOptions({
-        iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-        iconUrl: require("leaflet/dist/images/marker-icon.png"),
-        shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-      });
-
+      const {
+        map,
+        CRS,
+        Icon,
+        latLngBounds,
+        latLng,
+        DomEvent,
+        setOptions,
+      } = await import("leaflet/dist/leaflet-src.esm");
+      resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
 
-      const methodsWithDependencies = {
+      const methods = {
+        addLayer(layer) {
+          if (layer.layerType !== undefined) {
+            if (blueprint.layerControl === undefined) {
+              blueprint.layersToAdd.push(layer);
+            } else {
+              const exist = blueprint.layersInControl.find(
+                (l) => l.mapObject._leaflet_id === layer.mapObject._leaflet_id
+              );
+              if (!exist) {
+                blueprint.layerControl.addLayer(layer);
+                blueprint.layersInControl.push(layer);
+              }
+            }
+          }
+          if (layer.visible !== false) {
+            blueprint.mapRef.addLayer(layer.mapObject);
+          }
+        },
+        removeLayer(layer) {
+          if (layer.layerType !== undefined) {
+            if (blueprint.layerControl === undefined) {
+              blueprint.layersToAdd = blueprint.layersToAdd.filter(
+                (l) => l.name !== layer.name
+              );
+            } else {
+              blueprint.layerControl.removeLayer(layer.mapObject);
+              blueprint.layersInControl = blueprint.layersInControl.filter(
+                (l) => l.mapObject._leaflet_id !== layer.mapObject._leaflet_id
+              );
+            }
+          }
+          blueprint.mapRef.removeLayer(layer.mapObject);
+        },
+
+        registerLayerControl(lControlLayer) {
+          blueprint.layerControl = lControlLayer;
+          blueprint.mapRef.addControl(lControlLayer.mapObject);
+          blueprint.layersToAdd.forEach((layer) => {
+            blueprint.layerControl.addLayer(layer);
+          });
+          blueprint.layersToAdd = [];
+        },
+
+        setZoom(newVal) {
+          blueprint.mapRef.setZoom(newVal, {
+            animate: props.noBlockingAnimations ? false : null,
+          });
+        },
+
+        setPaddingBottomRight(newVal) {
+          blueprint.paddingBottomRight = newVal;
+        },
+        setPaddingTopLeft(newVal) {
+          blueprint.paddingTopLeft = newVal;
+        },
+        setPadding(newVal) {
+          blueprint.padding = newVal;
+        },
+        setCrs(newVal) {
+          const prevBounds = blueprint.mapRef.getBounds();
+          blueprint.mapRef.options.crs = newVal;
+          blueprint.mapRef.fitBounds(prevBounds, {
+            animate: false,
+            padding: [0, 0],
+          });
+        },
+        fitBounds(bounds) {
+          blueprint.mapRef.fitBounds(bounds, {
+            animate: this.noBlockingAnimations ? false : null,
+          });
+        },
         setBounds(newVal) {
           if (!newVal) {
             return;
@@ -285,11 +310,12 @@ export default {
           if (!newBounds.isValid()) {
             return;
           }
-          const oldBounds = lastSetBounds.value || mapRef.value.getBounds();
+          const oldBounds =
+            blueprint.lastSetBounds || blueprint.mapRef.getBounds();
           const boundsChanged = !oldBounds.equals(newBounds, 0); // set maxMargin to 0 - check exact equals
           if (boundsChanged) {
-            lastSetBounds.value = newBounds;
-            mapRef.value.fitBounds(newBounds, this.fitBoundsOptions);
+            blueprint.lastSetBounds = newBounds;
+            blueprint.mapRef.fitBounds(newBounds, this.fitBoundsOptions);
           }
         },
 
@@ -298,38 +324,47 @@ export default {
             return;
           }
           const newCenter = latLng(newVal);
-          const oldCenter = lastSetCenter.value || mapRef.value.getCenter();
+          const oldCenter =
+            blueprint.lastSetCenter || blueprint.mapRef.getCenter();
           if (
             oldCenter.lat !== newCenter.lat ||
             oldCenter.lng !== newCenter.lng
           ) {
-            lastSetCenter.value = newCenter;
-            mapRef.value.panTo(newCenter, {
+            blueprint.lastSetCenter = newCenter;
+            blueprint.mapRef.panTo(newCenter, {
               animate: this.noBlockingAnimations ? false : null,
             });
           }
         },
       };
 
-      mapRef.value = map(root.value, options);
+      schematics.addLayer = methods.addLayer;
+      schematics.removeLayer = methods.removeLayer;
+      schematics.registerLayerControl = methods.registerLayerControl;
 
-      propsBinder({ ...methods, methodsWithDependencies }, mapRef.value, props);
+      blueprint.mapRef = map(root.value, options);
+
+      propsBinder(methods, blueprint.mapRef, props, setOptions);
       const listeners = remapEvents(context.attrs);
 
-      mapRef.value.on("moveend", debounce(eventHandlers.moveEndHandler, 100));
-      mapRef.value.on("overlayadd", eventHandlers.overlayAddHandler);
-      mapRef.value.on("overlayremove", eventHandlers.overlayRemoveHandler);
-      DomEvent.on(mapRef.value, listeners);
-      ready.value = true;
+      blueprint.mapRef.on(
+        "moveend",
+        debounce(eventHandlers.moveEndHandler, 100)
+      );
+      blueprint.mapRef.on("overlayadd", eventHandlers.overlayAddHandler);
+      blueprint.mapRef.on("overlayremove", eventHandlers.overlayRemoveHandler);
+      DomEvent.on(blueprint.mapRef, listeners);
+      blueprint.ready = true;
     });
 
     onBeforeUnmount(() => {
-      if (mapRef.value) {
-        mapRef.value.remove();
+      if (blueprint.mapRef) {
+        blueprint.mapRef.remove();
       }
     });
 
-    const mapObject = computed(() => mapRef.value);
+    const mapObject = computed(() => blueprint.mapRef);
+    const ready = computed(() => blueprint.ready);
     return { root, ready, mapObject };
   },
 };

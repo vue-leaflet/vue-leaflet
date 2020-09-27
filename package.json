@@ -1,28 +1,38 @@
 {
-  "name": "vue-leaflet",
+  "name": "@vue-leaflet/vue-leaflet",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "sideEffects": false,
+  "main": "dist/vue-leaflet.common.js",
+  "files": [
+    "dist/",
+    "src/"
+  ],
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vue-cli-service serve ./src/playground.js",
+    "build": "vue-cli-service build --target lib ./src/lib.js",
+    "lint": "vue-cli-service lint",
+    "prepublishOnly": "npm run lint && npm run build"
   },
-  "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^3.0.0-0"
+  "peerDependencies": {
+    "@types/leaflet": "^1.5.7",
+    "leaflet": "^1.6.0",
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0-0",
+    "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^7.0.0-0",
     "leaflet": "^1.6.0",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "core-js": "^3.6.5",
+    "vue": "^3.0.0"
   },
   "eslintConfig": {
     "root": true,

@@ -14,6 +14,10 @@ export const props = {
     type: Boolean,
     default: false,
   },
+  url: {
+    type: String,
+    default: null,
+  },
 };
 
 export const setup = (props, mapRef) => {

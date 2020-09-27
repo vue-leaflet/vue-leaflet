@@ -26,9 +26,8 @@ export const props = {
   },
 };
 
-export const setup = (props, mapRef) => {
-  const removeLayer = inject("removeLayer");
-  const addLayer = inject("addLayer");
+export const setup = (props, mapRef, context) => {
+  const lMethods = inject("leafLetMethods");
 
   const unbindTooltip = () => {
     const tooltip = mapRef.value ? mapRef.value.getTooltip() : null;
@@ -55,23 +54,23 @@ export const setup = (props, mapRef) => {
       attributionControl.removeAttribution(old).addAttribution(val);
     },
     setName() {
-      removeLayer(mapRef.value);
+      lMethods.removeLayer(mapRef.value);
       if (props.visible) {
-        addLayer(mapRef.value);
+        lMethods.addLayer(mapRef.value);
       }
     },
     setLayerType() {
-      removeLayer(mapRef.value);
+      lMethods.removeLayer(mapRef.value);
       if (props.visible) {
-        addLayer(mapRef.value);
+        lMethods.addLayer(mapRef.value);
       }
     },
     setVisible(isVisible) {
       if (mapRef.value) {
         if (isVisible) {
-          addLayer(mapRef.value);
+          lMethods.addLayer(mapRef.value);
         } else {
-          removeLayer(mapRef.value);
+          lMethods.removeLayer(mapRef.value);
         }
       }
     },
@@ -94,14 +93,14 @@ export const setup = (props, mapRef) => {
        * @type {boolean}
        * @property {boolean} value - value of the visible property
        */
-      this.$emit("update:visible", value);
+      context.emit("update:visible", value);
     },
   };
 
   onUnmounted(() => {
     unbindPopup();
     unbindTooltip();
-    removeLayer(mapRef.value);
+    lMethods.removeLayer({ mapObject: mapRef.value });
   });
 
   return { options, methods };
