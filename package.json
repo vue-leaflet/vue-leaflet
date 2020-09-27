@@ -1,6 +1,8 @@
 {
   "name": "@vue-leaflet/vue-leaflet",
-  "version": "0.1.0",
+  "author": "Nicolò Maria Mezzopera",
+  "version": "0.1.1",
+  "license": "MIT",
   "private": false,
   "sideEffects": false,
   "main": "dist/vue-leaflet.common.js",
@@ -8,6 +10,10 @@
     "dist/",
     "src/"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:vue-leaflet/vue-leaflet.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve ./src/playground.js",
     "build": "vue-cli-service build --target lib ./src/lib.js",
