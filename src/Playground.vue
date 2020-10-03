@@ -1,6 +1,11 @@
 <template>
   <div style="height: 50vh; width: 50vw;">
-    <l-map :zoom="3" :center="[47.41322, -1.219482]" @move="log('move')">
+    <l-map
+      v-model="zoom"
+      v-model:zoom="zoom"
+      :center="[47.41322, -1.219482]"
+      @move="log('move')"
+    >
       <l-tile-layer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       ></l-tile-layer>
@@ -25,6 +30,11 @@ export default {
     LTileLayer,
     LMarker,
     LControlLayers,
+  },
+  data() {
+    return {
+      zoom: 2,
+    };
   },
   methods: {
     log(a) {
