@@ -27,7 +27,6 @@ export default {
      */
     center: {
       type: [Object, Array],
-      custom: true,
       default: () => [0, 0],
     },
     /**
@@ -35,22 +34,20 @@ export default {
      */
     bounds: {
       type: [Array, Object],
-      custom: true,
-      default: null,
+      default: undefined,
     },
     /**
      * The max bounds of the map
      */
     maxBounds: {
       type: [Array, Object],
-      default: null,
+      default: undefined,
     },
     /**
      * The zoom of the map, supports .sync modifier
      */
     zoom: {
       type: Number,
-      custom: true,
       default: 0,
     },
     /**
@@ -58,38 +55,35 @@ export default {
      */
     minZoom: {
       type: Number,
-      default: null,
+      default: undefined,
     },
     /**
      * The maxZoom of the map
      */
     maxZoom: {
       type: Number,
-      default: null,
+      default: undefined,
     },
     /**
      * The paddingBottomRight of the map
      */
     paddingBottomRight: {
       type: Array,
-      custom: true,
-      default: null,
+      default: undefined,
     },
     /**
      * The paddingTopLeft of the map
      */
     paddingTopLeft: {
       type: Array,
-      custom: true,
-      default: null,
+      default: undefined,
     },
     /**
      * The padding of the map
      */
     padding: {
       type: Array,
-      custom: true,
-      default: null,
+      default: undefined,
     },
     /**
      * The worldCopyJump option for the map
@@ -104,43 +98,42 @@ export default {
      */
     crs: {
       type: Object,
-      custom: true,
     },
     maxBoundsViscosity: {
       type: Number,
-      default: null,
+      default: undefined,
     },
     inertia: {
       type: Boolean,
-      default: null,
+      default: undefined,
     },
     inertiaDeceleration: {
       type: Number,
-      default: null,
+      default: undefined,
     },
     inertiaMaxSpeed: {
       type: Number,
-      default: null,
+      default: undefined,
     },
     easeLinearity: {
       type: Number,
-      default: null,
+      default: undefined,
     },
     zoomAnimation: {
       type: Boolean,
-      default: null,
+      default: undefined,
     },
     zoomAnimationThreshold: {
       type: Number,
-      default: null,
+      default: undefined,
     },
     fadeAnimation: {
       type: Boolean,
-      default: null,
+      default: undefined,
     },
     markerZoomAnimation: {
       type: Boolean,
-      default: null,
+      default: undefined,
     },
     noBlockingAnimations: {
       type: Boolean,
@@ -190,18 +183,17 @@ export default {
          * @type {number,string}
          */
         context.emit("update:zoom", blueprint.mapRef.getZoom());
-        const center = blueprint.mapRef.getCenter();
         /**
          * Triggers when center is updated
          * @type {object,array}
          */
-        context.emit("update:center", center);
-        const bounds = blueprint.mapRef.getBounds();
+        context.emit("update:center", blueprint.mapRef.getCenter());
+
         /**
          * Triggers when bounds are updated
          * @type {object}
          */
-        context.emit("update:bounds", bounds);
+        context.emit("update:bounds", blueprint.mapRef.getBounds());
       },
       overlayAddHandler(e) {
         const layer = blueprint.layersInControl.find((l) => l.name === e.name);
