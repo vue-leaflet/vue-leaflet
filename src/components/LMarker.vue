@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, reactive, inject } from "vue";
+import { onMounted, ref, reactive, inject, h } from "vue";
 import { remapEvents, propsBinder, debounce } from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
 
@@ -43,9 +43,9 @@ export default {
     });
     return { ready };
   },
-  render: function (h) {
+  render() {
     if (this.ready && this.$slots.default) {
-      return h("div", { style: { display: "none" } }, this.$slots.default);
+      return h("div", { style: { display: "none" } }, this.$slots.default());
     }
     return null;
   },
