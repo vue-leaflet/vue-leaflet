@@ -1,4 +1,4 @@
-import { inject, onUnmounted } from "vue";
+import { inject, onUnmounted, provide } from "vue";
 
 export const props = {
   pane: {
@@ -28,21 +28,6 @@ export const props = {
 
 export const setup = (props, mapRef, context) => {
   const lMethods = inject("leafLetMethods");
-
-  const unbindTooltip = () => {
-    const tooltip = mapRef.value ? mapRef.value.getTooltip() : null;
-    if (tooltip) {
-      tooltip.unbindTooltip();
-    }
-  };
-
-  const unbindPopup = () => {
-    const popup = mapRef.value ? mapRef.value.getPopup() : null;
-    if (popup) {
-      popup.unbindPopup();
-    }
-  };
-
   const options = {
     attribution: props.attribution,
     pane: props.pane,
@@ -74,7 +59,9 @@ export const setup = (props, mapRef, context) => {
         }
       }
     },
-
+    bindTooltip({ mapObject }) {
+      mapRef.value.bindTooltip(mapObject);
+    },
     unbindTooltip() {
       const tooltip = mapRef.value ? mapRef.value.getTooltip() : null;
       if (tooltip) {
@@ -97,9 +84,15 @@ export const setup = (props, mapRef, context) => {
     },
   };
 
+  provide("leafLetMethods", {
+    ...lMethods,
+    bindTooltip: methods.bindTooltip,
+    unbindTooltip: methods.unbindTooltip,
+  });
+
   onUnmounted(() => {
-    unbindPopup();
-    unbindTooltip();
+    methods.unbindPopup();
+    methods.unbindTooltip();
     lMethods.removeLayer({ mapObject: mapRef.value });
   });
 
