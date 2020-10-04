@@ -23,6 +23,7 @@ import {
   buildAddMapLayer,
   buildRegisterLayerControl,
   buildRemoveMapLayer,
+  buildMapPropSetters,
 } from "../functions/map";
 
 export default {
@@ -211,86 +212,26 @@ export default {
     };
 
     onMounted(async () => {
-      const {
-        map,
-        CRS,
-        Icon,
-        latLngBounds,
-        latLng,
-        DomEvent,
-        setOptions,
-      } = await import("leaflet/dist/leaflet-src.esm");
+      const { map, CRS, Icon, DomEvent, setOptions } = await import(
+        "leaflet/dist/leaflet-src.esm"
+      );
       resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
 
+      /*
       const methods = {
-        setZoom(newVal) {
-          blueprint.mapRef.setZoom(newVal, {
-            animate: props.noBlockingAnimations ? false : null,
-          });
-        },
-
-        setPaddingBottomRight(newVal) {
-          blueprint.paddingBottomRight = newVal;
-        },
-        setPaddingTopLeft(newVal) {
-          blueprint.paddingTopLeft = newVal;
-        },
-        setPadding(newVal) {
-          blueprint.padding = newVal;
-        },
-        setCrs(newVal) {
-          const prevBounds = blueprint.mapRef.getBounds();
-          blueprint.mapRef.options.crs = newVal;
-          blueprint.mapRef.fitBounds(prevBounds, {
-            animate: false,
-            padding: [0, 0],
-          });
-        },
         fitBounds(bounds) {
           blueprint.mapRef.fitBounds(bounds, {
             animate: this.noBlockingAnimations ? false : null,
           });
         },
-        setBounds(newVal) {
-          if (!newVal) {
-            return;
-          }
-          const newBounds = latLngBounds(newVal);
-          if (!newBounds.isValid()) {
-            return;
-          }
-          const oldBounds =
-            blueprint.lastSetBounds || blueprint.mapRef.getBounds();
-          const boundsChanged = !oldBounds.equals(newBounds, 0); // set maxMargin to 0 - check exact equals
-          if (boundsChanged) {
-            blueprint.lastSetBounds = newBounds;
-            blueprint.mapRef.fitBounds(newBounds, this.fitBoundsOptions);
-          }
-        },
-
-        setCenter(newVal) {
-          if (newVal == null) {
-            return;
-          }
-          const newCenter = latLng(newVal);
-          const oldCenter =
-            blueprint.lastSetCenter || blueprint.mapRef.getCenter();
-          if (
-            oldCenter.lat !== newCenter.lat ||
-            oldCenter.lng !== newCenter.lng
-          ) {
-            blueprint.lastSetCenter = newCenter;
-            blueprint.mapRef.panTo(newCenter, {
-              animate: this.noBlockingAnimations ? false : null,
-            });
-          }
-        },
       };
+      */
 
       blueprint.mapRef = map(root.value, options);
 
-      propsBinder(methods, blueprint.mapRef, props, setOptions);
+      const setters = buildMapPropSetters(blueprint, props);
+      propsBinder(setters, blueprint.mapRef, props, setOptions);
       const listeners = remapEvents(context.attrs);
 
       blueprint.mapRef.on(
