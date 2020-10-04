@@ -22,6 +22,24 @@ export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+export const lowercaseFirstLetter = (string) => {
+  if (!string || typeof string.charAt !== "function") {
+    return string;
+  }
+  return string.charAt(0).toLowerCase() + string.slice(1);
+};
+
+export const getMethodNameFromBuilder = (string) => {
+  if (!string || typeof string.match !== "function") {
+    return string;
+  }
+  const match = string.match(/^build(.+)/);
+  if (!match || !Array.isArray(match) || match.length < 2) {
+    return string;
+  }
+  return lowercaseFirstLetter(match[1]);
+};
+
 export const propsBinder = (methods, leafletElement, props, setOptions) => {
   for (const key in props) {
     const setMethodName = "set" + capitalizeFirstLetter(key);
@@ -47,6 +65,19 @@ export const propsBinder = (methods, leafletElement, props, setOptions) => {
         }
       );
     }
+  }
+};
+
+export const provideMethodsFromBuilders = (
+  provide,
+  methodBuilders,
+  blueprint
+) => {
+  for (const builder in methodBuilders) {
+    provide(
+      getMethodNameFromBuilder(builder),
+      methodBuilders[builder](blueprint)
+    );
   }
 };
 

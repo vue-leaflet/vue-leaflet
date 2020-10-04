@@ -18,13 +18,9 @@ import {
   propsBinder,
   debounce,
   resetWebpackIcon,
+  provideMethodsFromBuilders,
 } from "../utils.js";
-import {
-  buildAddMapLayer,
-  buildRegisterLayerControl,
-  buildRemoveMapLayer,
-  buildMapPropSetters,
-} from "../functions/map";
+import { mapMethodBuilders, buildMapPropSetters } from "../functions/map";
 
 export default {
   props: {
@@ -174,9 +170,7 @@ export default {
       markerZoomAnimation: props.markerZoomAnimation,
     };
 
-    provide("addMapLayer", buildAddMapLayer(blueprint));
-    provide("removeMapLayer", buildRemoveMapLayer(blueprint));
-    provide("registerLayerControl", buildRegisterLayerControl(blueprint));
+    provideMethodsFromBuilders(provide, mapMethodBuilders, blueprint);
 
     const eventHandlers = {
       moveEndHandler() {
@@ -217,16 +211,6 @@ export default {
       );
       resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
-
-      /*
-      const methods = {
-        fitBounds(bounds) {
-          blueprint.mapRef.fitBounds(bounds, {
-            animate: this.noBlockingAnimations ? false : null,
-          });
-        },
-      };
-      */
 
       blueprint.mapRef = map(root.value, options);
 
