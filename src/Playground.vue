@@ -16,6 +16,10 @@
         </l-tooltip>
       </l-marker>
     </l-map>
+    <div>
+      Current zoom: {{ zoom }}.
+      <button @click="zoomToZero">Zoom all the way out</button>
+    </div>
   </div>
 </template>
 <script>
@@ -41,6 +45,9 @@ export default {
   methods: {
     log(a) {
       console.log(a);
+    },
+    zoomToZero() {
+      this.zoom = 0;
     },
   },
 };
