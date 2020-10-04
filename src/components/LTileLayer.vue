@@ -7,7 +7,7 @@ export default {
   props,
   setup(props, context) {
     const mapRef = ref({});
-    const lMethods = inject("leafLetMethods");
+    const addMapLayer = inject("addMapLayer");
 
     const { options, methods } = tileLayerSetup(props, mapRef);
 
@@ -21,7 +21,7 @@ export default {
       DomEvent.on(mapRef.value, listeners);
 
       propsBinder(methods, mapRef.value, props, setOptions);
-      lMethods.addLayer({ ...props, ...methods, mapObject: mapRef.value });
+      addMapLayer({ ...props, ...methods, mapObject: mapRef.value });
     });
   },
   render() {

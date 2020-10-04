@@ -27,7 +27,8 @@ export const props = {
 };
 
 export const setup = (props, mapRef, context) => {
-  const lMethods = inject("leafLetMethods");
+  const addMapLayer = inject("addMapLayer");
+  const removeMapLayer = inject("removeMapLayer");
   const options = {
     attribution: props.attribution,
     pane: props.pane,
@@ -39,23 +40,23 @@ export const setup = (props, mapRef, context) => {
       attributionControl.removeAttribution(old).addAttribution(val);
     },
     setName() {
-      lMethods.removeLayer(mapRef.value);
+      removeMapLayer(mapRef.value);
       if (props.visible) {
-        lMethods.addLayer(mapRef.value);
+        addMapLayer(mapRef.value);
       }
     },
     setLayerType() {
-      lMethods.removeLayer(mapRef.value);
+      removeMapLayer(mapRef.value);
       if (props.visible) {
-        lMethods.addLayer(mapRef.value);
+        addMapLayer(mapRef.value);
       }
     },
     setVisible(isVisible) {
       if (mapRef.value) {
         if (isVisible) {
-          lMethods.addLayer(mapRef.value);
+          addMapLayer(mapRef.value);
         } else {
-          lMethods.removeLayer(mapRef.value);
+          removeMapLayer(mapRef.value);
         }
       }
     },
@@ -85,7 +86,6 @@ export const setup = (props, mapRef, context) => {
   };
 
   provide("leafLetMethods", {
-    ...lMethods,
     bindTooltip: methods.bindTooltip,
     unbindTooltip: methods.unbindTooltip,
   });
@@ -93,7 +93,7 @@ export const setup = (props, mapRef, context) => {
   onUnmounted(() => {
     methods.unbindPopup();
     methods.unbindTooltip();
-    lMethods.removeLayer({ mapObject: mapRef.value });
+    removeMapLayer({ mapObject: mapRef.value });
   });
 
   return { options, methods };

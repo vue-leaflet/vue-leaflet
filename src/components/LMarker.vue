@@ -17,7 +17,7 @@ export default {
       latLng() {},
     });
 
-    const lMethods = inject("leafLetMethods");
+    const addMapLayer = inject("addMapLayer");
     const { options, methods } = markerSetup(
       props,
       mapRef,
@@ -38,7 +38,7 @@ export default {
 
       mapRef.value.on("move", debounce(methods.latLngSync, 100));
       propsBinder(methods, mapRef.value, props, setOptions);
-      lMethods.addLayer({ ...props, ...methods, mapObject: mapRef.value });
+      addMapLayer({ ...props, ...methods, mapObject: mapRef.value });
       ready.value = true;
     });
     return { ready };

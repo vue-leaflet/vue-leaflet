@@ -19,6 +19,11 @@ import {
   debounce,
   resetWebpackIcon,
 } from "../utils.js";
+import {
+  buildAddMapLayer,
+  buildRegisterLayerControl,
+  buildRemoveMapLayer,
+} from "../functions/map";
 
 export default {
   props: {
@@ -168,13 +173,9 @@ export default {
       markerZoomAnimation: props.markerZoomAnimation,
     };
 
-    const schematics = reactive({
-      addLayer() {},
-      removeLayer() {},
-      registerLayerControl() {},
-    });
-
-    provide("leafLetMethods", schematics);
+    provide("addMapLayer", buildAddMapLayer(blueprint));
+    provide("removeMapLayer", buildRemoveMapLayer(blueprint));
+    provide("registerLayerControl", buildRegisterLayerControl(blueprint));
 
     const eventHandlers = {
       moveEndHandler() {
@@ -223,49 +224,6 @@ export default {
       options.crs = options.crs || CRS.EPSG3857;
 
       const methods = {
-        addLayer(layer) {
-          if (layer.layerType !== undefined) {
-            if (blueprint.layerControl === undefined) {
-              blueprint.layersToAdd.push(layer);
-            } else {
-              const exist = blueprint.layersInControl.find(
-                (l) => l.mapObject._leaflet_id === layer.mapObject._leaflet_id
-              );
-              if (!exist) {
-                blueprint.layerControl.addLayer(layer);
-                blueprint.layersInControl.push(layer);
-              }
-            }
-          }
-          if (layer.visible !== false) {
-            blueprint.mapRef.addLayer(layer.mapObject);
-          }
-        },
-        removeLayer(layer) {
-          if (layer.layerType !== undefined) {
-            if (blueprint.layerControl === undefined) {
-              blueprint.layersToAdd = blueprint.layersToAdd.filter(
-                (l) => l.name !== layer.name
-              );
-            } else {
-              blueprint.layerControl.removeLayer(layer.mapObject);
-              blueprint.layersInControl = blueprint.layersInControl.filter(
-                (l) => l.mapObject._leaflet_id !== layer.mapObject._leaflet_id
-              );
-            }
-          }
-          blueprint.mapRef.removeLayer(layer.mapObject);
-        },
-
-        registerLayerControl(lControlLayer) {
-          blueprint.layerControl = lControlLayer;
-          blueprint.mapRef.addControl(lControlLayer.mapObject);
-          blueprint.layersToAdd.forEach((layer) => {
-            blueprint.layerControl.addLayer(layer);
-          });
-          blueprint.layersToAdd = [];
-        },
-
         setZoom(newVal) {
           blueprint.mapRef.setZoom(newVal, {
             animate: props.noBlockingAnimations ? false : null,
@@ -329,10 +287,6 @@ export default {
           }
         },
       };
-
-      schematics.addLayer = methods.addLayer;
-      schematics.removeLayer = methods.removeLayer;
-      schematics.registerLayerControl = methods.registerLayerControl;
 
       blueprint.mapRef = map(root.value, options);
 
