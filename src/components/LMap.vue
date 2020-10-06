@@ -146,7 +146,7 @@ export default {
     const root = ref(null);
     const blueprint = reactive({
       ready: false,
-      mapRef: {},
+      leafletRef: {},
       layersToAdd: [],
       layersInControl: [],
     });
@@ -178,18 +178,18 @@ export default {
          * Triggers when zoom is updated
          * @type {number,string}
          */
-        context.emit("update:zoom", blueprint.mapRef.getZoom());
+        context.emit("update:zoom", blueprint.leafletRef.getZoom());
         /**
          * Triggers when center is updated
          * @type {object,array}
          */
-        context.emit("update:center", blueprint.mapRef.getCenter());
+        context.emit("update:center", blueprint.leafletRef.getCenter());
 
         /**
          * Triggers when bounds are updated
          * @type {object}
          */
-        context.emit("update:bounds", blueprint.mapRef.getBounds());
+        context.emit("update:bounds", blueprint.leafletRef.getBounds());
       },
       overlayAddHandler(e) {
         const layer = blueprint.layersInControl.find((l) => l.name === e.name);
@@ -212,29 +212,32 @@ export default {
       resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
 
-      blueprint.mapRef = map(root.value, options);
+      blueprint.leafletRef = map(root.value, options);
 
       const setters = buildMapPropSetters(blueprint, props);
-      propsBinder(setters, blueprint.mapRef, props, setOptions);
+      propsBinder(setters, blueprint.leafletRef, props, setOptions);
       const listeners = remapEvents(context.attrs);
 
-      blueprint.mapRef.on(
+      blueprint.leafletRef.on(
         "moveend",
         debounce(eventHandlers.moveEndHandler, 100)
       );
-      blueprint.mapRef.on("overlayadd", eventHandlers.overlayAddHandler);
-      blueprint.mapRef.on("overlayremove", eventHandlers.overlayRemoveHandler);
-      DomEvent.on(blueprint.mapRef, listeners);
+      blueprint.leafletRef.on("overlayadd", eventHandlers.overlayAddHandler);
+      blueprint.leafletRef.on(
+        "overlayremove",
+        eventHandlers.overlayRemoveHandler
+      );
+      DomEvent.on(blueprint.leafletRef, listeners);
       blueprint.ready = true;
     });
 
     onBeforeUnmount(() => {
-      if (blueprint.mapRef) {
-        blueprint.mapRef.remove();
+      if (blueprint.leafletRef) {
+        blueprint.leafletRef.remove();
       }
     });
 
-    const mapObject = computed(() => blueprint.mapRef);
+    const mapObject = computed(() => blueprint.leafletRef);
     const ready = computed(() => blueprint.ready);
     return { root, ready, mapObject };
   },
