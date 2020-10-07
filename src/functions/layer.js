@@ -85,10 +85,8 @@ export const setup = (props, leafletRef, context) => {
     },
   };
 
-  provide("leafLetMethods", {
-    bindTooltip: methods.bindTooltip,
-    unbindTooltip: methods.unbindTooltip,
-  });
+  provide("bindTooltip", methods.bindTooltip);
+  provide("unbindTooltip", methods.unbindTooltip);
 
   onUnmounted(() => {
     methods.unbindPopup();

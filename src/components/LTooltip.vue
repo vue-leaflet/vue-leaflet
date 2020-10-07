@@ -10,16 +10,10 @@ export default {
   name: "LTooltip",
   props,
   setup(props, context) {
-    const leafletRef = ref({});
     const root = ref(null);
-
-    const lMethods = inject("leafLetMethods");
-    const { options, methods } = tooltipSetup(
-      props,
-      leafletRef,
-      context,
-      lMethods
-    );
+    const leafletRef = ref({});
+    const { options, methods } = tooltipSetup(props, leafletRef);
+    const bindTooltip = inject("bindTooltip");
 
     onMounted(async () => {
       const { tooltip, DomEvent, setOptions } = await import(
@@ -32,7 +26,7 @@ export default {
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
       leafletRef.value.setContent(props.content || root.value);
-      lMethods.bindTooltip({ mapObject: leafletRef.value });
+      bindTooltip({ mapObject: leafletRef.value });
     });
     return { root };
   },
