@@ -5,27 +5,14 @@
 </template>
 
 <script>
-import {
-  onMounted,
-  onBeforeUnmount,
-  computed,
-  provide,
-  reactive,
-  ref,
-} from "vue";
+import { onMounted, onBeforeUnmount, computed, reactive, ref } from "vue";
 import {
   remapEvents,
   propsBinder,
   debounce,
   resetWebpackIcon,
-  provideMethodsFromBuilders,
 } from "../utils.js";
-import {
-  getDefaultMapOptions,
-  mapMethodBuilders,
-  buildMapPropSetters,
-  buildMapEventHandlers,
-} from "../functions/map";
+import { setup, buildMapEventHandlers } from "../functions/map";
 
 export default {
   props: {
@@ -156,9 +143,8 @@ export default {
       layersInControl: [],
     });
 
-    const options = getDefaultMapOptions(props);
     const eventHandlers = buildMapEventHandlers(blueprint, context);
-    provideMethodsFromBuilders(provide, mapMethodBuilders, blueprint);
+    const { options, methods } = setup(props, blueprint);
 
     onMounted(async () => {
       const { map, CRS, Icon, DomEvent, setOptions } = await import(
@@ -169,8 +155,7 @@ export default {
 
       blueprint.leafletRef = map(root.value, options);
 
-      const setters = buildMapPropSetters(blueprint, props);
-      propsBinder(setters, blueprint.leafletRef, props, setOptions);
+      propsBinder(methods, blueprint.leafletRef, props, setOptions);
       const listeners = remapEvents(context.attrs);
 
       blueprint.leafletRef.on(
