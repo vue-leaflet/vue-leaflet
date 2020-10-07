@@ -22,7 +22,7 @@ export default {
       registerLayerControl({
         ...props,
         ...methods,
-        mapObject: leafletRef.value,
+        leafletObject: leafletRef.value,
       });
     });
   },

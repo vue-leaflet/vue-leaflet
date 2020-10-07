@@ -177,9 +177,9 @@ export default {
       }
     });
 
-    const mapObject = computed(() => blueprint.leafletRef);
+    const leafletObject = computed(() => blueprint.leafletRef);
     const ready = computed(() => blueprint.ready);
-    return { root, ready, mapObject };
+    return { root, ready, leafletObject };
   },
 };
 </script>

@@ -38,7 +38,7 @@ export default {
 
       leafletRef.value.on("move", debounce(methods.latLngSync, 100));
       propsBinder(methods, leafletRef.value, props, setOptions);
-      addMapLayer({ ...props, ...methods, mapObject: leafletRef.value });
+      addMapLayer({ ...props, ...methods, leafletObject: leafletRef.value });
       ready.value = true;
     });
     return { ready };

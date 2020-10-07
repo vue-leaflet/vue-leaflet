@@ -28,7 +28,8 @@ export const setup = (props, mapBlueprint) => {
           mapBlueprint.layersToAdd.push(layer);
         } else {
           const exist = mapBlueprint.layersInControl.find(
-            (l) => l.mapObject._leaflet_id === layer.mapObject._leaflet_id
+            (l) =>
+              l.leafletObject._leaflet_id === layer.leafletObject._leaflet_id
           );
           if (!exist) {
             mapBlueprint.layerControl.addLayer(layer);
@@ -37,7 +38,7 @@ export const setup = (props, mapBlueprint) => {
         }
       }
       if (layer.visible !== false) {
-        mapBlueprint.leafletRef.addLayer(layer.mapObject);
+        mapBlueprint.leafletRef.addLayer(layer.leafletObject);
       }
     },
 
@@ -51,13 +52,14 @@ export const setup = (props, mapBlueprint) => {
             (l) => l.name !== layer.name
           );
         } else {
-          mapBlueprint.layerControl.removeLayer(layer.mapObject);
+          mapBlueprint.layerControl.removeLayer(layer.leafletObject);
           mapBlueprint.layersInControl = mapBlueprint.layersInControl.filter(
-            (l) => l.mapObject._leaflet_id !== layer.mapObject._leaflet_id
+            (l) =>
+              l.leafletObject._leaflet_id !== layer.leafletObject._leaflet_id
           );
         }
       }
-      mapBlueprint.leafletRef.removeLayer(layer.mapObject);
+      mapBlueprint.leafletRef.removeLayer(layer.leafletObject);
     },
 
     registerLayerControl(lControlLayer) {
@@ -65,7 +67,7 @@ export const setup = (props, mapBlueprint) => {
         return;
       }
       mapBlueprint.layerControl = lControlLayer;
-      mapBlueprint.leafletRef.addControl(lControlLayer.mapObject);
+      mapBlueprint.leafletRef.addControl(lControlLayer.leafletObject);
       mapBlueprint.layersToAdd.forEach((layer) => {
         mapBlueprint.layerControl.addLayer(layer);
       });

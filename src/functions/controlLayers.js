@@ -37,13 +37,13 @@ export const setup = (props, leafletRef) => {
   const methods = {
     addLayer(layer) {
       if (layer.layerType === "base") {
-        leafletRef.value.addBaseLayer(layer.mapObject, layer.name);
+        leafletRef.value.addBaseLayer(layer.leafletObject, layer.name);
       } else if (layer.layerType === "overlay") {
-        leafletRef.value.addOverlay(layer.mapObject, layer.name);
+        leafletRef.value.addOverlay(layer.leafletObject, layer.name);
       }
     },
     removeLayer(layer) {
-      leafletRef.value.removeLayer(layer.mapObject);
+      leafletRef.value.removeLayer(layer.leafletObject);
     },
   };
   return { options, methods };

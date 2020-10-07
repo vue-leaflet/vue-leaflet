@@ -26,7 +26,7 @@ export default {
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
       leafletRef.value.setContent(props.content || root.value);
-      bindTooltip({ mapObject: leafletRef.value });
+      bindTooltip({ leafletObject: leafletRef.value });
     });
     return { root };
   },
