@@ -26,7 +26,7 @@ export const props = {
   },
 };
 
-export const setup = (props, mapRef, context) => {
+export const setup = (props, leafletRef, context) => {
   const addMapLayer = inject("addMapLayer");
   const removeMapLayer = inject("removeMapLayer");
   const options = {
@@ -40,37 +40,37 @@ export const setup = (props, mapRef, context) => {
       attributionControl.removeAttribution(old).addAttribution(val);
     },
     setName() {
-      removeMapLayer(mapRef.value);
+      removeMapLayer(leafletRef.value);
       if (props.visible) {
-        addMapLayer(mapRef.value);
+        addMapLayer(leafletRef.value);
       }
     },
     setLayerType() {
-      removeMapLayer(mapRef.value);
+      removeMapLayer(leafletRef.value);
       if (props.visible) {
-        addMapLayer(mapRef.value);
+        addMapLayer(leafletRef.value);
       }
     },
     setVisible(isVisible) {
-      if (mapRef.value) {
+      if (leafletRef.value) {
         if (isVisible) {
-          addMapLayer(mapRef.value);
+          addMapLayer(leafletRef.value);
         } else {
-          removeMapLayer(mapRef.value);
+          removeMapLayer(leafletRef.value);
         }
       }
     },
     bindTooltip({ mapObject }) {
-      mapRef.value.bindTooltip(mapObject);
+      leafletRef.value.bindTooltip(mapObject);
     },
     unbindTooltip() {
-      const tooltip = mapRef.value ? mapRef.value.getTooltip() : null;
+      const tooltip = leafletRef.value ? leafletRef.value.getTooltip() : null;
       if (tooltip) {
         tooltip.unbindTooltip();
       }
     },
     unbindPopup() {
-      const popup = mapRef.value ? mapRef.value.getPopup() : null;
+      const popup = leafletRef.value ? leafletRef.value.getPopup() : null;
       if (popup) {
         popup.unbindPopup();
       }
@@ -93,7 +93,7 @@ export const setup = (props, mapRef, context) => {
   onUnmounted(() => {
     methods.unbindPopup();
     methods.unbindTooltip();
-    removeMapLayer({ mapObject: mapRef.value });
+    removeMapLayer({ mapObject: leafletRef.value });
   });
 
   return { options, methods };

@@ -5,12 +5,12 @@ export const props = {
   },
 };
 
-export const setup = (props, mapRef) => {
+export const setup = (props, leafletRef) => {
   const options = {};
   const methods = {
     setContent(newVal) {
-      if (mapRef.value && newVal !== null && newVal !== undefined) {
-        mapRef.value.setContent(newVal);
+      if (leafletRef.value && newVal !== null && newVal !== undefined) {
+        leafletRef.value.setContent(newVal);
       }
     },
   };

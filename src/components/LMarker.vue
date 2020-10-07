@@ -10,7 +10,7 @@ export default {
   name: "LMarker",
   props,
   setup(props, context) {
-    const mapRef = ref({});
+    const leafletRef = ref({});
     const ready = ref(false);
 
     const schematics = reactive({
@@ -20,7 +20,7 @@ export default {
     const addMapLayer = inject("addMapLayer");
     const { options, methods } = markerSetup(
       props,
-      mapRef,
+      leafletRef,
       context,
       schematics
     );
@@ -31,14 +31,14 @@ export default {
       );
       schematics.latLng = latLng;
 
-      mapRef.value = marker(props.latLng, options);
+      leafletRef.value = marker(props.latLng, options);
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(mapRef.value, listeners);
+      DomEvent.on(leafletRef.value, listeners);
 
-      mapRef.value.on("move", debounce(methods.latLngSync, 100));
-      propsBinder(methods, mapRef.value, props, setOptions);
-      addMapLayer({ ...props, ...methods, mapObject: mapRef.value });
+      leafletRef.value.on("move", debounce(methods.latLngSync, 100));
+      propsBinder(methods, leafletRef.value, props, setOptions);
+      addMapLayer({ ...props, ...methods, mapObject: leafletRef.value });
       ready.value = true;
     });
     return { ready };
