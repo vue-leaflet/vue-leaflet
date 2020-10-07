@@ -19,7 +19,6 @@
   "scripts": {
     "serve": "vue-cli-service serve ./src/playground.js",
     "build": "rollup -c rollup.config.js",
-    "build2": "vue-cli-service build --target lib ./src/lib.js",
     "lint": "vue-cli-service lint",
     "prepublishOnly": "npm run lint && npm run build"
   },
