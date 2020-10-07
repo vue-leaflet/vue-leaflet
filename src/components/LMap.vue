@@ -20,7 +20,12 @@ import {
   resetWebpackIcon,
   provideMethodsFromBuilders,
 } from "../utils.js";
-import { mapMethodBuilders, buildMapPropSetters } from "../functions/map";
+import {
+  getDefaultMapOptions,
+  mapMethodBuilders,
+  buildMapPropSetters,
+  buildMapEventHandlers,
+} from "../functions/map";
 
 export default {
   props: {
@@ -151,59 +156,9 @@ export default {
       layersInControl: [],
     });
 
-    const options = {
-      minZoom: props.minZoom,
-      maxZoom: props.maxZoom,
-      maxBounds: props.maxBounds,
-      maxBoundsViscosity: props.maxBoundsViscosity,
-      worldCopyJump: props.worldCopyJump,
-      crs: props.crs,
-      center: props.center,
-      zoom: props.zoom,
-      inertia: props.inertia,
-      inertiaDeceleration: props.inertiaDeceleration,
-      inertiaMaxSpeed: props.inertiaMaxSpeed,
-      easeLinearity: props.easeLinearity,
-      zoomAnimation: props.zoomAnimation,
-      zoomAnimationThreshold: props.zoomAnimationThreshold,
-      fadeAnimation: props.fadeAnimation,
-      markerZoomAnimation: props.markerZoomAnimation,
-    };
-
+    const options = getDefaultMapOptions(props);
+    const eventHandlers = buildMapEventHandlers(blueprint, context);
     provideMethodsFromBuilders(provide, mapMethodBuilders, blueprint);
-
-    const eventHandlers = {
-      moveEndHandler() {
-        /**
-         * Triggers when zoom is updated
-         * @type {number,string}
-         */
-        context.emit("update:zoom", blueprint.leafletRef.getZoom());
-        /**
-         * Triggers when center is updated
-         * @type {object,array}
-         */
-        context.emit("update:center", blueprint.leafletRef.getCenter());
-
-        /**
-         * Triggers when bounds are updated
-         * @type {object}
-         */
-        context.emit("update:bounds", blueprint.leafletRef.getBounds());
-      },
-      overlayAddHandler(e) {
-        const layer = blueprint.layersInControl.find((l) => l.name === e.name);
-        if (layer) {
-          layer.updateVisibleProp(true);
-        }
-      },
-      overlayRemoveHandler(e) {
-        const layer = blueprint.layersInControl.find((l) => l.name === e.name);
-        if (layer) {
-          layer.updateVisibleProp(false);
-        }
-      },
-    };
 
     onMounted(async () => {
       const { map, CRS, Icon, DomEvent, setOptions } = await import(
