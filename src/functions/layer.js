@@ -26,7 +26,7 @@ export const props = {
   },
 };
 
-export const setup = (props, mapRef, context) => {
+export const setup = (props, leafletRef, context) => {
   const lMethods = inject("leafLetMethods");
   const options = {
     attribution: props.attribution,
@@ -39,37 +39,37 @@ export const setup = (props, mapRef, context) => {
       attributionControl.removeAttribution(old).addAttribution(val);
     },
     setName() {
-      lMethods.removeLayer(mapRef.value);
+      lMethods.removeLayer(leafletRef.value);
       if (props.visible) {
-        lMethods.addLayer(mapRef.value);
+        lMethods.addLayer(leafletRef.value);
       }
     },
     setLayerType() {
-      lMethods.removeLayer(mapRef.value);
+      lMethods.removeLayer(leafletRef.value);
       if (props.visible) {
-        lMethods.addLayer(mapRef.value);
+        lMethods.addLayer(leafletRef.value);
       }
     },
     setVisible(isVisible) {
-      if (mapRef.value) {
+      if (leafletRef.value) {
         if (isVisible) {
-          lMethods.addLayer(mapRef.value);
+          lMethods.addLayer(leafletRef.value);
         } else {
-          lMethods.removeLayer(mapRef.value);
+          lMethods.removeLayer(leafletRef.value);
         }
       }
     },
     bindTooltip({ mapObject }) {
-      mapRef.value.bindTooltip(mapObject);
+      leafletRef.value.bindTooltip(mapObject);
     },
     unbindTooltip() {
-      const tooltip = mapRef.value ? mapRef.value.getTooltip() : null;
+      const tooltip = leafletRef.value ? leafletRef.value.getTooltip() : null;
       if (tooltip) {
         tooltip.unbindTooltip();
       }
     },
     unbindPopup() {
-      const popup = mapRef.value ? mapRef.value.getPopup() : null;
+      const popup = leafletRef.value ? leafletRef.value.getPopup() : null;
       if (popup) {
         popup.unbindPopup();
       }
@@ -93,7 +93,7 @@ export const setup = (props, mapRef, context) => {
   onUnmounted(() => {
     methods.unbindPopup();
     methods.unbindTooltip();
-    lMethods.removeLayer({ mapObject: mapRef.value });
+    lMethods.removeLayer({ mapObject: leafletRef.value });
   });
 
   return { options, methods };

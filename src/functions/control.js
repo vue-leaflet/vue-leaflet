@@ -6,10 +6,10 @@ export const props = {
     default: "topright",
   },
 };
-export const setup = (mapRef) => {
+export const setup = (leafletRef) => {
   onUnmounted(() => {
-    if (mapRef.value) {
-      mapRef.value.remove();
+    if (leafletRef.value) {
+      leafletRef.value.remove();
     }
   });
 };

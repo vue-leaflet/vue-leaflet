@@ -10,24 +10,24 @@ export default {
   name: "LTooltip",
   props,
   setup(props, context) {
-    const mapRef = ref({});
+    const leafletRef = ref({});
     const root = ref(null);
 
     const lMethods = inject("leafLetMethods");
-    const { options, methods } = tooltipSetup(props, mapRef, context, lMethods);
+    const { options, methods } = tooltipSetup(props, leafletRef, context, lMethods);
 
     onMounted(async () => {
       const { tooltip, DomEvent, setOptions } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
-      mapRef.value = tooltip(options);
+      leafletRef.value = tooltip(options);
 
-      propsBinder(methods, mapRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props, setOptions);
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(mapRef.value, listeners);
-      mapRef.value.setContent(props.content || root.value);
-      lMethods.bindTooltip({ mapObject: mapRef.value });
+      DomEvent.on(leafletRef.value, listeners);
+      leafletRef.value.setContent(props.content || root.value);
+      lMethods.bindTooltip({ mapObject: leafletRef.value });
     });
     return { root };
   },

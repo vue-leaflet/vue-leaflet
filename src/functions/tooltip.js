@@ -5,8 +5,8 @@ export const props = {
   ...popperProps,
 };
 
-export const setup = (props, mapRef, context, lMethods) => {
-  const { options, methods } = popperSetup(props, mapRef);
+export const setup = (props, leafletRef, context, lMethods) => {
+  const { options, methods } = popperSetup(props, leafletRef);
 
   onBeforeUnmount(() => {
     lMethods.unbindTooltip();
