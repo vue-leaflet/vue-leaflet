@@ -5,7 +5,9 @@
   "license": "MIT",
   "private": false,
   "sideEffects": false,
-  "main": "dist/vue-leaflet.common.js",
+  "main": "dist/vue-leaflet.cjs.js",
+  "unpkg": "dist/vue-leaflet.umd.js",
+  "module": "dist/vue-leaflet.es.js",
   "files": [
     "dist/",
     "src/"
@@ -16,7 +18,7 @@
   },
   "scripts": {
     "serve": "vue-cli-service serve ./src/playground.js",
-    "build": "vue-cli-service build --target lib ./src/lib.js",
+    "build": "rollup -c rollup.config.js",
     "lint": "vue-cli-service lint",
     "prepublishOnly": "npm run lint && npm run build"
   },
@@ -37,7 +39,9 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "leaflet": "^1.6.0",
     "prettier": "^2.0.5",
-    "core-js": "^3.6.5",
+    "rollup": "^2.8.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-vue": "^6.0.0-alpha.8",
     "vue": "^3.0.0"
   },
   "eslintConfig": {
@@ -54,10 +58,5 @@
       "parser": "babel-eslint"
     },
     "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  }
 }
