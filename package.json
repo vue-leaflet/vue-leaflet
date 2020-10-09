@@ -20,7 +20,8 @@
     "serve": "vue-cli-service serve ./src/playground.js",
     "build": "rollup -c rollup.config.js",
     "lint": "vue-cli-service lint",
-    "prepublishOnly": "npm run lint && npm run build"
+    "prepublishOnly": "npm run lint && npm run build",
+    "postversion": "git push --follow-tags"
   },
   "peerDependencies": {
     "@types/leaflet": "^1.5.7",
