@@ -21,7 +21,7 @@ export default {
       DomEvent.on(leafletRef.value, listeners);
 
       propsBinder(methods, leafletRef.value, props, setOptions);
-      lMethods.addLayer({ ...props, ...methods, mapObject: leafletRef.value });
+      lMethods.addLayer({ ...props, ...methods, leafletObject: leafletRef.value });
     });
   },
   render() {

@@ -229,7 +229,7 @@ export default {
               blueprint.layersToAdd.push(layer);
             } else {
               const exist = blueprint.layersInControl.find(
-                (l) => l.mapObject._leaflet_id === layer.mapObject._leaflet_id
+                (l) => l.leafletObject._leaflet_id === layer.leafletObject._leaflet_id
               );
               if (!exist) {
                 blueprint.layerControl.addLayer(layer);
@@ -238,7 +238,7 @@ export default {
             }
           }
           if (layer.visible !== false) {
-            blueprint.leafletRef.addLayer(layer.mapObject);
+            blueprint.leafletRef.addLayer(layer.leafletObject);
           }
         },
         removeLayer(layer) {
@@ -248,18 +248,18 @@ export default {
                 (l) => l.name !== layer.name
               );
             } else {
-              blueprint.layerControl.removeLayer(layer.mapObject);
+              blueprint.layerControl.removeLayer(layer.leafletObject);
               blueprint.layersInControl = blueprint.layersInControl.filter(
-                (l) => l.mapObject._leaflet_id !== layer.mapObject._leaflet_id
+                (l) => l.leafletObject._leaflet_id !== layer.leafletObject._leaflet_id
               );
             }
           }
-          blueprint.leafletRef.removeLayer(layer.mapObject);
+          blueprint.leafletRef.removeLayer(layer.leafletObject);
         },
 
         registerLayerControl(lControlLayer) {
           blueprint.layerControl = lControlLayer;
-          blueprint.leafletRef.addControl(lControlLayer.mapObject);
+          blueprint.leafletRef.addControl(lControlLayer.leafletObject);
           blueprint.layersToAdd.forEach((layer) => {
             blueprint.layerControl.addLayer(layer);
           });
@@ -355,9 +355,9 @@ export default {
       }
     });
 
-    const mapObject = computed(() => blueprint.leafletRef);
+    const leafletObject = computed(() => blueprint.leafletRef);
     const ready = computed(() => blueprint.ready);
-    return { root, ready, mapObject };
+    return { root, ready, leafletObject };
   },
 };
 </script>

@@ -35,7 +35,7 @@ export const setup = (props, leafletRef, context) => {
 
   const methods = {
     setAttribution(val, old) {
-      const attributionControl = this.$parent.mapObject.attributionControl;
+      const attributionControl = this.$parent.leafletObject.attributionControl;
       attributionControl.removeAttribution(old).addAttribution(val);
     },
     setName() {
@@ -59,8 +59,8 @@ export const setup = (props, leafletRef, context) => {
         }
       }
     },
-    bindTooltip({ mapObject }) {
-      leafletRef.value.bindTooltip(mapObject);
+    bindTooltip({ leafletObject }) {
+      leafletRef.value.bindTooltip(leafletObject);
     },
     unbindTooltip() {
       const tooltip = leafletRef.value ? leafletRef.value.getTooltip() : null;
@@ -93,7 +93,7 @@ export const setup = (props, leafletRef, context) => {
   onUnmounted(() => {
     methods.unbindPopup();
     methods.unbindTooltip();
-    lMethods.removeLayer({ mapObject: leafletRef.value });
+    lMethods.removeLayer({ leafletObject: leafletRef.value });
   });
 
   return { options, methods };
