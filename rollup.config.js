@@ -1,6 +1,5 @@
 import commonjs from "rollup-plugin-commonjs";
 import VuePlugin from "rollup-plugin-vue";
-import babel from "@rollup/plugin-babel";
 
 export default {
   input: "./src/lib.js",
@@ -20,6 +19,10 @@ export default {
       format: "umd",
       name: "vue-leaflet",
       sourcemap: true,
+      globals: {
+        leaflet: "L",
+        vue: "vue",
+      },
     },
   ],
   plugins: [
@@ -27,7 +30,6 @@ export default {
     VuePlugin({
       css: false,
     }),
-    babel({ babelHelpers: "runtime" }),
   ],
-  external: ["vue", "leaflet"],
+  external: ["vue", "leaflet/dist/leaflet-src.esm", "leaflet"],
 };
