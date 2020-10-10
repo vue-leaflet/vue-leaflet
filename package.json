@@ -40,6 +40,7 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "husky": "^4.3.0",
     "leaflet": "^1.6.0",
+    "lint-staged": "^10.4.0",
     "prettier": "^2.0.5",
     "rollup": "^2.8.0",
     "rollup-plugin-commonjs": "^10.1.0",
@@ -50,6 +51,16 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "git add"
+    ],
+    "*.vue": [
+      "eslint",
+      "git add"
+    ]
   },
   "eslintConfig": {
     "root": true,
