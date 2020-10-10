@@ -24,8 +24,8 @@ export const props = {
   },
 };
 
-export const setup = (props, mapRef) => {
-  controlSetup(mapRef);
+export const setup = (props, leafletRef) => {
+  controlSetup(leafletRef);
   const options = {
     collapsed: props.collapsed,
     autoZIndex: props.autoZIndex,
@@ -37,13 +37,13 @@ export const setup = (props, mapRef) => {
   const methods = {
     addLayer(layer) {
       if (layer.layerType === "base") {
-        mapRef.value.addBaseLayer(layer.mapObject, layer.name);
+        leafletRef.value.addBaseLayer(layer.leafletObject, layer.name);
       } else if (layer.layerType === "overlay") {
-        mapRef.value.addOverlay(layer.mapObject, layer.name);
+        leafletRef.value.addOverlay(layer.leafletObject, layer.name);
       }
     },
     removeLayer(layer) {
-      mapRef.value.removeLayer(layer.mapObject);
+      leafletRef.value.removeLayer(layer.leafletObject);
     },
   };
   return { options, methods };

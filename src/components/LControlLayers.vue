@@ -7,22 +7,22 @@ export default {
   name: "LControlLayers",
   props,
   setup(props) {
-    const mapRef = ref({});
+    const leafletRef = ref({});
 
     const lMethods = inject("leafLetMethods");
-    const { options, methods } = controlSetup(props, mapRef);
+    const { options, methods } = controlSetup(props, leafletRef);
     onMounted(async () => {
       const { control, setOptions } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
-      mapRef.value = control.layers(null, null, options);
-      propsBinder(methods, mapRef.value, props, setOptions);
+      leafletRef.value = control.layers(null, null, options);
+      propsBinder(methods, leafletRef.value, props, setOptions);
 
       lMethods.registerLayerControl({
         ...props,
         ...methods,
-        mapObject: mapRef.value,
+        leafletObject: leafletRef.value,
       });
     });
   },

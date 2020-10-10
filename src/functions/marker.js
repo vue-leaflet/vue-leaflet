@@ -27,10 +27,10 @@ export const props = {
   },
 };
 
-export const setup = (props, mapRef, context, leafletMethods) => {
+export const setup = (props, leafletRef, context, leafletMethods) => {
   const { options: layerOptions, methods: layerMethods } = layerSetup(
     props,
-    mapRef,
+    leafletRef,
     context
   );
   const options = {
@@ -41,10 +41,10 @@ export const setup = (props, mapRef, context, leafletMethods) => {
   const methods = {
     ...layerMethods,
     setDraggable(value) {
-      if (mapRef.value.dragging) {
+      if (leafletRef.value.dragging) {
         value
-          ? mapRef.value.dragging.enable()
-          : mapRef.value.dragging.disable();
+          ? leafletRef.value.dragging.enable()
+          : leafletRef.value.dragging.disable();
       }
     },
     latLngSync(event) {
@@ -56,14 +56,14 @@ export const setup = (props, mapRef, context, leafletMethods) => {
         return;
       }
 
-      if (mapRef.value) {
-        const oldLatLng = mapRef.value.getLatLng();
+      if (leafletRef.value) {
+        const oldLatLng = leafletRef.value.getLatLng();
         const newLatLng = leafletMethods.latLng(newVal);
         if (
           newLatLng.lat !== oldLatLng.lat ||
           newLatLng.lng !== oldLatLng.lng
         ) {
-          mapRef.value.setLatLng(newLatLng);
+          leafletRef.value.setLatLng(newLatLng);
         }
       }
     },

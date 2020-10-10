@@ -6,22 +6,22 @@ import { props, setup as tileLayerSetup } from "../functions/tileLayer";
 export default {
   props,
   setup(props, context) {
-    const mapRef = ref({});
+    const leafletRef = ref({});
     const lMethods = inject("leafLetMethods");
 
-    const { options, methods } = tileLayerSetup(props, mapRef);
+    const { options, methods } = tileLayerSetup(props, leafletRef);
 
     onMounted(async () => {
       const { tileLayer, DomEvent, setOptions } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
-      mapRef.value = tileLayer(props.url, options);
+      leafletRef.value = tileLayer(props.url, options);
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(mapRef.value, listeners);
+      DomEvent.on(leafletRef.value, listeners);
 
-      propsBinder(methods, mapRef.value, props, setOptions);
-      lMethods.addLayer({ ...props, ...methods, mapObject: mapRef.value });
+      propsBinder(methods, leafletRef.value, props, setOptions);
+      lMethods.addLayer({ ...props, ...methods, leafletObject: leafletRef.value });
     });
   },
   render() {
