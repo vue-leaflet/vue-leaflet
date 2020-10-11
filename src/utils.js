@@ -71,7 +71,7 @@ export const resetWebpackIcon = (Icon) => {
   });
 };
 
-export const generateMethodsPlaceholder = (methods) => {
+export const generatePlaceholderMethods = (methods) => {
   const base = reactive({});
   return methods.reduce((acc, curr) => {
     acc[curr] = () =>

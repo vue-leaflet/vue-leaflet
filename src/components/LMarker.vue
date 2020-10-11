@@ -4,7 +4,7 @@ import {
   remapEvents,
   propsBinder,
   debounce,
-  generateMethodsPlaceholder,
+  generatePlaceholderMethods,
 } from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
 
@@ -18,7 +18,7 @@ export default {
     const leafletRef = ref({});
     const ready = ref(false);
 
-    const schematics = generateMethodsPlaceholder(["latLng"]);
+    const schematics = generatePlaceholderMethods(["latLng"]);
 
     const lMethods = inject("leafLetMethods");
     const { options, methods } = markerSetup(

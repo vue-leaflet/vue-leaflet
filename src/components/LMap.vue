@@ -18,7 +18,7 @@ import {
   propsBinder,
   debounce,
   resetWebpackIcon,
-  generateMethodsPlaceholder,
+  generatePlaceholderMethods,
 } from "../utils.js";
 
 export default {
@@ -169,7 +169,7 @@ export default {
       markerZoomAnimation: props.markerZoomAnimation,
     };
 
-    const schematics = generateMethodsPlaceholder([
+    const schematics = generatePlaceholderMethods([
       "addLayer",
       "removeLayer",
       "registerLayerControl",
