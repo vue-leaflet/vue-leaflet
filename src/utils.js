@@ -75,7 +75,7 @@ export const generateMethodsPlaceholder = (methods) => {
   const base = reactive({});
   return methods.reduce((acc, curr) => {
     acc[curr] = () =>
-      console.warn("This method has been invoked without being replaced ");
+      console.warn(`Method ${curr} has been invoked without being replaced`);
     return acc;
   }, base);
 };
