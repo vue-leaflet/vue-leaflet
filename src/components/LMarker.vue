@@ -1,6 +1,11 @@
 <script>
-import { onMounted, ref, reactive, inject, h } from "vue";
-import { remapEvents, propsBinder, debounce } from "../utils.js";
+import { onMounted, ref, inject, h } from "vue";
+import {
+  remapEvents,
+  propsBinder,
+  debounce,
+  generatePlaceholderMethods,
+} from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
 
 /**
@@ -13,9 +18,7 @@ export default {
     const leafletRef = ref({});
     const ready = ref(false);
 
-    const schematics = reactive({
-      latLng() {},
-    });
+    const schematics = generatePlaceholderMethods(["latLng"]);
 
     const lMethods = inject("leafLetMethods");
     const { options, methods } = markerSetup(
@@ -38,7 +41,11 @@ export default {
 
       leafletRef.value.on("move", debounce(methods.latLngSync, 100));
       propsBinder(methods, leafletRef.value, props, setOptions);
-      lMethods.addLayer({ ...props, ...methods, leafletObject: leafletRef.value });
+      lMethods.addLayer({
+        ...props,
+        ...methods,
+        leafletObject: leafletRef.value,
+      });
       ready.value = true;
     });
     return { ready };

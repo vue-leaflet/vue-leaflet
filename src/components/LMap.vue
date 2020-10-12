@@ -18,6 +18,7 @@ import {
   propsBinder,
   debounce,
   resetWebpackIcon,
+  generatePlaceholderMethods,
 } from "../utils.js";
 
 export default {
@@ -168,11 +169,11 @@ export default {
       markerZoomAnimation: props.markerZoomAnimation,
     };
 
-    const schematics = reactive({
-      addLayer() {},
-      removeLayer() {},
-      registerLayerControl() {},
-    });
+    const schematics = generatePlaceholderMethods([
+      "addLayer",
+      "removeLayer",
+      "registerLayerControl",
+    ]);
 
     provide("leafLetMethods", schematics);
 
@@ -229,7 +230,9 @@ export default {
               blueprint.layersToAdd.push(layer);
             } else {
               const exist = blueprint.layersInControl.find(
-                (l) => l.leafletObject._leaflet_id === layer.leafletObject._leaflet_id
+                (l) =>
+                  l.leafletObject._leaflet_id ===
+                  layer.leafletObject._leaflet_id
               );
               if (!exist) {
                 blueprint.layerControl.addLayer(layer);
@@ -250,7 +253,9 @@ export default {
             } else {
               blueprint.layerControl.removeLayer(layer.leafletObject);
               blueprint.layersInControl = blueprint.layersInControl.filter(
-                (l) => l.leafletObject._leaflet_id !== layer.leafletObject._leaflet_id
+                (l) =>
+                  l.leafletObject._leaflet_id !==
+                  layer.leafletObject._leaflet_id
               );
             }
           }
@@ -344,7 +349,10 @@ export default {
         debounce(eventHandlers.moveEndHandler, 100)
       );
       blueprint.leafletRef.on("overlayadd", eventHandlers.overlayAddHandler);
-      blueprint.leafletRef.on("overlayremove", eventHandlers.overlayRemoveHandler);
+      blueprint.leafletRef.on(
+        "overlayremove",
+        eventHandlers.overlayRemoveHandler
+      );
       DomEvent.on(blueprint.leafletRef, listeners);
       blueprint.ready = true;
     });

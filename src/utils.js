@@ -1,4 +1,4 @@
-import { watch } from "vue";
+import { watch, reactive } from "vue";
 
 export const debounce = (fn, time) => {
   let timeout;
@@ -69,4 +69,13 @@ export const resetWebpackIcon = (Icon) => {
     iconUrl: require("leaflet/dist/images/marker-icon.png"),
     shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
   });
+};
+
+export const generatePlaceholderMethods = (methods) => {
+  const base = reactive({});
+  return methods.reduce((acc, curr) => {
+    acc[curr] = () =>
+      console.warn(`Method ${curr} has been invoked without being replaced`);
+    return acc;
+  }, base);
 };

@@ -14,7 +14,12 @@ export default {
     const root = ref(null);
 
     const lMethods = inject("leafLetMethods");
-    const { options, methods } = tooltipSetup(props, leafletRef, context, lMethods);
+    const { options, methods } = tooltipSetup(
+      props,
+      leafletRef,
+      context,
+      lMethods
+    );
 
     onMounted(async () => {
       const { tooltip, DomEvent, setOptions } = await import(
