@@ -21,7 +21,9 @@
     "build": "rollup -c rollup.config.js",
     "lint": "vue-cli-service lint",
     "prepublishOnly": "npm run lint && npm run build",
-    "postversion": "git push --follow-tags"
+    "postversion": "git push --follow-tags",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs"
   },
   "peerDependencies": {
     "@types/leaflet": "^1.5.7",
@@ -45,6 +47,7 @@
     "rollup": "^2.8.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-vue": "^6.0.0-alpha.8",
+    "vitepress": "^0.6.0",
     "vue": "^3.0.0"
   },
   "husky": {
