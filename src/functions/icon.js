@@ -69,10 +69,16 @@ export const props = {
 };
 
 export const setup = (props, mapRef, context, leafletMethods) => {
-  const recreationNeeded = ref(false);
-  const swapHtmlNeeded = ref(false);
+  let recreationNeeded = false;
+  let htmlSwapNeeded = false;
+  let iconObject = undefined;
+  const options = {
+    ...props,
+  };
 
-  const createIcon = () => {};
+  const createIcon = () => {
+    if (htmlSwapNeeded && !recreationNeeded && iconObject)
+  };
 
   const methods = {
     scheduleCreateIcon() {
@@ -81,12 +87,12 @@ export const setup = (props, mapRef, context, leafletMethods) => {
     },
 
     scheduleHtmlSwap() {
-      swapHtmlNeeded.value = true;
+      htmlSwapNeeded.value = true;
       nextTick(createIcon);
     },
 
     createIcon,
   };
 
-  return { methods };
+  return { options, methods };
 };

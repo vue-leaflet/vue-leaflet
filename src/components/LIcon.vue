@@ -1,6 +1,7 @@
 <script>
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, inject } from "vue";
 import { props, setup as iconSetup } from "../functions/icon";
+import { generatePlaceholderMethods } from "../utils";
 
 /**
  * Icon component, lets you add and custom icons to the map
@@ -10,11 +11,15 @@ export default {
   props,
   setup(props, context) {
     const leafletRef = ref({});
-    const schematics = reactive({
-      DomEvent: () => undefined,
-      divIcon: () => undefined,
-      icon: () => undefined,
-    });
+    const schematics = generatePlaceholderMethods([
+      "DomEvent",
+      "divIcon",
+      "icon",
+    ]);
+
+    const setIcon = inject("setIcon");
+    const canSetParentHtml = inject("canSetParentHtml");
+    const setParentHtml = inject("setParentHtml");
 
     onMounted(async () => {
       const { DomEvent, divIcon, icon } = await import(
@@ -23,6 +28,8 @@ export default {
       schematics.DomEvent = DomEvent;
       schematics.divIcon = divIcon;
       schematics.icon = icon;
+
+      leafletRef.value = 
     });
   },
 };

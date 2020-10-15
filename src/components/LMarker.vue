@@ -35,6 +35,10 @@ export default {
 
       leafletRef.value = marker(props.latLng, options);
 
+      schematics.canSetParentHtml = () => !!leafletRef.value.getElement();
+      schematics.setParentHtml = (html) =>
+        (leafletRef.value.getElement().innerHTML = html);
+
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
 
