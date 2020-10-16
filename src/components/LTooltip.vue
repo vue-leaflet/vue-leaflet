@@ -1,6 +1,6 @@
 <script>
-import { onMounted, ref, inject, h } from "vue";
-import { propsBinder, remapEvents } from "../utils.js";
+import { onMounted, ref, h } from "vue";
+import { injectLeafletMethod, propsBinder, remapEvents } from "../utils.js";
 import { setup as tooltipSetup, props } from "../functions/tooltip";
 
 /**
@@ -13,13 +13,8 @@ export default {
     const leafletRef = ref({});
     const root = ref(null);
 
-    const lMethods = inject("leafLetMethods");
-    const { options, methods } = tooltipSetup(
-      props,
-      leafletRef,
-      context,
-      lMethods
-    );
+    const bindTooltip = injectLeafletMethod("bindTooltip");
+    const { options, methods } = tooltipSetup(props, leafletRef, context);
 
     onMounted(async () => {
       const { tooltip, DomEvent, setOptions } = await import(
@@ -32,7 +27,7 @@ export default {
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
       leafletRef.value.setContent(props.content || root.value);
-      lMethods.bindTooltip({ leafletObject: leafletRef.value });
+      bindTooltip({ leafletObject: leafletRef.value });
     });
     return { root };
   },

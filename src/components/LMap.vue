@@ -5,20 +5,15 @@
 </template>
 
 <script>
-import {
-  onMounted,
-  onBeforeUnmount,
-  computed,
-  provide,
-  reactive,
-  ref,
-} from "vue";
+import { onMounted, onBeforeUnmount, computed, reactive, ref } from "vue";
 import {
   remapEvents,
   propsBinder,
   debounce,
   resetWebpackIcon,
   generatePlaceholderMethods,
+  provideLeafletMethods,
+  updateLeafletMethod,
 } from "../utils.js";
 
 export default {
@@ -175,7 +170,8 @@ export default {
       "registerLayerControl",
     ]);
 
-    provide("leafLetMethods", schematics);
+    console.log("Providing placeholder addLayer");
+    provideLeafletMethods(schematics);
 
     const eventHandlers = {
       moveEndHandler() {
@@ -335,9 +331,13 @@ export default {
         },
       };
 
-      schematics.addLayer = methods.addLayer;
-      schematics.removeLayer = methods.removeLayer;
-      schematics.registerLayerControl = methods.registerLayerControl;
+      console.log("Reassigning addLayer");
+      updateLeafletMethod(schematics.addLayer, methods.addLayer);
+      updateLeafletMethod(schematics.removeLayer, methods.removeLayer);
+      updateLeafletMethod(
+        schematics.registerLayerControl,
+        methods.registerLayerControl
+      );
 
       blueprint.leafletRef = map(root.value, options);
 

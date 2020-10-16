@@ -1,4 +1,5 @@
 import { props as layerProps, setup as layerSetup } from "../functions/layer";
+import { injectLeafletMethod } from "../utils";
 
 export const props = {
   ...layerProps,
@@ -27,7 +28,7 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context, leafletMethods) => {
+export const setup = (props, leafletRef, context) => {
   const { options: layerOptions, methods: layerMethods } = layerSetup(
     props,
     leafletRef,
@@ -37,6 +38,7 @@ export const setup = (props, leafletRef, context, leafletMethods) => {
     ...layerOptions,
     ...props,
   };
+  const latLng = injectLeafletMethod("latLng");
 
   const methods = {
     ...layerMethods,
@@ -58,7 +60,7 @@ export const setup = (props, leafletRef, context, leafletMethods) => {
 
       if (leafletRef.value) {
         const oldLatLng = leafletRef.value.getLatLng();
-        const newLatLng = leafletMethods.latLng(newVal);
+        const newLatLng = latLng(newVal);
         if (
           newLatLng.lat !== oldLatLng.lat ||
           newLatLng.lng !== oldLatLng.lng

@@ -1,4 +1,4 @@
-import { watch, reactive } from "vue";
+import { watch, ref, provide, inject } from "vue";
 
 export const debounce = (fn, time) => {
   let timeout;
@@ -72,10 +72,30 @@ export const resetWebpackIcon = (Icon) => {
 };
 
 export const generatePlaceholderMethods = (methods) => {
-  const base = reactive({});
+  const base = {}; //reactive({});
   return methods.reduce((acc, curr) => {
-    acc[curr] = () =>
-      console.warn(`Method ${curr} has been invoked without being replaced`);
+    acc[curr] = ref(() =>
+      console.warn(`Method ${curr} has been invoked without being replaced`)
+    );
     return acc;
   }, base);
+};
+
+export const provideLeafletMethods = (obj) => {
+  for (const key in obj) {
+    provide(key, obj[key]);
+  }
+};
+
+export const updateLeafletMethod = (methodRef, updateMethod) => {
+  methodRef.value = updateMethod;
+};
+
+export const injectLeafletMethod = (methodName) => {
+  const method = inject(methodName);
+  console.log("injected method", method);
+  return (
+    (method && method.value) ||
+    (() => console.warn(`"${methodName}" not provided as Leaflet method.`))
+  );
 };

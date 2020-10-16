@@ -1,10 +1,12 @@
 <script>
-import { onMounted, ref, inject, h } from "vue";
+import { onMounted, ref, h } from "vue";
 import {
   remapEvents,
   propsBinder,
   debounce,
   generatePlaceholderMethods,
+  injectLeafletMethod,
+  updateLeafletMethod,
 } from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
 
@@ -20,7 +22,8 @@ export default {
 
     const schematics = generatePlaceholderMethods(["latLng"]);
 
-    const lMethods = inject("leafLetMethods");
+    console.log("Injecting addLayer to LMarker");
+    const addLayer = injectLeafletMethod("addLayer");
     const { options, methods } = markerSetup(
       props,
       leafletRef,
@@ -32,7 +35,7 @@ export default {
       const { marker, DomEvent, latLng, setOptions } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
-      schematics.latLng = latLng;
+      updateLeafletMethod(schematics.latLng, latLng);
 
       leafletRef.value = marker(props.latLng, options);
 
@@ -41,7 +44,7 @@ export default {
 
       leafletRef.value.on("move", debounce(methods.latLngSync, 100));
       propsBinder(methods, leafletRef.value, props, setOptions);
-      lMethods.addLayer({
+      addLayer({
         ...props,
         ...methods,
         leafletObject: leafletRef.value,
