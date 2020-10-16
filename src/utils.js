@@ -71,19 +71,21 @@ export const resetWebpackIcon = (Icon) => {
   });
 };
 
-export const generatePlaceholderMethods = (methods) => {
-  const base = {}; //reactive({});
-  return methods.reduce((acc, curr) => {
-    acc[curr] = ref(() =>
-      console.warn(`Method ${curr} has been invoked without being replaced`)
+export const provideLeafletPlaceholders = (methodNames) => {
+  return methodNames.reduce((methods, methodName) => {
+    methods[methodName] = ref(() =>
+      console.warn(
+        `Method ${methodName} has been invoked without being replaced`
+      )
     );
-    return acc;
-  }, base);
+    provide(methodName, methods[methodName]);
+    return methods;
+  }, {});
 };
 
-export const provideLeafletMethods = (obj) => {
-  for (const key in obj) {
-    provide(key, obj[key]);
+export const provideLeafletMethods = (methods) => {
+  for (const methodName in methods) {
+    provide(methodName, methods[methodName]);
   }
 };
 
@@ -93,7 +95,6 @@ export const updateLeafletMethod = (methodRef, updateMethod) => {
 
 export const injectLeafletMethod = (methodName) => {
   const method = inject(methodName);
-  console.log("injected method", method);
   return (
     (method && method.value) ||
     (() => console.warn(`"${methodName}" not provided as Leaflet method.`))

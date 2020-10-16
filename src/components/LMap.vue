@@ -11,9 +11,8 @@ import {
   propsBinder,
   debounce,
   resetWebpackIcon,
-  generatePlaceholderMethods,
-  provideLeafletMethods,
   updateLeafletMethod,
+  provideLeafletPlaceholders,
 } from "../utils.js";
 
 export default {
@@ -164,14 +163,11 @@ export default {
       markerZoomAnimation: props.markerZoomAnimation,
     };
 
-    const schematics = generatePlaceholderMethods([
+    const schematics = provideLeafletPlaceholders([
       "addLayer",
       "removeLayer",
       "registerLayerControl",
     ]);
-
-    console.log("Providing placeholder addLayer");
-    provideLeafletMethods(schematics);
 
     const eventHandlers = {
       moveEndHandler() {
@@ -331,7 +327,6 @@ export default {
         },
       };
 
-      console.log("Reassigning addLayer");
       updateLeafletMethod(schematics.addLayer, methods.addLayer);
       updateLeafletMethod(schematics.removeLayer, methods.removeLayer);
       updateLeafletMethod(

@@ -1,5 +1,9 @@
-import { onUnmounted, provide } from "vue";
-import { injectLeafletMethod } from "../utils";
+import { onUnmounted } from "vue";
+import {
+  provideLeafletPlaceholders,
+  injectLeafletMethod,
+  updateLeafletMethod,
+} from "../utils";
 
 export const props = {
   pane: {
@@ -28,7 +32,6 @@ export const props = {
 };
 
 export const setup = (props, leafletRef, context) => {
-  console.log("injecting addLayer to layer");
   const addLayer = injectLeafletMethod("addLayer");
   const removeLayer = injectLeafletMethod("removeLayer");
   const options = {
@@ -87,8 +90,12 @@ export const setup = (props, leafletRef, context) => {
     },
   };
 
-  provide("bindTooltip", methods.bindTooltip);
-  provide("unbindTooltip", methods.unbindTooltip);
+  const schematics = provideLeafletPlaceholders([
+    "bindTooltip",
+    "unbindTooltip",
+  ]);
+  updateLeafletMethod(schematics.bindTooltip, methods.bindTooltip);
+  updateLeafletMethod(schematics.unbindTooltip, methods.unbindTooltip);
 
   onUnmounted(() => {
     methods.unbindPopup();

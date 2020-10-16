@@ -4,7 +4,7 @@ import {
   remapEvents,
   propsBinder,
   debounce,
-  generatePlaceholderMethods,
+  provideLeafletPlaceholders,
   injectLeafletMethod,
   updateLeafletMethod,
 } from "../utils.js";
@@ -20,9 +20,8 @@ export default {
     const leafletRef = ref({});
     const ready = ref(false);
 
-    const schematics = generatePlaceholderMethods(["latLng"]);
+    const schematics = provideLeafletPlaceholders(["latLng"]);
 
-    console.log("Injecting addLayer to LMarker");
     const addLayer = injectLeafletMethod("addLayer");
     const { options, methods } = markerSetup(
       props,

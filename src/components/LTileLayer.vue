@@ -7,7 +7,6 @@ export default {
   props,
   setup(props, context) {
     const leafletRef = ref({});
-    console.log("injecting addLayer to LTileLayer");
     const addLayer = injectLeafletMethod("addLayer");
 
     const { options, methods } = tileLayerSetup(props, leafletRef);
