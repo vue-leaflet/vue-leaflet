@@ -71,17 +71,31 @@ export const resetWebpackIcon = (Icon) => {
   });
 };
 
+/**
+ * Wraps a placeholder function and provides it with the given name.
+ * The wrapper can later be updated with {@link updateLeafletWrapper}
+ * to provide a different function.
+ *
+ * @param {String} methodName Key used to provide the wrapper function
+ */
 export const provideLeafletWrapper = (methodName) => {
-  const wrapper = ref(() =>
+  const wrapped = ref(() =>
     console.warn(`Method ${methodName} has been invoked without being replaced`)
   );
-  const wrapped = (...args) => wrapper.value(...args);
+  const wrapper = (...args) => wrapped.value(...args);
   // eslint-disable-next-line vue/no-ref-as-operand
-  wrapped.wrapper = wrapper;
-  provide(methodName, wrapped);
+  wrapper.wrapped = wrapped;
+  provide(methodName, wrapper);
 
-  return wrapped;
+  return wrapper;
 };
 
-export const updateLeafletWrapper = (wrapped, leafletMethod) =>
-  (wrapped.wrapper.value = leafletMethod);
+/**
+ * Change the function that will be executed when an injected Leaflet wrapper
+ * is invoked.
+ *
+ * @param {*} wrapper Provided wrapper whose wrapped function is to be updated
+ * @param {function} leafletMethod New method to be wrapped by the wrapper
+ */
+export const updateLeafletWrapper = (wrapper, leafletMethod) =>
+  (wrapper.wrapped.value = leafletMethod);
