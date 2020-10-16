@@ -2,7 +2,7 @@ import { onUnmounted } from "vue";
 import {
   provideLeafletPlaceholders,
   injectLeafletMethod,
-  updateLeafletMethod,
+  updateLeafletMethods,
 } from "../utils";
 
 export const props = {
@@ -94,8 +94,7 @@ export const setup = (props, leafletRef, context) => {
     "bindTooltip",
     "unbindTooltip",
   ]);
-  updateLeafletMethod(schematics.bindTooltip, methods.bindTooltip);
-  updateLeafletMethod(schematics.unbindTooltip, methods.unbindTooltip);
+  updateLeafletMethods(schematics, methods);
 
   onUnmounted(() => {
     methods.unbindPopup();

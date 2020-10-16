@@ -89,8 +89,23 @@ export const provideLeafletMethods = (methods) => {
   }
 };
 
-export const updateLeafletMethod = (methodRef, updateMethod) => {
-  methodRef.value = updateMethod;
+/**
+ * Update any or all of the leaflet method references originally created
+ * by provideLeafletMethods.
+ *
+ * Each key that exists in the updateMethods object will replace the Leaflet
+ * method with the same name in methodRefs, if it exists. Methods that are
+ * not already part of methodRefs will not be added.
+ *
+ * @param {*} methodRefs
+ * @param {*} updateMethods
+ */
+export const updateLeafletMethods = (methodRefs, updateMethods) => {
+  for (const methodName in updateMethods) {
+    if (methodRefs[methodName]) {
+      methodRefs[methodName].value = updateMethods[methodName];
+    }
+  }
 };
 
 export const injectLeafletMethod = (methodName) => {

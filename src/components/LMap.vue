@@ -11,8 +11,8 @@ import {
   propsBinder,
   debounce,
   resetWebpackIcon,
-  updateLeafletMethod,
   provideLeafletPlaceholders,
+  updateLeafletMethods,
 } from "../utils.js";
 
 export default {
@@ -327,12 +327,7 @@ export default {
         },
       };
 
-      updateLeafletMethod(schematics.addLayer, methods.addLayer);
-      updateLeafletMethod(schematics.removeLayer, methods.removeLayer);
-      updateLeafletMethod(
-        schematics.registerLayerControl,
-        methods.registerLayerControl
-      );
+      updateLeafletMethods(schematics, methods);
 
       blueprint.leafletRef = map(root.value, options);
 

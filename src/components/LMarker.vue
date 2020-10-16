@@ -6,7 +6,7 @@ import {
   debounce,
   provideLeafletPlaceholders,
   injectLeafletMethod,
-  updateLeafletMethod,
+  updateLeafletMethods,
 } from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
 
@@ -34,7 +34,7 @@ export default {
       const { marker, DomEvent, latLng, setOptions } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
-      updateLeafletMethod(schematics.latLng, latLng);
+      updateLeafletMethods(schematics, { latLng });
 
       leafletRef.value = marker(props.latLng, options);
 
