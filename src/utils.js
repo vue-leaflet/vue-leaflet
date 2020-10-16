@@ -1,4 +1,4 @@
-import { watch, ref, provide, inject } from "vue";
+import { watch, ref, provide } from "vue";
 
 export const debounce = (fn, time) => {
   let timeout;
@@ -71,47 +71,17 @@ export const resetWebpackIcon = (Icon) => {
   });
 };
 
-export const provideLeafletPlaceholders = (methodNames) => {
-  return methodNames.reduce((methods, methodName) => {
-    methods[methodName] = ref(() =>
-      console.warn(
-        `Method ${methodName} has been invoked without being replaced`
-      )
-    );
-    provide(methodName, methods[methodName]);
-    return methods;
-  }, {});
-};
-
-export const provideLeafletMethods = (methods) => {
-  for (const methodName in methods) {
-    provide(methodName, methods[methodName]);
-  }
-};
-
-/**
- * Update any or all of the leaflet method references originally created
- * by provideLeafletMethods.
- *
- * Each key that exists in the updateMethods object will replace the Leaflet
- * method with the same name in methodRefs, if it exists. Methods that are
- * not already part of methodRefs will not be added.
- *
- * @param {*} methodRefs
- * @param {*} updateMethods
- */
-export const updateLeafletMethods = (methodRefs, updateMethods) => {
-  for (const methodName in updateMethods) {
-    if (methodRefs[methodName]) {
-      methodRefs[methodName].value = updateMethods[methodName];
-    }
-  }
-};
-
-export const injectLeafletMethod = (methodName) => {
-  const method = inject(methodName);
-  return (
-    (method && method.value) ||
-    (() => console.warn(`"${methodName}" not provided as Leaflet method.`))
+export const provideLeafletWrapper = (methodName) => {
+  const wrapper = ref(() =>
+    console.warn(`Method ${methodName} has been invoked without being replaced`)
   );
+  const wrapped = (...args) => wrapper.value(...args);
+  // eslint-disable-next-line vue/no-ref-as-operand
+  wrapped.wrapper = wrapper;
+  provide(methodName, wrapped);
+
+  return wrapped;
 };
+
+export const updateLeafletWrapper = (wrapped, leafletMethod) =>
+  (wrapped.wrapper.value = leafletMethod);

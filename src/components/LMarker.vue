@@ -4,8 +4,8 @@ import {
   remapEvents,
   propsBinder,
   debounce,
-  provideLeafletPlaceholders,
-  updateLeafletMethods,
+  provideLeafletWrapper,
+  updateLeafletWrapper,
 } from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
 
@@ -19,21 +19,19 @@ export default {
     const leafletRef = ref({});
     const ready = ref(false);
 
-    const schematics = provideLeafletPlaceholders(["latLng"]);
-
     const addLayer = inject("addLayer");
-    const { options, methods } = markerSetup(
-      props,
-      leafletRef,
-      context,
-      schematics
-    );
+
+    const latLng = provideLeafletWrapper("latLng");
+    const { options, methods } = markerSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { marker, DomEvent, latLng, setOptions } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
-      updateLeafletMethods(schematics, { latLng });
+      const {
+        marker,
+        DomEvent,
+        latLng: leafletLatLng,
+        setOptions,
+      } = await import("leaflet/dist/leaflet-src.esm");
+      updateLeafletWrapper(latLng, leafletLatLng);
 
       leafletRef.value = marker(props.latLng, options);
 

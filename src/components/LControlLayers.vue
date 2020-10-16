@@ -1,7 +1,7 @@
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, inject } from "vue";
 import { props, setup as controlSetup } from "../functions/controlLayers";
-import { injectLeafletMethod, propsBinder } from "../utils.js";
+import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControlLayers",
@@ -9,7 +9,7 @@ export default {
   setup(props) {
     const leafletRef = ref({});
 
-    const registerLayerControl = injectLeafletMethod("registerLayerControl");
+    const registerLayerControl = inject("registerLayerControl");
     const { options, methods } = controlSetup(props, leafletRef);
     onMounted(async () => {
       const { control, setOptions } = await import(

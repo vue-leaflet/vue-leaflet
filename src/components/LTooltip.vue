@@ -1,6 +1,6 @@
 <script>
-import { onMounted, ref, h } from "vue";
-import { injectLeafletMethod, propsBinder, remapEvents } from "../utils.js";
+import { onMounted, ref, h, inject } from "vue";
+import { propsBinder, remapEvents } from "../utils.js";
 import { setup as tooltipSetup, props } from "../functions/tooltip";
 
 /**
@@ -13,7 +13,7 @@ export default {
     const leafletRef = ref({});
     const root = ref(null);
 
-    const bindTooltip = injectLeafletMethod("bindTooltip");
+    const bindTooltip = inject("bindTooltip");
     const { options, methods } = tooltipSetup(props, leafletRef, context);
 
     onMounted(async () => {

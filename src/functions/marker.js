@@ -1,5 +1,5 @@
+import { inject } from "vue";
 import { props as layerProps, setup as layerSetup } from "../functions/layer";
-import { injectLeafletMethod } from "../utils";
 
 export const props = {
   ...layerProps,
@@ -38,7 +38,7 @@ export const setup = (props, leafletRef, context) => {
     ...layerOptions,
     ...props,
   };
-  const latLng = injectLeafletMethod("latLng");
+  const latLng = inject("latLng");
 
   const methods = {
     ...layerMethods,

@@ -1,5 +1,4 @@
-import { onBeforeUnmount } from "vue";
-import { injectLeafletMethod } from "../utils";
+import { onBeforeUnmount, inject } from "vue";
 import { props as popperProps, setup as popperSetup } from "./popper";
 
 export const props = {
@@ -8,7 +7,7 @@ export const props = {
 
 export const setup = (props, leafletRef) => {
   const { options, methods } = popperSetup(props, leafletRef);
-  const unbindTooltip = injectLeafletMethod("unbindTooltip");
+  const unbindTooltip = inject("unbindTooltip");
 
   onBeforeUnmount(() => {
     unbindTooltip();
