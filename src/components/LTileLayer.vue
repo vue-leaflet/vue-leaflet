@@ -1,13 +1,13 @@
 <script>
-import { onMounted, ref } from "vue";
-import { remapEvents, propsBinder, injectLeafletMethod } from "../utils.js";
+import { onMounted, ref, inject } from "vue";
+import { remapEvents, propsBinder } from "../utils.js";
 import { props, setup as tileLayerSetup } from "../functions/tileLayer";
 
 export default {
   props,
   setup(props, context) {
     const leafletRef = ref({});
-    const addLayer = injectLeafletMethod("addLayer");
+    const addLayer = inject("addLayer");
 
     const { options, methods } = tileLayerSetup(props, leafletRef);
 

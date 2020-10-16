@@ -5,7 +5,14 @@
 </template>
 
 <script>
-import { onMounted, onBeforeUnmount, computed, reactive, ref } from "vue";
+import {
+  onMounted,
+  onBeforeUnmount,
+  computed,
+  reactive,
+  ref,
+  provide,
+} from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -164,10 +171,15 @@ export default {
     };
 
     const schematics = provideLeafletPlaceholders([
-      "addLayer",
       "removeLayer",
       "registerLayerControl",
     ]);
+
+    const addLayerWrapper = ref(() =>
+      console.log("addLayer is not defined yet")
+    );
+    const addLayer = (...args) => addLayerWrapper.value(...args);
+    provide("addLayer", addLayer);
 
     const eventHandlers = {
       moveEndHandler() {
@@ -328,6 +340,7 @@ export default {
       };
 
       updateLeafletMethods(schematics, methods);
+      addLayerWrapper.value = methods.addLayer;
 
       blueprint.leafletRef = map(root.value, options);
 

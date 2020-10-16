@@ -1,11 +1,10 @@
 <script>
-import { onMounted, ref, h } from "vue";
+import { onMounted, ref, h, inject } from "vue";
 import {
   remapEvents,
   propsBinder,
   debounce,
   provideLeafletPlaceholders,
-  injectLeafletMethod,
   updateLeafletMethods,
 } from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
@@ -22,7 +21,7 @@ export default {
 
     const schematics = provideLeafletPlaceholders(["latLng"]);
 
-    const addLayer = injectLeafletMethod("addLayer");
+    const addLayer = inject("addLayer");
     const { options, methods } = markerSetup(
       props,
       leafletRef,
