@@ -1,4 +1,4 @@
-import { inject, onUnmounted, provide } from "vue";
+import { onUnmounted, provide, inject } from "vue";
 
 export const props = {
   pane: {
@@ -27,7 +27,8 @@ export const props = {
 };
 
 export const setup = (props, leafletRef, context) => {
-  const lMethods = inject("leafLetMethods");
+  const addLayer = inject("addLayer");
+  const removeLayer = inject("removeLayer");
   const options = {
     attribution: props.attribution,
     pane: props.pane,
@@ -39,23 +40,23 @@ export const setup = (props, leafletRef, context) => {
       attributionControl.removeAttribution(old).addAttribution(val);
     },
     setName() {
-      lMethods.removeLayer(leafletRef.value);
+      removeLayer(leafletRef.value);
       if (props.visible) {
-        lMethods.addLayer(leafletRef.value);
+        addLayer(leafletRef.value);
       }
     },
     setLayerType() {
-      lMethods.removeLayer(leafletRef.value);
+      removeLayer(leafletRef.value);
       if (props.visible) {
-        lMethods.addLayer(leafletRef.value);
+        addLayer(leafletRef.value);
       }
     },
     setVisible(isVisible) {
       if (leafletRef.value) {
         if (isVisible) {
-          lMethods.addLayer(leafletRef.value);
+          addLayer(leafletRef.value);
         } else {
-          lMethods.removeLayer(leafletRef.value);
+          removeLayer(leafletRef.value);
         }
       }
     },
@@ -84,16 +85,13 @@ export const setup = (props, leafletRef, context) => {
     },
   };
 
-  provide("leafLetMethods", {
-    ...lMethods,
-    bindTooltip: methods.bindTooltip,
-    unbindTooltip: methods.unbindTooltip,
-  });
+  provide("bindTooltip", methods.bindTooltip);
+  provide("unbindTooltip", methods.unbindTooltip);
 
   onUnmounted(() => {
     methods.unbindPopup();
     methods.unbindTooltip();
-    lMethods.removeLayer({ leafletObject: leafletRef.value });
+    removeLayer({ leafletObject: leafletRef.value });
   });
 
   return { options, methods };

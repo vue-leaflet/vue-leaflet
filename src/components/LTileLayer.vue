@@ -7,7 +7,8 @@ export default {
   props,
   setup(props, context) {
     const leafletRef = ref({});
-    const lMethods = inject("leafLetMethods");
+    //const addLayer = injectLeafletMethod("addLayer");
+    const addLayer = inject("addLayer");
 
     const { options, methods } = tileLayerSetup(props, leafletRef);
 
@@ -21,7 +22,7 @@ export default {
       DomEvent.on(leafletRef.value, listeners);
 
       propsBinder(methods, leafletRef.value, props, setOptions);
-      lMethods.addLayer({
+      addLayer({
         ...props,
         ...methods,
         leafletObject: leafletRef.value,

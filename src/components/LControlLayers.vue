@@ -9,7 +9,7 @@ export default {
   setup(props) {
     const leafletRef = ref({});
 
-    const lMethods = inject("leafLetMethods");
+    const registerLayerControl = inject("registerLayerControl");
     const { options, methods } = controlSetup(props, leafletRef);
     onMounted(async () => {
       const { control, setOptions } = await import(
@@ -19,7 +19,7 @@ export default {
       leafletRef.value = control.layers(null, null, options);
       propsBinder(methods, leafletRef.value, props, setOptions);
 
-      lMethods.registerLayerControl({
+      registerLayerControl({
         ...props,
         ...methods,
         leafletObject: leafletRef.value,

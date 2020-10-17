@@ -1,10 +1,11 @@
 <script>
-import { onMounted, ref, inject, h } from "vue";
+import { onMounted, ref, h, inject } from "vue";
 import {
   remapEvents,
   propsBinder,
   debounce,
-  generatePlaceholderMethods,
+  provideLeafletWrapper,
+  updateLeafletWrapper,
 } from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
 
@@ -18,21 +19,19 @@ export default {
     const leafletRef = ref({});
     const ready = ref(false);
 
-    const schematics = generatePlaceholderMethods(["latLng"]);
+    const addLayer = inject("addLayer");
 
-    const lMethods = inject("leafLetMethods");
-    const { options, methods } = markerSetup(
-      props,
-      leafletRef,
-      context,
-      schematics
-    );
+    const latLng = provideLeafletWrapper("latLng");
+    const { options, methods } = markerSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { marker, DomEvent, latLng, setOptions } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
-      schematics.latLng = latLng;
+      const {
+        marker,
+        DomEvent,
+        latLng: leafletLatLng,
+        setOptions,
+      } = await import("leaflet/dist/leaflet-src.esm");
+      updateLeafletWrapper(latLng, leafletLatLng);
 
       leafletRef.value = marker(props.latLng, options);
 
@@ -41,7 +40,7 @@ export default {
 
       leafletRef.value.on("move", debounce(methods.latLngSync, 100));
       propsBinder(methods, leafletRef.value, props, setOptions);
-      lMethods.addLayer({
+      addLayer({
         ...props,
         ...methods,
         leafletObject: leafletRef.value,

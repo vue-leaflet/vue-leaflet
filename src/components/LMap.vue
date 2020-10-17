@@ -5,20 +5,14 @@
 </template>
 
 <script>
-import {
-  onMounted,
-  onBeforeUnmount,
-  computed,
-  provide,
-  reactive,
-  ref,
-} from "vue";
+import { onMounted, onBeforeUnmount, computed, reactive, ref } from "vue";
 import {
   remapEvents,
   propsBinder,
   debounce,
   resetWebpackIcon,
-  generatePlaceholderMethods,
+  provideLeafletWrapper,
+  updateLeafletWrapper,
 } from "../utils.js";
 
 export default {
@@ -169,13 +163,9 @@ export default {
       markerZoomAnimation: props.markerZoomAnimation,
     };
 
-    const schematics = generatePlaceholderMethods([
-      "addLayer",
-      "removeLayer",
-      "registerLayerControl",
-    ]);
-
-    provide("leafLetMethods", schematics);
+    const addLayer = provideLeafletWrapper("addLayer");
+    const removeLayer = provideLeafletWrapper("removeLayer");
+    const registerLayerControl = provideLeafletWrapper("registerLayerControl");
 
     const eventHandlers = {
       moveEndHandler() {
@@ -335,9 +325,9 @@ export default {
         },
       };
 
-      schematics.addLayer = methods.addLayer;
-      schematics.removeLayer = methods.removeLayer;
-      schematics.registerLayerControl = methods.registerLayerControl;
+      updateLeafletWrapper(addLayer, methods.addLayer);
+      updateLeafletWrapper(removeLayer, methods.removeLayer);
+      updateLeafletWrapper(registerLayerControl, methods.registerLayerControl);
 
       blueprint.leafletRef = map(root.value, options);
 
