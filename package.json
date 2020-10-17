@@ -7,7 +7,7 @@
   "sideEffects": false,
   "main": "dist/vue-leaflet.cjs.js",
   "unpkg": "dist/vue-leaflet.umd.js",
-  "module": "dist/vue-leaflet.es.js",
+  "module": "dist/vue-leaflet.esm.js",
   "files": [
     "dist/",
     "src/"
