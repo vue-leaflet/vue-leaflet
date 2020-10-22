@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, h, inject } from "vue";
+import { onMounted, ref, h, provide, inject } from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -22,6 +22,15 @@ export default {
     const addLayer = inject("addLayer");
 
     const latLng = provideLeafletWrapper("latLng");
+    provide("canSetParentHtml", () => !!leafletRef.value.getElement());
+    provide(
+      "setParentHtml",
+      (html) => (leafletRef.value.getElement().innerHTML = html)
+    );
+    provide(
+      "setIcon",
+      (newIcon) => leafletRef.value.setIcon && leafletRef.value.setIcon(newIcon)
+    );
     const { options, methods } = markerSetup(props, leafletRef, context);
 
     onMounted(async () => {
@@ -34,10 +43,6 @@ export default {
       updateLeafletWrapper(latLng, leafletLatLng);
 
       leafletRef.value = marker(props.latLng, options);
-
-      schematics.canSetParentHtml = () => !!leafletRef.value.getElement();
-      schematics.setParentHtml = (html) =>
-        (leafletRef.value.getElement().innerHTML = html);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
