@@ -50,12 +50,12 @@ export const propsBinder = (methods, leafletElement, props, setOptions) => {
   }
 };
 
-export const remapEvents = (onEvent) => {
+export const remapEvents = (contextAttrs) => {
   const result = {};
-  for (const eventName in onEvent) {
-    if (eventName !== "modelValue" && !eventName.startsWith("onUpdate")) {
-      const newName = eventName.replace("on", "").toLowerCase();
-      result[newName] = onEvent[eventName];
+  for (const attrName in contextAttrs) {
+    if (attrName.startsWith("on") && !attrName.startsWith("onUpdate")) {
+      const eventName = attrName.slice(2).toLocaleLowerCase();
+      result[eventName] = contextAttrs[attrName];
     }
   }
   return result;
