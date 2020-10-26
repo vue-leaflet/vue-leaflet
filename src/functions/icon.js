@@ -1,5 +1,3 @@
-import { ref, nextTick } from "vue";
-
 export const props = {
   iconUrl: {
     type: String,
@@ -66,33 +64,4 @@ export const props = {
     custom: true,
     default: () => ({}),
   },
-};
-
-export const setup = (props, mapRef, context, leafletMethods) => {
-  let recreationNeeded = false;
-  let htmlSwapNeeded = false;
-  let iconObject = undefined;
-  const options = {
-    ...props,
-  };
-
-  const createIcon = () => {
-    if (htmlSwapNeeded && !recreationNeeded && iconObject)
-  };
-
-  const methods = {
-    scheduleCreateIcon() {
-      recreationNeeded.value = true;
-      nextTick(createIcon);
-    },
-
-    scheduleHtmlSwap() {
-      htmlSwapNeeded.value = true;
-      nextTick(createIcon);
-    },
-
-    createIcon,
-  };
-
-  return { options, methods };
 };
