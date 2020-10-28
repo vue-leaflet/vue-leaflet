@@ -35,6 +35,18 @@
         ]"
         color="green"
       ></l-polyline>
+      <l-polygon
+        :lat-lngs="[
+          [46.334852, -1.509485],
+          [46.342596, -1.328731],
+          [46.241487, -1.190568],
+          [46.234787, -1.358337],
+        ]"
+        color="#41b782"
+        :fill="true"
+        :fillOpacity="0.5"
+        fillColor="#41b782"
+      />
     </l-map>
     <button @click="changeIcon">New kitten icon</button>
   </div>
@@ -48,6 +60,7 @@ import LControlLayers from "./components/LControlLayers.vue";
 import LTooltip from "./components/LTooltip.vue";
 import LPopup from "./components/LPopup.vue";
 import LPolyline from "./components/LPolyline.vue";
+import LPolygon from "./components/LPolygon.vue";
 
 export default {
   components: {
@@ -59,6 +72,7 @@ export default {
     LTooltip,
     LPopup,
     LPolyline,
+    LPolygon,
   },
   data() {
     return {
