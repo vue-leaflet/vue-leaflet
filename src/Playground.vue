@@ -15,8 +15,15 @@
           lol
         </l-tooltip>
       </l-marker>
+
       <l-marker :lat-lng="[47.41322, -1.219482]">
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
+      </l-marker>
+
+      <l-marker :lat-lng="[50, 50]" draggable @moveend="log('moveend')">
+        <l-popup>
+          lol
+        </l-popup>
       </l-marker>
     </l-map>
     <button @click="changeIcon">New kitten icon</button>
@@ -29,6 +36,7 @@ import LTileLayer from "./components/LTileLayer.vue";
 import LMarker from "./components/LMarker.vue";
 import LControlLayers from "./components/LControlLayers.vue";
 import LTooltip from "./components/LTooltip.vue";
+import LPopup from "./components/LPopup.vue";
 
 export default {
   components: {
@@ -38,6 +46,7 @@ export default {
     LMarker,
     LControlLayers,
     LTooltip,
+    LPopup,
   },
   data() {
     return {
