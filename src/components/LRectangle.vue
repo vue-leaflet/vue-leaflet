@@ -1,0 +1,45 @@
+<script>
+import { onMounted, ref, inject } from "vue";
+import { remapEvents, propsBinder } from "../utils.js";
+import { props, setup as rectangleSetup } from "../functions/rectangle";
+
+/**
+ * Rectangle component, lets you add and customize rectangular regions on the map
+ */
+export default {
+  name: "LRectangle",
+  props,
+  setup(props, context) {
+    const leafletRef = ref({});
+    const addLayer = inject("addLayer");
+
+    const { options, methods } = rectangleSetup(props, leafletRef, context);
+
+    onMounted(async () => {
+      const { rectangle, latLngBounds, DomEvent, setOptions } = await import(
+        "leaflet/dist/leaflet-src.esm"
+      );
+
+      const bounds =
+        props.bounds && props.bounds.length
+          ? latLngBounds(props.bounds)
+          : latLngBounds(props.latLngs);
+      leafletRef.value = rectangle(bounds, options);
+
+      const listeners = remapEvents(context.attrs);
+      DomEvent.on(leafletRef.value, listeners);
+
+      propsBinder(methods, leafletRef.value, props, setOptions);
+
+      addLayer({
+        ...props,
+        ...methods,
+        leafletObject: leafletRef.value,
+      });
+    });
+  },
+  render() {
+    return null;
+  },
+};
+</script>
