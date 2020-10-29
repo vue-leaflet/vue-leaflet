@@ -15,9 +15,20 @@
           lol
         </l-tooltip>
       </l-marker>
+
       <l-marker :lat-lng="[47.41322, -1.219482]">
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
       </l-marker>
+
+      <l-polyline
+        :lat-lngs="[
+          [47.334852, -1.509485],
+          [47.342596, -1.328731],
+          [47.241487, -1.190568],
+          [47.234787, -1.358337],
+        ]"
+        color="green"
+      ></l-polyline>
     </l-map>
     <button @click="changeIcon">New kitten icon</button>
   </div>
@@ -29,6 +40,7 @@ import LTileLayer from "./components/LTileLayer.vue";
 import LMarker from "./components/LMarker.vue";
 import LControlLayers from "./components/LControlLayers.vue";
 import LTooltip from "./components/LTooltip.vue";
+import LPolyline from "./components/LPolyline.vue";
 
 export default {
   components: {
@@ -38,6 +50,7 @@ export default {
     LMarker,
     LControlLayers,
     LTooltip,
+    LPolyline,
   },
   data() {
     return {
