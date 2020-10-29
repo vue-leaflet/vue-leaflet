@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref, h, inject } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
 import { props, setup as polylineSetup } from "../functions/polyline";
 
@@ -39,6 +39,9 @@ export default {
     return { ready };
   },
   render() {
+    if (this.ready && this.$slots.default) {
+      return h("div", { style: { display: "none" } }, this.$slots.default());
+    }
     return null;
   },
 };
