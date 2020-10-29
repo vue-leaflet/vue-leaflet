@@ -25,6 +25,16 @@
           lol
         </l-popup>
       </l-marker>
+
+      <l-polyline
+        :lat-lngs="[
+          [47.334852, -1.509485],
+          [47.342596, -1.328731],
+          [47.241487, -1.190568],
+          [47.234787, -1.358337],
+        ]"
+        color="green"
+      ></l-polyline>
     </l-map>
     <button @click="changeIcon">New kitten icon</button>
   </div>
@@ -37,6 +47,7 @@ import LMarker from "./components/LMarker.vue";
 import LControlLayers from "./components/LControlLayers.vue";
 import LTooltip from "./components/LTooltip.vue";
 import LPopup from "./components/LPopup.vue";
+import LPolyline from "./components/LPolyline.vue";
 
 export default {
   components: {
@@ -47,6 +58,7 @@ export default {
     LControlLayers,
     LTooltip,
     LPopup,
+    LPolyline,
   },
   data() {
     return {
