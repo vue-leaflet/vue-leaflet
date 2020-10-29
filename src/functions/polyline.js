@@ -1,4 +1,4 @@
-import { props as pathProps, setup as pathSetup } from "../functions/path";
+import { props as pathProps, setup as pathSetup } from "./path";
 
 export const props = {
   ...pathProps,
