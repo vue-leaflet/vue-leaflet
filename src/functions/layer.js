@@ -60,6 +60,9 @@ export const setup = (props, leafletRef, context) => {
         }
       }
     },
+    bindPopup({ leafletObject }) {
+      leafletRef.value.bindPopup(leafletObject);
+    },
     bindTooltip({ leafletObject }) {
       leafletRef.value.bindTooltip(leafletObject);
     },
@@ -85,8 +88,10 @@ export const setup = (props, leafletRef, context) => {
     },
   };
 
+  provide("bindPopup", methods.bindPopup);
   provide("bindTooltip", methods.bindTooltip);
   provide("unbindTooltip", methods.unbindTooltip);
+  provide("unbindPopup", methods.unbindPopup);
 
   onUnmounted(() => {
     methods.unbindPopup();

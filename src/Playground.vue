@@ -20,6 +20,12 @@
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
       </l-marker>
 
+      <l-marker :lat-lng="[50, 50]" draggable @moveend="log('moveend')">
+        <l-popup>
+          lol
+        </l-popup>
+      </l-marker>
+
       <l-polyline
         :lat-lngs="[
           [47.334852, -1.509485],
@@ -40,6 +46,7 @@ import LTileLayer from "./components/LTileLayer.vue";
 import LMarker from "./components/LMarker.vue";
 import LControlLayers from "./components/LControlLayers.vue";
 import LTooltip from "./components/LTooltip.vue";
+import LPopup from "./components/LPopup.vue";
 import LPolyline from "./components/LPolyline.vue";
 
 export default {
@@ -50,6 +57,7 @@ export default {
     LMarker,
     LControlLayers,
     LTooltip,
+    LPopup,
     LPolyline,
   },
   data() {
