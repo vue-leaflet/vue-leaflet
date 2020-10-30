@@ -5,7 +5,14 @@
 </template>
 
 <script>
-import { onMounted, onBeforeUnmount, computed, reactive, ref } from "vue";
+import {
+  onMounted,
+  onBeforeUnmount,
+  computed,
+  reactive,
+  ref,
+  nextTick,
+} from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -345,6 +352,7 @@ export default {
       );
       DomEvent.on(blueprint.leafletRef, listeners);
       blueprint.ready = true;
+      nextTick(() => context.emit("ready"));
     });
 
     onBeforeUnmount(() => {
