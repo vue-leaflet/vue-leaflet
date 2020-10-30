@@ -62,7 +62,11 @@
           [46.334852, -1.190568],
           [46.241487, -1.090357],
         ]"
-      />
+      >
+        <l-popup>
+          lol
+        </l-popup>
+      </l-rectangle>
     </l-map>
     <button @click="changeIcon">New kitten icon</button>
   </div>
