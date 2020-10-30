@@ -1,74 +1,105 @@
 <template>
-  <div style="height: 75vh; width: 50vw;">
-    <l-map
-      v-model="zoom"
-      v-model:zoom="zoom"
-      :center="[47.41322, -1.219482]"
-      @move="log('move')"
-    >
-      <l-tile-layer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      ></l-tile-layer>
-      <l-control-layers />
-      <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
-        <l-tooltip>
-          lol
-        </l-tooltip>
-      </l-marker>
-
-      <l-marker :lat-lng="[47.41322, -1.219482]">
-        <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
-      </l-marker>
-
-      <l-marker :lat-lng="[50, 50]" draggable @moveend="log('moveend')">
-        <l-popup>
-          lol
-        </l-popup>
-      </l-marker>
-
-      <l-polyline
-        :lat-lngs="[
-          [47.334852, -1.509485],
-          [47.342596, -1.328731],
-          [47.241487, -1.190568],
-          [47.234787, -1.358337],
-        ]"
-        color="green"
-      ></l-polyline>
-      <l-polygon
-        :lat-lngs="[
-          [46.334852, -1.509485],
-          [46.342596, -1.328731],
-          [46.241487, -1.190568],
-          [46.234787, -1.358337],
-        ]"
-        color="#41b782"
-        :fill="true"
-        :fillOpacity="0.5"
-        fillColor="#41b782"
-      />
-      <l-rectangle
-        :lat-lngs="[
-          [46.334852, -1.509485],
-          [46.342596, -1.328731],
-          [46.241487, -1.190568],
-          [46.234787, -1.358337],
-        ]"
-        :fill="true"
-        color="#35495d"
-      />
-      <l-rectangle
-        :bounds="[
-          [46.334852, -1.190568],
-          [46.241487, -1.090357],
-        ]"
+  <div style="display: flex;">
+    <div style="height: 75vh; width: 50vw;">
+      <l-map
+        v-model="zoom"
+        v-model:zoom="zoom"
+        :center="[47.41322, -1.219482]"
+        @move="log('move')"
       >
-        <l-popup>
-          lol
-        </l-popup>
-      </l-rectangle>
-    </l-map>
-    <button @click="changeIcon">New kitten icon</button>
+        <l-tile-layer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        ></l-tile-layer>
+        <l-control-layers />
+        <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
+          <l-tooltip>
+            lol
+          </l-tooltip>
+        </l-marker>
+
+        <l-marker :lat-lng="[47.41322, -1.219482]">
+          <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
+        </l-marker>
+
+        <l-marker :lat-lng="[50, 50]" draggable @moveend="log('moveend')">
+          <l-popup>
+            lol
+          </l-popup>
+        </l-marker>
+
+        <l-polyline
+          :lat-lngs="[
+            [47.334852, -1.509485],
+            [47.342596, -1.328731],
+            [47.241487, -1.190568],
+            [47.234787, -1.358337],
+          ]"
+          color="green"
+        ></l-polyline>
+        <l-polygon
+          :lat-lngs="[
+            [46.334852, -1.509485],
+            [46.342596, -1.328731],
+            [46.241487, -1.190568],
+            [46.234787, -1.358337],
+          ]"
+          color="#41b782"
+          :fill="true"
+          :fillOpacity="0.5"
+          fillColor="#41b782"
+        />
+        <l-rectangle
+          :lat-lngs="[
+            [46.334852, -1.509485],
+            [46.342596, -1.328731],
+            [46.241487, -1.190568],
+            [46.234787, -1.358337],
+          ]"
+          :fill="true"
+          color="#35495d"
+        />
+        <l-rectangle
+          :bounds="[
+            [46.334852, -1.190568],
+            [46.241487, -1.090357],
+          ]"
+        >
+          <l-popup>
+            lol
+          </l-popup>
+        </l-rectangle>
+
+        <l-polyline
+          :lat-lngs="[
+            [47.334852, -1.509485],
+            [47.342596, -1.328731],
+            [47.241487, -1.190568],
+            [47.234787, -1.358337],
+          ]"
+          color="green"
+        ></l-polyline>
+      </l-map>
+      <button @click="changeIcon">New kitten icon</button>
+    </div>
+    <div style="height: 75vh; width: 50vw;">
+      <l-map
+        v-model="zoom"
+        v-model:zoom="zoom"
+        :center="[47.41322, -1.219482]"
+        @move="log('move')"
+      >
+        <l-wms-tile-layer
+          v-for="layer in wmsLayers"
+          :key="layer.name"
+          :base-url="baseUrl"
+          :layers="layer.layers"
+          :visible="layer.visible"
+          :name="layer.name"
+          layer-type="base"
+          >></l-wms-tile-layer
+        >
+      </l-map>
+    </div>
   </div>
 </template>
 <script>
@@ -82,6 +113,7 @@ import LPopup from "./components/LPopup.vue";
 import LPolyline from "./components/LPolyline.vue";
 import LPolygon from "./components/LPolygon.vue";
 import LRectangle from "./components/LRectangle.vue";
+import LWmsTileLayer from "./components/LWmsTileLayer.vue";
 
 export default {
   components: {
@@ -95,12 +127,24 @@ export default {
     LPolyline,
     LPolygon,
     LRectangle,
+    LWmsTileLayer,
   },
   data() {
     return {
       zoom: 2,
       iconWidth: 25,
       iconHeight: 40,
+      baseUrl: "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
+      wmsLayers: [
+        {
+          name: "Weather Data",
+          visible: true,
+          format: "image/png",
+          layers: "nexrad-n0r-900913",
+          transparent: true,
+          attribution: "Weather data © 2012 IEM Nexrad",
+        },
+      ],
     };
   },
   computed: {
