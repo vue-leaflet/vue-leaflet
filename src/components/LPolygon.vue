@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject } from "vue";
+import { h, onMounted, ref, inject } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
 import { props, setup as polygonSetup } from "../functions/polygon";
 
@@ -11,6 +11,7 @@ export default {
   props,
   setup(props, context) {
     const leafletRef = ref({});
+    const ready = ref(false);
     const addLayer = inject("addLayer");
 
     const { options, methods } = polygonSetup(props, leafletRef, context);
@@ -32,9 +33,15 @@ export default {
         ...methods,
         leafletObject: leafletRef.value,
       });
+      ready.value = true;
     });
+
+    return { ready };
   },
   render() {
+    if (this.ready && this.$slots.default) {
+      return h("div", { style: { display: "none" } }, this.$slots.default());
+    }
     return null;
   },
 };
