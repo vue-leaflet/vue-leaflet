@@ -1,3 +1,5 @@
+import { h } from "vue";
+
 export const props = {
   content: {
     type: String,
@@ -15,4 +17,11 @@ export const setup = (props, leafletRef) => {
     },
   };
   return { options, methods };
+};
+
+export const render = (root, context) => () => {
+  if (context.slots.default) {
+    return h("div", { ref: root }, context.slots.default());
+  }
+  return null;
 };
