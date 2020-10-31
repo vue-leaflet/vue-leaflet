@@ -94,12 +94,13 @@ export default {
       scheduleCreateIcon();
     });
 
-    return { root };
-  },
-  render() {
-    const content = this.$slots.default ? this.$slots.default() : undefined;
+    return () => {
+      const content = context.slots.default
+        ? context.slots.default()
+        : undefined;
 
-    return h("div", { ref: "root" }, content);
+      return h("div", { ref: root }, content);
+    };
   },
 };
 </script>

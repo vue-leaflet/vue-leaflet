@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, h, provide, inject } from "vue";
+import { onMounted, ref, provide, inject } from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -8,6 +8,7 @@ import {
   updateLeafletWrapper,
 } from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
+import { render } from "../functions/layer";
 
 /**
  * Marker component, lets you add and personalize markers on the map
@@ -56,13 +57,8 @@ export default {
       });
       ready.value = true;
     });
-    return { ready };
-  },
-  render() {
-    if (this.ready && this.$slots.default) {
-      return h("div", { style: { display: "none" } }, this.$slots.default());
-    }
-    return null;
+
+    return render(ready, context);
   },
 };
 </script>
