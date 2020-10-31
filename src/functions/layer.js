@@ -1,4 +1,4 @@
-import { onUnmounted, provide, inject } from "vue";
+import { onUnmounted, provide, inject, h } from "vue";
 
 export const props = {
   pane: {
@@ -100,4 +100,11 @@ export const setup = (props, leafletRef, context) => {
   });
 
   return { options, methods };
+};
+
+export const render = (ready, context) => () => {
+  if (ready.value && context.slots.default) {
+    return h("div", { style: { display: "none" } }, context.slots.default());
+  }
+  return null;
 };
