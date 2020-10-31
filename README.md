@@ -17,6 +17,8 @@ This is a Beta version! And may yet be instable! If you want to help please reac
 - LTileLayer
 - LTooltip
 
+Note that unlikely the version for vue2 this version is fully compatible with SSR
+
 ## Installation
 
 `npm i @vue-leaflet/vue-leaflet`
