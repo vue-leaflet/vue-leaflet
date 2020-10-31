@@ -2,35 +2,29 @@
 
 Vue-leaflet written and compatible with vue3
 
-This is an Alpha version! And totally not suitable for production! If you wanna help please reach out in an issue or [discord](https://discord.gg/uVZAfUf)
+This is a Beta version! And may yet be instable! If you want to help please reach out in an issue or [discord](https://discord.gg/uVZAfUf)
 
 ## What Works:
 
-- Map
-- Markers
-- TileLayers
-- LayersControl
+- LControlLayers
+- LIcon
+- LMap
+- LMarker
+- LPolygon
+- LPolyline
+- LPopup
+- LRectangle
+- LTileLayer
+- LTooltip
 
-## Project setup
+## Installation
 
-```
-yarn install
-```
+`npm i @vue-leaflet/vue-leaflet`
 
-### Compiles and hot-reloads for development
+or
 
-```
-yarn serve
-```
+`yarn add @vue-leaflet/vue-leaflet`
 
-### Compiles and minifies for production
+## Usage
 
-```
-yarn build
-```
-
-### Lints and fixes files
-
-```
-yarn lint
-```
+Till the documentation is ready please check the [demo project](https://github.com/vue-leaflet/vue3-demo-project/blob/master/src/App.vue)
