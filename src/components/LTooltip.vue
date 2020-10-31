@@ -1,7 +1,8 @@
 <script>
-import { onMounted, ref, h, inject } from "vue";
+import { onMounted, ref, inject } from "vue";
 import { propsBinder, remapEvents } from "../utils.js";
 import { setup as tooltipSetup, props } from "../functions/tooltip";
+import { render } from "../functions/popper";
 
 /**
  * Display a tooltip on the map
@@ -29,13 +30,7 @@ export default {
       leafletRef.value.setContent(props.content || root.value);
       bindTooltip({ leafletObject: leafletRef.value });
     });
-    return { root };
-  },
-  render() {
-    if (this.$slots.default) {
-      return h("div", { ref: "root" }, this.$slots.default());
-    }
-    return null;
+    return render(root, context);
   },
 };
 </script>

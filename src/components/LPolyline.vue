@@ -1,7 +1,8 @@
 <script>
-import { onMounted, ref, h, inject } from "vue";
+import { onMounted, ref, inject } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
 import { props, setup as polylineSetup } from "../functions/polyline";
+import { render } from "../functions/layer";
 
 /**
  * Polyline component, lets you add and personalize polylines on the map
@@ -36,13 +37,7 @@ export default {
       });
       ready.value = true;
     });
-    return { ready };
-  },
-  render() {
-    if (this.ready && this.$slots.default) {
-      return h("div", { style: { display: "none" } }, this.$slots.default());
-    }
-    return null;
+    return render(ready, context);
   },
 };
 </script>

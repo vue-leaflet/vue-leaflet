@@ -1,7 +1,8 @@
 <script>
-import { h, onMounted, ref, inject } from "vue";
+import { onMounted, ref, inject } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
 import { props, setup as rectangleSetup } from "../functions/rectangle";
+import { render } from "../functions/layer";
 
 /**
  * Rectangle component, lets you add and customize rectangular regions on the map
@@ -40,13 +41,7 @@ export default {
       ready.value = true;
     });
 
-    return { ready };
-  },
-  render() {
-    if (this.ready && this.$slots.default) {
-      return h("div", { style: { display: "none" } }, this.$slots.default());
-    }
-    return null;
+    return render(ready, context);
   },
 };
 </script>
