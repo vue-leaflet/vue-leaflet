@@ -8,3 +8,4 @@ export { default as LTooltip } from "./LTooltip.vue";
 export { default as LPopup } from "./LPopup.vue";
 export { default as LPolygon } from "./LPolygon.vue";
 export { default as LRectangle } from "./LRectangle.vue";
+export { default as LWmsTileLayer } from "./LWmsTileLayer.vue";
