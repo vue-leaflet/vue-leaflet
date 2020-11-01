@@ -94,6 +94,8 @@
           :base-url="baseUrl"
           :layers="layer.layers"
           :visible="layer.visible"
+          :format="layer.format"
+          :transparent="layer.transparent"
           :name="layer.name"
           layer-type="base"
         ></l-wms-tile-layer>
