@@ -96,8 +96,7 @@
           :visible="layer.visible"
           :name="layer.name"
           layer-type="base"
-          >></l-wms-tile-layer
-        >
+        ></l-wms-tile-layer>
       </l-map>
     </div>
   </div>
