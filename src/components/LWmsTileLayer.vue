@@ -3,8 +3,6 @@ import { onMounted, ref, inject } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
 import { props, setup as wmsLayerSetup } from "../functions/wmsTileLayer";
 
-console.log(props);
-
 export default {
   props,
   setup(props, context) {
