@@ -25,8 +25,9 @@ export const props = {
 };
 
 export const setup = (props, leafletRef) => {
-  controlSetup(leafletRef);
+  const { options: controlOptions } = controlSetup(props, leafletRef);
   const options = {
+    ...controlOptions,
     collapsed: props.collapsed,
     autoZIndex: props.autoZIndex,
     hideSingleBase: props.hideSingleBase,
