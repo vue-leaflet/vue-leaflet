@@ -19,6 +19,7 @@
           name="OpenStreetMap"
         ></l-tile-layer>
         <l-control-layers />
+        <l-control-scale position="bottomleft" />
         <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
           <l-tooltip>
             lol
@@ -112,17 +113,20 @@
   </div>
 </template>
 <script>
-import LMap from "./components/LMap.vue";
-import LIcon from "./components/LIcon.vue";
-import LTileLayer from "./components/LTileLayer.vue";
-import LMarker from "./components/LMarker.vue";
-import LControlLayers from "./components/LControlLayers.vue";
-import LTooltip from "./components/LTooltip.vue";
-import LPopup from "./components/LPopup.vue";
-import LPolyline from "./components/LPolyline.vue";
-import LPolygon from "./components/LPolygon.vue";
-import LRectangle from "./components/LRectangle.vue";
-import LWmsTileLayer from "./components/LWmsTileLayer.vue";
+import {
+  LMap,
+  LIcon,
+  LTileLayer,
+  LMarker,
+  LControlLayers,
+  LControlScale,
+  LTooltip,
+  LPopup,
+  LPolyline,
+  LPolygon,
+  LRectangle,
+  LWmsTileLayer,
+} from "./components";
 
 export default {
   components: {
@@ -131,6 +135,7 @@ export default {
     LTileLayer,
     LMarker,
     LControlLayers,
+    LControlScale,
     LTooltip,
     LPopup,
     LPolyline,
