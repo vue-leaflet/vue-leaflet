@@ -8,7 +8,15 @@
         @move="log('move')"
       >
         <l-tile-layer
+          url="http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
+          layer-type="base"
+          name="Stamen Watercolor"
+          attribution="Map tiles by <a href='http://stamen.com'>Stamen Design</a>, under <a href='http://creativecommons.org/licenses/by/3.0'>CC BY 3.0</a>. Data by <a href='http://openstreetmap.org'>OpenStreetMap</a>, under <a href='http://creativecommons.org/licenses/by-sa/3.0'>CC BY SA</a>."
+        />
+        <l-tile-layer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          layer-type="base"
+          name="OpenStreetMap"
         ></l-tile-layer>
         <l-control-layers />
         <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
