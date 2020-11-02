@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject } from "vue";
-import { props, setup as controlSetup } from "../functions/controlLayers";
+import { props, setup as layerControlSetup } from "../functions/controlLayers";
 import { propsBinder } from "../utils.js";
 
 export default {
@@ -10,7 +10,7 @@ export default {
     const leafletRef = ref({});
 
     const registerLayerControl = inject("registerLayerControl");
-    const { options, methods } = controlSetup(props, leafletRef);
+    const { options, methods } = layerControlSetup(props, leafletRef);
     onMounted(async () => {
       const { control, setOptions } = await import(
         "leaflet/dist/leaflet-src.esm"
