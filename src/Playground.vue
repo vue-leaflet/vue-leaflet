@@ -18,8 +18,11 @@
           layer-type="base"
           name="OpenStreetMap"
         ></l-tile-layer>
+
         <l-control-layers />
         <l-control-scale position="bottomleft" />
+        <l-control-zoom position="bottomright" />
+
         <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
           <l-tooltip>
             lol
@@ -120,6 +123,7 @@ import {
   LMarker,
   LControlLayers,
   LControlScale,
+  LControlZoom,
   LTooltip,
   LPopup,
   LPolyline,
@@ -136,6 +140,7 @@ export default {
     LMarker,
     LControlLayers,
     LControlScale,
+    LControlZoom,
     LTooltip,
     LPopup,
     LPolyline,
