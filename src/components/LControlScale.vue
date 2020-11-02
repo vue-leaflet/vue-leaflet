@@ -4,7 +4,7 @@ import { props, setup as scaleControlSetup } from "../functions/controlScale";
 import { propsBinder } from "../utils.js";
 
 export default {
-  name: "LControlLayers",
+  name: "LControlScale",
   props,
   setup(props) {
     const leafletRef = ref({});

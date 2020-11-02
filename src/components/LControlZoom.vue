@@ -4,7 +4,7 @@ import { props, setup as zoomControlSetup } from "../functions/controlZoom";
 import { propsBinder } from "../utils.js";
 
 export default {
-  name: "LControlLayers",
+  name: "LControlZoom",
   props,
   setup(props) {
     const leafletRef = ref({});
