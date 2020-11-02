@@ -172,6 +172,7 @@ export default {
 
     const addLayer = provideLeafletWrapper("addLayer");
     const removeLayer = provideLeafletWrapper("removeLayer");
+    const registerControl = provideLeafletWrapper("registerControl");
     const registerLayerControl = provideLeafletWrapper("registerLayerControl");
 
     const eventHandlers = {
@@ -261,11 +262,16 @@ export default {
 
         registerLayerControl(lControlLayer) {
           blueprint.layerControl = lControlLayer;
-          blueprint.leafletRef.addControl(lControlLayer.leafletObject);
           blueprint.layersToAdd.forEach((layer) => {
             blueprint.layerControl.addLayer(layer);
           });
           blueprint.layersToAdd = [];
+
+          registerControl(lControlLayer);
+        },
+
+        registerControl(lControl) {
+          blueprint.leafletRef.addControl(lControl.leafletObject);
         },
 
         setZoom(newVal) {
@@ -334,6 +340,7 @@ export default {
 
       updateLeafletWrapper(addLayer, methods.addLayer);
       updateLeafletWrapper(removeLayer, methods.removeLayer);
+      updateLeafletWrapper(registerControl, methods.registerControl);
       updateLeafletWrapper(registerLayerControl, methods.registerLayerControl);
 
       blueprint.leafletRef = map(root.value, options);
