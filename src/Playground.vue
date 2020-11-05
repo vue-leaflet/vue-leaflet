@@ -8,9 +8,33 @@
         @move="log('move')"
       >
         <l-tile-layer
+          url="http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
+          layer-type="base"
+          name="Stamen Watercolor"
+          attribution="Map tiles by <a href='http://stamen.com'>Stamen Design</a>, under <a href='http://creativecommons.org/licenses/by/3.0'>CC BY 3.0</a>. Data by <a href='http://openstreetmap.org'>OpenStreetMap</a>, under <a href='http://creativecommons.org/licenses/by-sa/3.0'>CC BY SA</a>."
+        />
+        <l-tile-layer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          layer-type="base"
+          name="OpenStreetMap"
         ></l-tile-layer>
+
         <l-control-layers />
+        <l-control-zoom
+          position="bottomright"
+          zoom-in-text="*"
+          zoom-out-text="/"
+        />
+        <l-control-attribution
+          position="topleft"
+          :prefix="customAttributionPrefix"
+        />
+        <l-control-scale position="bottomleft" />
+
+        <l-control class="leaflet-control leaflet-demo-control"
+          >Hello, Map!</l-control
+        >
+
         <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
           <l-tooltip>
             lol
@@ -80,6 +104,8 @@
         ></l-polyline>
       </l-map>
       <button @click="changeIcon">New kitten icon</button>
+      <label for="attributionPrefix">Attribution prefix:</label>
+      <input name="attributionPrefix" v-model="customAttributionPrefix" />
     </div>
     <div style="height: 75vh; width: 50vw;">
       <l-map
@@ -104,17 +130,23 @@
   </div>
 </template>
 <script>
-import LMap from "./components/LMap.vue";
-import LIcon from "./components/LIcon.vue";
-import LTileLayer from "./components/LTileLayer.vue";
-import LMarker from "./components/LMarker.vue";
-import LControlLayers from "./components/LControlLayers.vue";
-import LTooltip from "./components/LTooltip.vue";
-import LPopup from "./components/LPopup.vue";
-import LPolyline from "./components/LPolyline.vue";
-import LPolygon from "./components/LPolygon.vue";
-import LRectangle from "./components/LRectangle.vue";
-import LWmsTileLayer from "./components/LWmsTileLayer.vue";
+import {
+  LMap,
+  LIcon,
+  LTileLayer,
+  LMarker,
+  LControlAttribution,
+  LControlLayers,
+  LControlScale,
+  LControlZoom,
+  LControl,
+  LTooltip,
+  LPopup,
+  LPolyline,
+  LPolygon,
+  LRectangle,
+  LWmsTileLayer,
+} from "./components";
 
 export default {
   components: {
@@ -122,7 +154,11 @@ export default {
     LIcon,
     LTileLayer,
     LMarker,
+    LControlAttribution,
     LControlLayers,
+    LControlScale,
+    LControlZoom,
+    LControl,
     LTooltip,
     LPopup,
     LPolyline,
@@ -146,6 +182,7 @@ export default {
           attribution: "Weather data © 2012 IEM Nexrad",
         },
       ],
+      customAttributionPrefix: "lol",
     };
   },
   computed: {
@@ -169,3 +206,12 @@ export default {
   },
 };
 </script>
+
+<style>
+.leaflet-demo-control {
+  background: white;
+  border: 1px solid steelblue;
+  border-radius: 0.6em;
+  padding: 0.2em;
+}
+</style>

@@ -1,29 +1,24 @@
 <script>
 import { onMounted, ref, inject } from "vue";
-import { props, setup as layerControlSetup } from "../functions/controlLayers";
+import { props, setup as scaleControlSetup } from "../functions/controlScale";
 import { propsBinder } from "../utils.js";
 
 export default {
-  name: "LControlLayers",
+  name: "LControlScale",
   props,
   setup(props) {
     const leafletRef = ref({});
 
-    const registerLayerControl = inject("registerLayerControl");
-    const { options, methods } = layerControlSetup(props, leafletRef);
+    const registerControl = inject("registerControl");
+    const { options, methods } = scaleControlSetup(props, leafletRef);
     onMounted(async () => {
       const { control, setOptions } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
-      leafletRef.value = control.layers(null, null, options);
+      leafletRef.value = control.scale(options);
       propsBinder(methods, leafletRef.value, props, setOptions);
-
-      registerLayerControl({
-        ...props,
-        ...methods,
-        leafletObject: leafletRef.value,
-      });
+      registerControl({ leafletObject: leafletRef.value });
     });
   },
   render() {
