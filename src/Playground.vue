@@ -31,6 +31,10 @@
         />
         <l-control-scale position="bottomleft" />
 
+        <l-control class="leaflet-control leaflet-demo-control"
+          >Hello, Map!</l-control
+        >
+
         <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
           <l-tooltip>
             lol
@@ -135,6 +139,7 @@ import {
   LControlLayers,
   LControlScale,
   LControlZoom,
+  LControl,
   LTooltip,
   LPopup,
   LPolyline,
@@ -153,6 +158,7 @@ export default {
     LControlLayers,
     LControlScale,
     LControlZoom,
+    LControl,
     LTooltip,
     LPopup,
     LPolyline,
@@ -200,3 +206,12 @@ export default {
   },
 };
 </script>
+
+<style>
+.leaflet-demo-control {
+  background: white;
+  border: 1px solid steelblue;
+  border-radius: 0.6em;
+  padding: 0.2em;
+}
+</style>
