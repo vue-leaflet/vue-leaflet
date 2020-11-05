@@ -20,7 +20,11 @@
         ></l-tile-layer>
 
         <l-control-layers />
-        <l-control-zoom position="bottomright" />
+        <l-control-zoom
+          position="bottomright"
+          zoom-in-text="*"
+          zoom-out-text="/"
+        />
         <l-control-attribution
           position="topleft"
           :prefix="customAttributionPrefix"
