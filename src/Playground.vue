@@ -20,8 +20,12 @@
         ></l-tile-layer>
 
         <l-control-layers />
-        <l-control-scale position="bottomleft" />
         <l-control-zoom position="bottomright" />
+        <l-control-attribution
+          position="topleft"
+          :prefix="customAttributionPrefix"
+        />
+        <l-control-scale position="bottomleft" />
 
         <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
           <l-tooltip>
@@ -92,6 +96,8 @@
         ></l-polyline>
       </l-map>
       <button @click="changeIcon">New kitten icon</button>
+      <label for="attributionPrefix">Attribution prefix:</label>
+      <input name="attributionPrefix" v-model="customAttributionPrefix" />
     </div>
     <div style="height: 75vh; width: 50vw;">
       <l-map
@@ -121,6 +127,7 @@ import {
   LIcon,
   LTileLayer,
   LMarker,
+  LControlAttribution,
   LControlLayers,
   LControlScale,
   LControlZoom,
@@ -138,6 +145,7 @@ export default {
     LIcon,
     LTileLayer,
     LMarker,
+    LControlAttribution,
     LControlLayers,
     LControlScale,
     LControlZoom,
@@ -164,6 +172,7 @@ export default {
           attribution: "Weather data © 2012 IEM Nexrad",
         },
       ],
+      customAttributionPrefix: "lol",
     };
   },
   computed: {
