@@ -1,3 +1,4 @@
+export { default as LControlAttribution } from "./LControlAttribution.vue";
 export { default as LControlLayers } from "./LControlLayers.vue";
 export { default as LControlScale } from "./LControlScale.vue";
 export { default as LControlZoom } from "./LControlZoom.vue";
