@@ -275,9 +275,12 @@ export default {
         },
 
         setZoom(newVal) {
-          blueprint.leafletRef.setZoom(newVal, {
-            animate: props.noBlockingAnimations ? false : null,
-          });
+          const zoom = blueprint.leafletRef.getZoom();
+          if (newVal !== zoom) {
+            blueprint.leafletRef.setZoom(newVal, {
+              animate: props.noBlockingAnimations ? false : null,
+            });
+          }
         },
 
         setPaddingBottomRight(newVal) {
@@ -331,6 +334,7 @@ export default {
             oldCenter.lng !== newCenter.lng
           ) {
             blueprint.lastSetCenter = newCenter;
+            console.log("setCenter");
             blueprint.leafletRef.panTo(newCenter, {
               animate: this.noBlockingAnimations ? false : null,
             });
