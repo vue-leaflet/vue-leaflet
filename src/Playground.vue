@@ -104,6 +104,8 @@
         ></l-polyline>
 
         <l-circle-marker :lat-lng="[35.865, 12.865]" :radius="10" />
+
+        <l-circle :lat-lng="[35.865, 12.865]" :radius="10000" color="green" />
       </l-map>
       <button @click="changeIcon">New kitten icon</button>
       <label for="attributionPrefix">Attribution prefix:</label>
@@ -137,6 +139,7 @@ import {
   LIcon,
   LTileLayer,
   LMarker,
+  LCircle,
   LCircleMarker,
   LControlAttribution,
   LControlLayers,
@@ -157,6 +160,7 @@ export default {
     LIcon,
     LTileLayer,
     LMarker,
+    LCircle,
     LCircleMarker,
     LControlAttribution,
     LControlLayers,
