@@ -1,7 +1,7 @@
 <script>
 import { onMounted, ref, inject } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
-import { props, setup as layerGroup } from "../functions/layerGroup";
+import { props, setup as layerGroupSetup } from "../functions/layerGroup";
 import { render } from "../functions/layer";
 
 export default {
@@ -12,7 +12,7 @@ export default {
 
     const addLayer = inject("addLayer");
 
-    const { methods } = layerGroup(props, leafletRef);
+    const { methods } = layerGroupSetup(props, leafletRef);
 
     onMounted(async () => {
       const { layerGroup, DomEvent, setOptions } = await import(

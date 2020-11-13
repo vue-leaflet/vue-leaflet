@@ -334,7 +334,6 @@ export default {
             oldCenter.lng !== newCenter.lng
           ) {
             blueprint.lastSetCenter = newCenter;
-            console.log("setCenter");
             blueprint.leafletRef.panTo(newCenter, {
               animate: this.noBlockingAnimations ? false : null,
             });
