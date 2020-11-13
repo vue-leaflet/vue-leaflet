@@ -1,23 +1,25 @@
 <script>
 import { onMounted, ref, inject } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
-import { props, setup as wmsLayerSetup } from "../functions/wmsTileLayer";
+import { props, setup as geoJSONSetup } from "../functions/geoJSON";
+import { render } from "../functions/layer";
 
 export default {
   props,
   setup(props, context) {
     const leafletRef = ref({});
+    const ready = ref(false);
 
     const addLayer = inject("addLayer");
 
-    const { options, methods } = wmsLayerSetup(props, leafletRef);
+    const { methods, options } = geoJSONSetup(props, leafletRef);
 
     onMounted(async () => {
-      const { tileLayer, DomEvent, setOptions } = await import(
+      const { geoJSON, DomEvent, setOptions } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
-      leafletRef.value = tileLayer.wms(props.baseUrl, options);
+      leafletRef.value = geoJSON(props.geojson, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
@@ -28,10 +30,9 @@ export default {
         ...methods,
         leafletObject: leafletRef.value,
       });
+      ready.value = true;
     });
-  },
-  render() {
-    return null;
+    return render(ready, context);
   },
 };
 </script>

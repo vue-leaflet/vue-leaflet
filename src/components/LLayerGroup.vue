@@ -1,23 +1,24 @@
 <script>
 import { onMounted, ref, inject } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
-import { props, setup as wmsLayerSetup } from "../functions/wmsTileLayer";
+import { props, setup as layerGroupSetup } from "../functions/layerGroup";
+import { render } from "../functions/layer";
 
 export default {
   props,
   setup(props, context) {
     const leafletRef = ref({});
+    const ready = ref(false);
 
     const addLayer = inject("addLayer");
 
-    const { options, methods } = wmsLayerSetup(props, leafletRef);
+    const { methods } = layerGroupSetup(props, leafletRef);
 
     onMounted(async () => {
-      const { tileLayer, DomEvent, setOptions } = await import(
+      const { layerGroup, DomEvent, setOptions } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
-
-      leafletRef.value = tileLayer.wms(props.baseUrl, options);
+      leafletRef.value = layerGroup();
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
@@ -28,10 +29,9 @@ export default {
         ...methods,
         leafletObject: leafletRef.value,
       });
+      ready.value = true;
     });
-  },
-  render() {
-    return null;
+    return render(ready, context);
   },
 };
 </script>
