@@ -13,3 +13,5 @@ export { default as LPopup } from "./LPopup.vue";
 export { default as LPolygon } from "./LPolygon.vue";
 export { default as LRectangle } from "./LRectangle.vue";
 export { default as LWmsTileLayer } from "./LWmsTileLayer.vue";
+export { default as LLayerGroup } from "./LLayerGroup.vue";
+export { default as LGeoJson } from "./LGeoJson.vue";

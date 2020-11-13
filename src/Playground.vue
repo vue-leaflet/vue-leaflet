@@ -20,6 +20,7 @@
         ></l-tile-layer>
 
         <l-control-layers />
+
         <l-control-zoom
           position="bottomright"
           zoom-in-text="*"
@@ -41,9 +42,17 @@
           </l-tooltip>
         </l-marker>
 
-        <l-marker :lat-lng="[47.41322, -1.219482]">
-          <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
-        </l-marker>
+        <l-layer-group>
+          <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
+            <l-tooltip>
+              lol
+            </l-tooltip>
+          </l-marker>
+
+          <l-marker :lat-lng="[47.41322, -1.219482]">
+            <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
+          </l-marker>
+        </l-layer-group>
 
         <l-marker :lat-lng="[50, 50]" draggable @moveend="log('moveend')">
           <l-popup>
@@ -59,7 +68,8 @@
             [47.234787, -1.358337],
           ]"
           color="green"
-        ></l-polyline>
+        />
+
         <l-polygon
           :lat-lngs="[
             [46.334852, -1.509485],
@@ -102,6 +112,7 @@
           ]"
           color="green"
         ></l-polyline>
+        <l-geo-json :geojson="geojson"></l-geo-json>
       </l-map>
       <button @click="changeIcon">New kitten icon</button>
       <label for="attributionPrefix">Attribution prefix:</label>
@@ -146,6 +157,8 @@ import {
   LPolygon,
   LRectangle,
   LWmsTileLayer,
+  LGeoJson,
+  LLayerGroup,
 } from "./components";
 
 export default {
@@ -165,12 +178,15 @@ export default {
     LPolygon,
     LRectangle,
     LWmsTileLayer,
+    LLayerGroup,
+    LGeoJson,
   },
   data() {
     return {
       zoom: 2,
       iconWidth: 25,
       iconHeight: 40,
+      geojson: null,
       baseUrl: "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
       wmsLayers: [
         {
@@ -192,6 +208,12 @@ export default {
     iconSize() {
       return [this.iconWidth, this.iconHeight];
     },
+  },
+  async created() {
+    const response = await fetch(
+      "https://rawgit.com/gregoiredavid/france-geojson/master/regions/pays-de-la-loire/communes-pays-de-la-loire.geojson"
+    );
+    this.geojson = await response.json();
   },
   methods: {
     log(a) {
