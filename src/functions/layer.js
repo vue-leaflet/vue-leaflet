@@ -34,29 +34,33 @@ export const setup = (props, leafletRef, context) => {
     pane: props.pane,
   };
 
+  const addThisLayer = () => addLayer({ leafletObject: leafletRef.value });
+  const removeThisLayer = () =>
+    removeLayer({ leafletObject: leafletRef.value });
+
   const methods = {
     setAttribution(val, old) {
       const attributionControl = this.$parent.leafletObject.attributionControl;
       attributionControl.removeAttribution(old).addAttribution(val);
     },
     setName() {
-      removeLayer(leafletRef.value);
+      removeThisLayer();
       if (props.visible) {
-        addLayer(leafletRef.value);
+        addThisLayer();
       }
     },
     setLayerType() {
-      removeLayer(leafletRef.value);
+      removeThisLayer();
       if (props.visible) {
-        addLayer(leafletRef.value);
+        addThisLayer();
       }
     },
     setVisible(isVisible) {
       if (leafletRef.value) {
         if (isVisible) {
-          addLayer(leafletRef.value);
+          addThisLayer();
         } else {
-          removeLayer(leafletRef.value);
+          removeThisLayer();
         }
       }
     },
@@ -96,7 +100,7 @@ export const setup = (props, leafletRef, context) => {
   onUnmounted(() => {
     methods.unbindPopup();
     methods.unbindTooltip();
-    removeLayer({ leafletObject: leafletRef.value });
+    removeThisLayer();
   });
 
   return { options, methods };
