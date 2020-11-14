@@ -46,7 +46,7 @@
     "prettier": "^2.0.5",
     "rollup": "^2.8.0",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-vue": "^6.0.0-alpha.8",
+    "rollup-plugin-vue": "^6.0.0-beta.11",
     "vitepress": "^0.6.0",
     "vue": "^3.0.0"
   },
