@@ -1,12 +1,12 @@
 <script>
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref, inject, nextTick } from "vue";
 import { props, setup as scaleControlSetup } from "../functions/controlScale";
 import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControlScale",
   props,
-  setup(props) {
+  setup(props, context) {
     const leafletRef = ref({});
 
     const registerControl = inject("registerControl");
@@ -19,6 +19,7 @@ export default {
       leafletRef.value = control.scale(options);
       propsBinder(methods, leafletRef.value, props, setOptions);
       registerControl({ leafletObject: leafletRef.value });
+      nextTick(() => context.emit("ready", leafletRef.value));
     });
   },
   render() {

@@ -1,12 +1,12 @@
 <script>
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref, inject, nextTick } from "vue";
 import { props, setup as layerControlSetup } from "../functions/controlLayers";
 import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControlLayers",
   props,
-  setup(props) {
+  setup(props, context) {
     const leafletRef = ref({});
 
     const registerLayerControl = inject("registerLayerControl");
@@ -24,6 +24,7 @@ export default {
         ...methods,
         leafletObject: leafletRef.value,
       });
+      nextTick(() => context.emit("ready", leafletRef.value));
     });
   },
   render() {

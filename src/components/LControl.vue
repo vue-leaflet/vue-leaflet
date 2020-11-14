@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref, inject, nextTick } from "vue";
 import { props, setup as controlSetup, render } from "../functions/control";
 import { propsBinder } from "../utils.js";
 
@@ -45,9 +45,12 @@ export default {
       if (props.disableScrollPropagation) {
         DomEvent.disableScrollPropagation(root.value);
       }
+      nextTick(() => context.emit("ready", leafletRef.value));
     });
-
-    return render(context, root);
+    return { root, leafletObject: leafletRef };
+  },
+  render() {
+    return render(this.$slots);
   },
 };
 </script>

@@ -1,9 +1,3 @@
-<template>
-  <div style="width: 100%; height: 100%;" ref="root">
-    <slot v-if="ready"></slot>
-  </div>
-</template>
-
 <script>
 import {
   onMounted,
@@ -12,6 +6,7 @@ import {
   reactive,
   ref,
   nextTick,
+  h,
 } from "vue";
 import {
   remapEvents,
@@ -362,7 +357,7 @@ export default {
       );
       DomEvent.on(blueprint.leafletRef, listeners);
       blueprint.ready = true;
-      nextTick(() => context.emit("ready"));
+      nextTick(() => context.emit("ready", blueprint.leafletRef));
     });
 
     onBeforeUnmount(() => {
@@ -374,6 +369,13 @@ export default {
     const leafletObject = computed(() => blueprint.leafletRef);
     const ready = computed(() => blueprint.ready);
     return { root, ready, leafletObject };
+  },
+  render() {
+    return h(
+      "div",
+      { style: { width: "100%", height: "100%" }, ref: "root" },
+      this.ready ? this.$slots.default() : {}
+    );
   },
 };
 </script>

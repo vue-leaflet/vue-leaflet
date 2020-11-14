@@ -29,9 +29,9 @@ export const setup = (props, leafletRef) => {
   return { options, methods };
 };
 
-export const render = (context, root) => () => {
-  if (context.slots.default) {
-    return h("div", { ref: root }, context.slots.default());
+export const render = (slots) => {
+  if (slots.default) {
+    return h("div", { ref: "root" }, slots.default());
   }
   return null;
 };
