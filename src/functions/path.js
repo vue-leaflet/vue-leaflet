@@ -150,7 +150,7 @@ export const setup = (props, leafletRef, context) => {
   };
 
   onBeforeUnmount(() => {
-    removeLayer();
+    removeLayer({ leafletObject: leafletRef.value });
   });
 
   return { options, methods };
