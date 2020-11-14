@@ -1,4 +1,3 @@
-import { inject } from "vue";
 import { props as layerProps, setup as layerSetup } from "../functions/layer";
 
 export const props = {
@@ -38,7 +37,6 @@ export const setup = (props, leafletRef, context) => {
     ...layerOptions,
     ...props,
   };
-  const latLng = inject("latLng");
 
   const methods = {
     ...layerMethods,
@@ -60,12 +58,8 @@ export const setup = (props, leafletRef, context) => {
 
       if (leafletRef.value) {
         const oldLatLng = leafletRef.value.getLatLng();
-        const newLatLng = latLng(newVal);
-        if (
-          newLatLng.lat !== oldLatLng.lat ||
-          newLatLng.lng !== oldLatLng.lng
-        ) {
-          leafletRef.value.setLatLng(newLatLng);
+        if (!oldLatLng || !oldLatLng.equals(newVal)) {
+          leafletRef.value.setLatLng(newVal);
         }
       }
     },

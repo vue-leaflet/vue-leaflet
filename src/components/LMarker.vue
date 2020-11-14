@@ -1,12 +1,6 @@
 <script>
 import { onMounted, ref, provide, inject } from "vue";
-import {
-  remapEvents,
-  propsBinder,
-  debounce,
-  provideLeafletWrapper,
-  updateLeafletWrapper,
-} from "../utils.js";
+import { remapEvents, propsBinder, debounce } from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
 import { render } from "../functions/layer";
 
@@ -22,7 +16,6 @@ export default {
 
     const addLayer = inject("addLayer");
 
-    const latLng = provideLeafletWrapper("latLng");
     provide("canSetParentHtml", () => !!leafletRef.value.getElement());
     provide(
       "setParentHtml",
@@ -35,13 +28,9 @@ export default {
     const { options, methods } = markerSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const {
-        marker,
-        DomEvent,
-        latLng: leafletLatLng,
-        setOptions,
-      } = await import("leaflet/dist/leaflet-src.esm");
-      updateLeafletWrapper(latLng, leafletLatLng);
+      const { marker, DomEvent, setOptions } = await import(
+        "leaflet/dist/leaflet-src.esm"
+      );
 
       leafletRef.value = marker(props.latLng, options);
 
