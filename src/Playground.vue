@@ -167,7 +167,6 @@ import {
   LGeoJson,
   LLayerGroup,
 } from "./components";
-// } from "../dist/vue-leaflet.esm";
 
 export default {
   components: {

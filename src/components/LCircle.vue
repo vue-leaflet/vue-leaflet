@@ -38,7 +38,7 @@ export default {
       ready.value = true;
       nextTick(() => context.emit("ready", leafletRef.value));
     });
-    return { ready: ready, leafletObject: leafletRef };
+    return { ready, leafletObject: leafletRef };
   },
   render() {
     return render(this.ready, this.$slots);
