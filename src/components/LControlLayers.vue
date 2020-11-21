@@ -1,11 +1,20 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { props, setup as layerControlSetup } from "../functions/controlLayers";
+import {
+  props as layerControlProps,
+  setup as layerControlSetup,
+} from "../functions/controlLayers";
 import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControlLayers",
-  props,
+  props: {
+    ...layerControlProps,
+    options: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   setup(props, context) {
     const leafletRef = ref({});
 

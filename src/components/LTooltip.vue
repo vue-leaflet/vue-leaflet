@@ -1,7 +1,10 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { propsBinder, remapEvents } from "../utils.js";
-import { setup as tooltipSetup, props } from "../functions/tooltip";
+import {
+  props as tooltipProps,
+  setup as tooltipSetup,
+} from "../functions/tooltip";
 import { render } from "../functions/popper";
 
 /**
@@ -9,7 +12,13 @@ import { render } from "../functions/popper";
  */
 export default {
   name: "LTooltip",
-  props,
+  props: {
+    ...tooltipProps,
+    options: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   setup(props, context) {
     const leafletRef = ref({});
     const root = ref(null);

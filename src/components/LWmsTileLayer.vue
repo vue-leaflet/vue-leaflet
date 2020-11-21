@@ -1,10 +1,19 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
-import { props, setup as wmsLayerSetup } from "../functions/wmsTileLayer";
+import {
+  props as wmsLayerProps,
+  setup as wmsLayerSetup,
+} from "../functions/wmsTileLayer";
 
 export default {
-  props,
+  props: {
+    ...wmsLayerProps,
+    options: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   setup(props, context) {
     const leafletRef = ref({});
 

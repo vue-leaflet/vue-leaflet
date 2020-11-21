@@ -1,11 +1,20 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
-import { props, setup as geoJSONSetup } from "../functions/geoJSON";
+import {
+  props as geoJSONProps,
+  setup as geoJSONSetup,
+} from "../functions/geoJSON";
 import { render } from "../functions/layer";
 
 export default {
-  props,
+  props: {
+    ...geoJSONProps,
+    options: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);

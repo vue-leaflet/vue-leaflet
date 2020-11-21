@@ -136,6 +136,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    options: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   setup(props, context) {
     const root = ref(null);

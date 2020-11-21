@@ -1,7 +1,10 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
-import { props, setup as circleSetup } from "../functions/circle";
+import {
+  props as circleProps,
+  setup as circleSetup,
+} from "../functions/circle";
 import { render } from "../functions/layer";
 
 /**
@@ -9,7 +12,13 @@ import { render } from "../functions/layer";
  */
 export default {
   name: "LCircle",
-  props,
+  props: {
+    ...circleProps,
+    options: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);

@@ -1,7 +1,10 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
-import { props, setup as polylineSetup } from "../functions/polyline";
+import {
+  props as polylineProps,
+  setup as polylineSetup,
+} from "../functions/polyline";
 import { render } from "../functions/layer";
 
 /**
@@ -9,7 +12,13 @@ import { render } from "../functions/layer";
  */
 export default {
   name: "LPolyline",
-  props,
+  props: {
+    ...polylineProps,
+    options: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);
