@@ -30,6 +30,7 @@ export default {
       });
       nextTick(() => context.emit("ready", leafletRef.value));
     });
+    return { leafletObject: leafletRef.value };
   },
   render() {
     return null;

@@ -24,6 +24,7 @@ export default {
       registerControl({ leafletObject: leafletRef.value });
       nextTick(() => context.emit("ready", leafletRef.value));
     });
+    return { leafletObject: leafletRef.value };
   },
   render() {
     return null;
