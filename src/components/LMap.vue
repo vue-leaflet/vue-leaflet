@@ -213,7 +213,7 @@ export default {
         DomEvent,
         setOptions,
       } = await import("leaflet/dist/leaflet-src.esm");
-      resetWebpackIcon(Icon);
+      await resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
 
       const methods = {
