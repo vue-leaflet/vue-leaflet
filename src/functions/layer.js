@@ -106,9 +106,8 @@ export const setup = (props, leafletRef, context) => {
   return { options, methods };
 };
 
-export const render = (ready, context) => () => {
-  if (ready.value && context.slots.default) {
-    return h("div", { style: { display: "none" } }, context.slots.default());
+export const render = (ready, slots) => {
+  if (ready && slots.default) {
+    return h("div", { style: { display: "none" } }, slots.default());
   }
-  return null;
 };

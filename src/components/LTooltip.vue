@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref, inject, nextTick } from "vue";
 import { propsBinder, remapEvents } from "../utils.js";
 import { setup as tooltipSetup, props } from "../functions/tooltip";
 import { render } from "../functions/popper";
@@ -29,8 +29,12 @@ export default {
       DomEvent.on(leafletRef.value, listeners);
       leafletRef.value.setContent(props.content || root.value);
       bindTooltip({ leafletObject: leafletRef.value });
+      nextTick(() => context.emit("ready", leafletRef.value));
     });
-    return render(root, context);
+    return { root, leafletObject: leafletRef };
+  },
+  render() {
+    return render(this.$slots);
   },
 };
 </script>

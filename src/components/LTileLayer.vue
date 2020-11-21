@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref, inject, nextTick } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
 import { props, setup as tileLayerSetup } from "../functions/tileLayer";
 
@@ -27,7 +27,10 @@ export default {
         ...methods,
         leafletObject: leafletRef.value,
       });
+      nextTick(() => context.emit("ready", leafletRef.value));
     });
+
+    return { leafletObject: leafletRef };
   },
   render() {
     return null;

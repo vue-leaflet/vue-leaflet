@@ -2,10 +2,12 @@
   <div style="display: flex;">
     <div style="height: 75vh; width: 50vw;">
       <l-map
+        ref="map"
         v-model="zoom"
         v-model:zoom="zoom"
         :center="[47.41322, -1.219482]"
         @move="log('move')"
+        @ready="onMapReady"
       >
         <l-tile-layer
           url="http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
@@ -231,6 +233,9 @@ export default {
       if (this.iconWidth > this.iconHeight) {
         this.iconWidth = Math.floor(this.iconHeight / 2);
       }
+    },
+    onMapReady() {
+      this.log(this.$refs.map);
     },
   },
 };

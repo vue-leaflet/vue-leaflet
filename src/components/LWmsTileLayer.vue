@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref, inject, nextTick } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
 import { props, setup as wmsLayerSetup } from "../functions/wmsTileLayer";
 
@@ -28,7 +28,9 @@ export default {
         ...methods,
         leafletObject: leafletRef.value,
       });
+      nextTick(() => context.emit("ready", leafletRef.value));
     });
+    return { leafletObject: leafletRef.value };
   },
   render() {
     return null;

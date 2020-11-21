@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref, inject, nextTick } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
 import { props, setup as rectangleSetup } from "../functions/rectangle";
 import { render } from "../functions/layer";
@@ -39,9 +39,13 @@ export default {
         leafletObject: leafletRef.value,
       });
       ready.value = true;
+      nextTick(() => context.emit("ready", leafletRef.value));
     });
 
-    return render(ready, context);
+    return { ready, leafletObject: leafletRef };
+  },
+  render() {
+    return render(this.ready, this.$slots);
   },
 };
 </script>
