@@ -22,7 +22,7 @@ export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const propsBinder = (methods, leafletElement, props, setOptions) => {
+export const propsBinder = (methods, leafletElement, props) => {
   for (const key in props) {
     const setMethodName = "set" + capitalizeFirstLetter(key);
     if (methods[setMethodName]) {
@@ -30,13 +30,6 @@ export const propsBinder = (methods, leafletElement, props, setOptions) => {
         () => props[key],
         (newVal, oldVal) => {
           methods[setMethodName](newVal, oldVal);
-        }
-      );
-    } else if (setMethodName === "setOptions") {
-      watch(
-        () => props[key],
-        (newVal) => {
-          setOptions(leafletElement, newVal);
         }
       );
     } else if (leafletElement[setMethodName]) {
@@ -103,3 +96,7 @@ export const provideLeafletWrapper = (methodName) => {
  */
 export const updateLeafletWrapper = (wrapper, leafletMethod) =>
   (wrapper.wrapped.value = leafletMethod);
+
+export const optionsMerger = (options, props) => {
+  return { ...options, ...props.options, options: undefined };
+};
