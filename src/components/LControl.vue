@@ -5,7 +5,7 @@ import {
   setup as controlSetup,
   render,
 } from "../functions/control";
-import { propsBinder } from "../utils.js";
+import { propsBinder, optionsMerger } from "../utils.js";
 
 export default {
   name: "LControl",
@@ -33,7 +33,7 @@ export default {
     const registerControl = inject("registerControl");
     const { options, methods } = controlSetup(props, leafletRef);
     onMounted(async () => {
-      const { Control, setOptions, DomEvent } = await import(
+      const { Control, DomEvent } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
@@ -43,8 +43,8 @@ export default {
         },
       });
 
-      leafletRef.value = new LControl(options);
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      leafletRef.value = new LControl(optionsMerger(options, props));
+      propsBinder(methods, leafletRef.value, props);
       registerControl({ leafletObject: leafletRef.value });
 
       if (props.disableClickPropagation) {

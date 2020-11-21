@@ -4,7 +4,7 @@ import {
   props as zoomControlProps,
   setup as zoomControlSetup,
 } from "../functions/controlZoom";
-import { propsBinder } from "../utils.js";
+import { propsBinder, optionsMerger } from "../utils.js";
 
 export default {
   name: "LControlZoom",
@@ -21,12 +21,10 @@ export default {
     const registerControl = inject("registerControl");
     const { options, methods } = zoomControlSetup(props, leafletRef);
     onMounted(async () => {
-      const { control, setOptions } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { control } = await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = control.zoom(options);
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      leafletRef.value = control.zoom(optionsMerger(options, props));
+      propsBinder(methods, leafletRef.value, props);
       registerControl({ leafletObject: leafletRef.value });
       nextTick(() => context.emit("ready", leafletRef.value));
     });

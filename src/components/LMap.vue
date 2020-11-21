@@ -15,6 +15,7 @@ import {
   resetWebpackIcon,
   provideLeafletWrapper,
   updateLeafletWrapper,
+  optionsMerger,
 } from "../utils.js";
 
 export default {
@@ -208,15 +209,9 @@ export default {
     };
 
     onMounted(async () => {
-      const {
-        map,
-        CRS,
-        Icon,
-        latLngBounds,
-        latLng,
-        DomEvent,
-        setOptions,
-      } = await import("leaflet/dist/leaflet-src.esm");
+      const { map, CRS, Icon, latLngBounds, latLng, DomEvent } = await import(
+        "leaflet/dist/leaflet-src.esm"
+      );
       resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
 
@@ -345,9 +340,9 @@ export default {
       updateLeafletWrapper(registerControl, methods.registerControl);
       updateLeafletWrapper(registerLayerControl, methods.registerLayerControl);
 
-      blueprint.leafletRef = map(root.value, options);
+      blueprint.leafletRef = map(root.value, optionsMerger(options, props));
 
-      propsBinder(methods, blueprint.leafletRef, props, setOptions);
+      propsBinder(methods, blueprint.leafletRef, props);
       const listeners = remapEvents(context.attrs);
 
       blueprint.leafletRef.on(

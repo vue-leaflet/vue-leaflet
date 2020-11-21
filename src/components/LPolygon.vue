@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder } from "../utils.js";
+import { remapEvents, propsBinder, optionsMerger } from "../utils.js";
 import {
   props as polygonProps,
   setup as polygonSetup,
@@ -27,16 +27,16 @@ export default {
     const { options, methods } = polygonSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { polygon, DomEvent, setOptions } = await import(
+      const { polygon, DomEvent } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
-      leafletRef.value = polygon(props.latLngs, options);
+      leafletRef.value = polygon(props.latLngs, optionsMerger(options, props));
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
 
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props);
 
       addLayer({
         ...props,
