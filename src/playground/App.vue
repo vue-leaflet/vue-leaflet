@@ -34,7 +34,7 @@ export default {
   background-color: lightgray;
 }
 .map-wrapper {
-  height: 50vh;
+  height: 75vh;
   width: 100%;
 }
 </style>
