@@ -212,7 +212,7 @@ export default {
       const { map, CRS, Icon, latLngBounds, latLng, DomEvent } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
-      resetWebpackIcon(Icon);
+      await resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
 
       const methods = {
