@@ -1,14 +1,18 @@
 <script>
 import { onMounted, ref, inject, nextTick, h } from "vue";
 import { propsBinder, remapEvents } from "../utils";
-import { props } from "../functions/icon";
+import { props as iconProps } from "../functions/icon";
+import { props as componentProps, optionsMerger } from "../functions/component";
 
 /**
  * Icon component, lets you add and custom icons to the map
  */
 export default {
   name: "LIcon",
-  props,
+  props: {
+    ...iconProps,
+    ...componentProps,
+  },
   setup(props, context) {
     const root = ref(null);
 
@@ -44,7 +48,8 @@ export default {
         options.html = elHtml;
       }
 
-      iconObject = options.html ? divIcon(options) : icon(options);
+      const mergedOptions = optionsMerger(options, props);
+      iconObject = options.html ? divIcon(mergedOptions) : icon(mergedOptions);
       onDomEvent(iconObject, listeners);
       setIcon(iconObject);
     };
