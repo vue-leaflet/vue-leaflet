@@ -65,13 +65,19 @@ export const remapEvents = (contextAttrs) => {
   return result;
 };
 
-export const resetWebpackIcon = (Icon) => {
+export const resetWebpackIcon = async (Icon) => {
+  const modules = await Promise.all([
+    import("leaflet/dist/images/marker-icon-2x.png"),
+    import("leaflet/dist/images/marker-icon.png"),
+    import("leaflet/dist/images/marker-shadow.png"),
+  ]);
+
   delete Icon.Default.prototype._getIconUrl;
 
   Icon.Default.mergeOptions({
-    iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-    iconUrl: require("leaflet/dist/images/marker-icon.png"),
-    shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+    iconRetinaUrl: modules[0].default,
+    iconUrl: modules[1].default,
+    shadowUrl: modules[2].default,
   });
 };
 
