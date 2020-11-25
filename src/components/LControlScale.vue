@@ -1,20 +1,11 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import {
-  props as controlScaleProps,
-  setup as scaleControlSetup,
-} from "../functions/controlScale";
+import { props, setup as scaleControlSetup } from "../functions/controlScale";
 import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControlScale",
-  props: {
-    ...controlScaleProps,
-    options: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  props,
   setup(props, context) {
     const leafletRef = ref({});
 

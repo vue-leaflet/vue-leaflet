@@ -1,20 +1,14 @@
 <script>
 import { onMounted, ref, inject, nextTick, h } from "vue";
 import { propsBinder, remapEvents } from "../utils";
-import { props as iconProps } from "../functions/icon";
+import { props } from "../functions/icon";
 
 /**
  * Icon component, lets you add and custom icons to the map
  */
 export default {
   name: "LIcon",
-  props: {
-    ...iconProps,
-    options: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  props,
   setup(props, context) {
     const root = ref(null);
 

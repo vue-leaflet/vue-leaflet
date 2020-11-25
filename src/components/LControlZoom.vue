@@ -1,20 +1,11 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import {
-  props as zoomControlProps,
-  setup as zoomControlSetup,
-} from "../functions/controlZoom";
+import { props, setup as zoomControlSetup } from "../functions/controlZoom";
 import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControlZoom",
-  props: {
-    ...zoomControlProps,
-    options: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  props,
   setup(props, context) {
     const leafletRef = ref({});
 

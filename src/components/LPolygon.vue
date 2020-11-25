@@ -1,10 +1,7 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
-import {
-  props as polygonProps,
-  setup as polygonSetup,
-} from "../functions/polygon";
+import { props, setup as polygonSetup } from "../functions/polygon";
 import { render } from "../functions/layer";
 
 /**
@@ -12,13 +9,7 @@ import { render } from "../functions/layer";
  */
 export default {
   name: "LPolygon",
-  props: {
-    ...polygonProps,
-    options: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  props,
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);

@@ -1,20 +1,14 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import {
-  props as attributionControlProps,
+  props,
   setup as attributionControlSetup,
 } from "../functions/controlAttribution";
 import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControlAttribution",
-  props: {
-    ...attributionControlProps,
-    options: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  props,
   setup(props, context) {
     const leafletRef = ref({});
 

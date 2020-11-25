@@ -1,7 +1,7 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { propsBinder, remapEvents } from "../utils.js";
-import { props as popupProps, setup as popupSetup } from "../functions/popup";
+import { props, setup as popupSetup } from "../functions/popup";
 import { render } from "../functions/popper";
 
 /**
@@ -9,13 +9,7 @@ import { render } from "../functions/popper";
  */
 export default {
   name: "LPopup",
-  props: {
-    ...popupProps,
-    options: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  props,
   setup(props, context) {
     const leafletRef = ref({});
     const root = ref(null);

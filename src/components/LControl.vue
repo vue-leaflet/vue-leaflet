@@ -21,10 +21,6 @@ export default {
       custom: true,
       default: false,
     },
-    options: {
-      type: Object,
-      default: () => ({}),
-    },
   },
   setup(props, context) {
     const leafletRef = ref({});

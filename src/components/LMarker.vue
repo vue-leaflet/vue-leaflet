@@ -1,10 +1,7 @@
 <script>
 import { onMounted, ref, provide, inject, nextTick } from "vue";
 import { remapEvents, propsBinder, debounce } from "../utils.js";
-import {
-  props as markerProps,
-  setup as markerSetup,
-} from "../functions/marker";
+import { props, setup as markerSetup } from "../functions/marker";
 import { render } from "../functions/layer";
 
 /**
@@ -12,13 +9,7 @@ import { render } from "../functions/layer";
  */
 export default {
   name: "LMarker",
-  props: {
-    ...markerProps,
-    options: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  props,
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);

@@ -1,20 +1,11 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
-import {
-  props as layerGroupOptions,
-  setup as layerGroupSetup,
-} from "../functions/layerGroup";
+import { props, setup as layerGroupSetup } from "../functions/layerGroup";
 import { render } from "../functions/layer";
 
 export default {
-  props: {
-    ...layerGroupOptions,
-    options: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  props,
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);

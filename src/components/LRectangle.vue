@@ -1,10 +1,7 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { remapEvents, propsBinder } from "../utils.js";
-import {
-  props as rectangleProps,
-  setup as rectangleSetup,
-} from "../functions/rectangle";
+import { props, setup as rectangleSetup } from "../functions/rectangle";
 import { render } from "../functions/layer";
 
 /**
@@ -12,13 +9,7 @@ import { render } from "../functions/layer";
  */
 export default {
   name: "LRectangle",
-  props: {
-    ...rectangleProps,
-    options: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  props,
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);
