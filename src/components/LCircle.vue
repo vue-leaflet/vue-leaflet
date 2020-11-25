@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, optionsMerger } from "../utils.js";
+import { remapEvents, propsBinder } from "../utils.js";
 import {
   props as circleProps,
   setup as circleSetup,
@@ -30,7 +30,7 @@ export default {
     onMounted(async () => {
       const { circle, DomEvent } = await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = circle(props.latLng, optionsMerger(options, props));
+      leafletRef.value = circle(props.latLng, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

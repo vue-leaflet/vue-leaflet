@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, optionsMerger } from "../utils.js";
+import { remapEvents, propsBinder } from "../utils.js";
 import {
   props as wmsLayerProps,
   setup as wmsLayerSetup,
@@ -26,10 +26,7 @@ export default {
         "leaflet/dist/leaflet-src.esm"
       );
 
-      leafletRef.value = tileLayer.wms(
-        props.baseUrl,
-        optionsMerger(options, props)
-      );
+      leafletRef.value = tileLayer.wms(props.baseUrl, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

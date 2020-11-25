@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, optionsMerger } from "../utils.js";
+import { remapEvents, propsBinder } from "../utils.js";
 import {
   props as rectangleProps,
   setup as rectangleSetup,
@@ -35,7 +35,7 @@ export default {
         props.bounds && props.bounds.length
           ? latLngBounds(props.bounds)
           : latLngBounds(props.latLngs);
-      leafletRef.value = rectangle(bounds, optionsMerger(options, props));
+      leafletRef.value = rectangle(bounds, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

@@ -1,6 +1,8 @@
 import { h } from "vue";
+import { props as componentProps, optionsMerger } from "./component";
 
 export const props = {
+  ...componentProps,
   content: {
     type: String,
     default: null,
@@ -8,7 +10,7 @@ export const props = {
 };
 
 export const setup = (props, leafletRef) => {
-  const options = {};
+  const options = optionsMerger({}, props);
   const methods = {
     setContent(newVal) {
       if (leafletRef.value && newVal !== null && newVal !== undefined) {

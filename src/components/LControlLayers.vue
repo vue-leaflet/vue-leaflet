@@ -4,7 +4,7 @@ import {
   props as layerControlProps,
   setup as layerControlSetup,
 } from "../functions/controlLayers";
-import { propsBinder, optionsMerger } from "../utils.js";
+import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControlLayers",
@@ -23,11 +23,8 @@ export default {
     onMounted(async () => {
       const { control } = await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = control.layers(
-        null,
-        null,
-        optionsMerger(options, props)
-      );
+      leafletRef.value = control.layers(null, null, options);
+
       propsBinder(methods, leafletRef.value, props);
 
       registerLayerControl({

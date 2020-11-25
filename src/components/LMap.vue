@@ -15,11 +15,12 @@ import {
   resetWebpackIcon,
   provideLeafletWrapper,
   updateLeafletWrapper,
-  optionsMerger,
 } from "../utils.js";
+import { props as componentProps, optionsMerger } from "../functions/component";
 
 export default {
   props: {
+    ...componentProps,
     /**
      * The center of the map, supports .sync modifier
      */
@@ -151,24 +152,27 @@ export default {
       layersInControl: [],
     });
 
-    const options = {
-      minZoom: props.minZoom,
-      maxZoom: props.maxZoom,
-      maxBounds: props.maxBounds,
-      maxBoundsViscosity: props.maxBoundsViscosity,
-      worldCopyJump: props.worldCopyJump,
-      crs: props.crs,
-      center: props.center,
-      zoom: props.zoom,
-      inertia: props.inertia,
-      inertiaDeceleration: props.inertiaDeceleration,
-      inertiaMaxSpeed: props.inertiaMaxSpeed,
-      easeLinearity: props.easeLinearity,
-      zoomAnimation: props.zoomAnimation,
-      zoomAnimationThreshold: props.zoomAnimationThreshold,
-      fadeAnimation: props.fadeAnimation,
-      markerZoomAnimation: props.markerZoomAnimation,
-    };
+    const options = optionsMerger(
+      {
+        minZoom: props.minZoom,
+        maxZoom: props.maxZoom,
+        maxBounds: props.maxBounds,
+        maxBoundsViscosity: props.maxBoundsViscosity,
+        worldCopyJump: props.worldCopyJump,
+        crs: props.crs,
+        center: props.center,
+        zoom: props.zoom,
+        inertia: props.inertia,
+        inertiaDeceleration: props.inertiaDeceleration,
+        inertiaMaxSpeed: props.inertiaMaxSpeed,
+        easeLinearity: props.easeLinearity,
+        zoomAnimation: props.zoomAnimation,
+        zoomAnimationThreshold: props.zoomAnimationThreshold,
+        fadeAnimation: props.fadeAnimation,
+        markerZoomAnimation: props.markerZoomAnimation,
+      },
+      props
+    );
 
     const addLayer = provideLeafletWrapper("addLayer");
     const removeLayer = provideLeafletWrapper("removeLayer");
@@ -340,7 +344,7 @@ export default {
       updateLeafletWrapper(registerControl, methods.registerControl);
       updateLeafletWrapper(registerLayerControl, methods.registerLayerControl);
 
-      blueprint.leafletRef = map(root.value, optionsMerger(options, props));
+      blueprint.leafletRef = map(root.value, options);
 
       propsBinder(methods, blueprint.leafletRef, props);
       const listeners = remapEvents(context.attrs);

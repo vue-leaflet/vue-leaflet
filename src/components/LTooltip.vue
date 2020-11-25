@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { propsBinder, remapEvents, optionsMerger } from "../utils.js";
+import { propsBinder, remapEvents } from "../utils.js";
 import {
   props as tooltipProps,
   setup as tooltipSetup,
@@ -31,7 +31,7 @@ export default {
         "leaflet/dist/leaflet-src.esm"
       );
 
-      leafletRef.value = tooltip(optionsMerger(options, props));
+      leafletRef.value = tooltip(options);
 
       propsBinder(methods, leafletRef.value, props);
       const listeners = remapEvents(context.attrs);

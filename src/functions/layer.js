@@ -1,6 +1,8 @@
 import { onUnmounted, provide, inject, h } from "vue";
+import { props as componentProps, optionsMerger } from "./component";
 
 export const props = {
+  ...componentProps,
   pane: {
     type: String,
     default: "overlayPane",
@@ -29,10 +31,14 @@ export const props = {
 export const setup = (props, leafletRef, context) => {
   const addLayer = inject("addLayer");
   const removeLayer = inject("removeLayer");
-  const options = {
-    attribution: props.attribution,
-    pane: props.pane,
-  };
+
+  const options = optionsMerger(
+    {
+      attribution: props.attribution,
+      pane: props.pane,
+    },
+    props
+  );
 
   const addThisLayer = () => addLayer({ leafletObject: leafletRef.value });
   const removeThisLayer = () =>

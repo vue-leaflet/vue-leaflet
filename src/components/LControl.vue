@@ -5,7 +5,7 @@ import {
   setup as controlSetup,
   render,
 } from "../functions/control";
-import { propsBinder, optionsMerger } from "../utils.js";
+import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControl",
@@ -43,7 +43,7 @@ export default {
         },
       });
 
-      leafletRef.value = new LControl(optionsMerger(options, props));
+      leafletRef.value = new LControl(options);
       propsBinder(methods, leafletRef.value, props);
       registerControl({ leafletObject: leafletRef.value });
 

@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, optionsMerger } from "../utils.js";
+import { remapEvents, propsBinder } from "../utils.js";
 import {
   props as tileLayerProps,
   setup as tileLayerSetup,
@@ -25,7 +25,7 @@ export default {
       const { tileLayer, DomEvent } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
-      leafletRef.value = tileLayer(props.url, optionsMerger(options, props));
+      leafletRef.value = tileLayer(props.url, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

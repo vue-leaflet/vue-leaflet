@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick, h } from "vue";
-import { propsBinder, remapEvents, optionsMerger } from "../utils";
+import { propsBinder, remapEvents } from "../utils";
 import { props as iconProps } from "../functions/icon";
 
 /**
@@ -49,8 +49,8 @@ export default {
       if (elHtml) {
         options.html = elHtml;
       }
-      const mergedOptions = optionsMerger(options, props);
-      iconObject = options.html ? divIcon(mergedOptions) : icon(mergedOptions);
+
+      iconObject = options.html ? divIcon(options) : icon(options);
       onDomEvent(iconObject, listeners);
       setIcon(iconObject);
     };

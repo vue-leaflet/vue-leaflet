@@ -102,7 +102,3 @@ export const provideLeafletWrapper = (methodName) => {
  */
 export const updateLeafletWrapper = (wrapper, leafletMethod) =>
   (wrapper.wrapped.value = leafletMethod);
-
-export const optionsMerger = (options, props) => {
-  return { ...options, ...props.options, options: undefined };
-};

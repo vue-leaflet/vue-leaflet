@@ -4,7 +4,7 @@ import {
   props as controlScaleProps,
   setup as scaleControlSetup,
 } from "../functions/controlScale";
-import { propsBinder, optionsMerger } from "../utils.js";
+import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControlScale",
@@ -23,7 +23,7 @@ export default {
     onMounted(async () => {
       const { control } = await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = control.scale(optionsMerger(options, props));
+      leafletRef.value = control.scale(options);
       propsBinder(methods, leafletRef.value, props);
       registerControl({ leafletObject: leafletRef.value });
       nextTick(() => context.emit("ready", leafletRef.value));

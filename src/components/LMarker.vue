@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, provide, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, debounce, optionsMerger } from "../utils.js";
+import { remapEvents, propsBinder, debounce } from "../utils.js";
 import {
   props as markerProps,
   setup as markerSetup,
@@ -38,7 +38,7 @@ export default {
 
     onMounted(async () => {
       const { marker, DomEvent } = await import("leaflet/dist/leaflet-src.esm");
-      leafletRef.value = marker(props.latLng, optionsMerger(options, props));
+      leafletRef.value = marker(props.latLng, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, optionsMerger } from "../utils.js";
+import { remapEvents, propsBinder } from "../utils.js";
 import {
   props as polygonProps,
   setup as polygonSetup,
@@ -31,7 +31,7 @@ export default {
         "leaflet/dist/leaflet-src.esm"
       );
 
-      leafletRef.value = polygon(props.latLngs, optionsMerger(options, props));
+      leafletRef.value = polygon(props.latLngs, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

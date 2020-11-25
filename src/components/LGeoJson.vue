@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, optionsMerger } from "../utils.js";
+import { remapEvents, propsBinder } from "../utils.js";
 import {
   props as geoJSONProps,
   setup as geoJSONSetup,
@@ -28,7 +28,7 @@ export default {
         "leaflet/dist/leaflet-src.esm"
       );
 
-      leafletRef.value = geoJSON(props.geojson, optionsMerger(options, props));
+      leafletRef.value = geoJSON(props.geojson, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

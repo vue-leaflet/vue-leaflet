@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, optionsMerger } from "../utils.js";
+import { remapEvents, propsBinder } from "../utils.js";
 import {
   props as polylineProps,
   setup as polylineSetup,
@@ -32,7 +32,7 @@ export default {
         "leaflet/dist/leaflet-src.esm"
       );
 
-      leafletRef.value = polyline(props.latLngs, optionsMerger(options, props));
+      leafletRef.value = polyline(props.latLngs, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
