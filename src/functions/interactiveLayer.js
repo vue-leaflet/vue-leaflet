@@ -1,4 +1,4 @@
-import { props as componentProps, optionsMerger } from "./component";
+import { props as componentProps, setup as componentSetup } from "./component";
 
 export const props = {
   ...componentProps,
@@ -13,15 +13,12 @@ export const props = {
 };
 
 export const setup = (props) => {
-  const options = optionsMerger(
-    {
-      interactive: props.interactive,
-      bubblingMouseEvents: props.bubblingMouseEvents,
-    },
-    props
-  );
-
-  const methods = {};
+  const { options: componentOptions, methods } = componentSetup(props);
+  const options = {
+    ...componentOptions,
+    interactive: props.interactive,
+    bubblingMouseEvents: props.bubblingMouseEvents,
+  };
 
   return { options, methods };
 };

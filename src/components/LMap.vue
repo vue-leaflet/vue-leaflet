@@ -16,7 +16,10 @@ import {
   provideLeafletWrapper,
   updateLeafletWrapper,
 } from "../utils.js";
-import { props as componentProps, optionsMerger } from "../functions/component";
+import {
+  props as componentProps,
+  setup as componentSetup,
+} from "../functions/component";
 
 export default {
   props: {
@@ -147,28 +150,26 @@ export default {
       layersToAdd: [],
       layersInControl: [],
     });
-
-    const options = optionsMerger(
-      {
-        minZoom: props.minZoom,
-        maxZoom: props.maxZoom,
-        maxBounds: props.maxBounds,
-        maxBoundsViscosity: props.maxBoundsViscosity,
-        worldCopyJump: props.worldCopyJump,
-        crs: props.crs,
-        center: props.center,
-        zoom: props.zoom,
-        inertia: props.inertia,
-        inertiaDeceleration: props.inertiaDeceleration,
-        inertiaMaxSpeed: props.inertiaMaxSpeed,
-        easeLinearity: props.easeLinearity,
-        zoomAnimation: props.zoomAnimation,
-        zoomAnimationThreshold: props.zoomAnimationThreshold,
-        fadeAnimation: props.fadeAnimation,
-        markerZoomAnimation: props.markerZoomAnimation,
-      },
-      props
-    );
+    const { options: componentOptions } = componentSetup(props);
+    const options = {
+      ...componentOptions,
+      minZoom: props.minZoom,
+      maxZoom: props.maxZoom,
+      maxBounds: props.maxBounds,
+      maxBoundsViscosity: props.maxBoundsViscosity,
+      worldCopyJump: props.worldCopyJump,
+      crs: props.crs,
+      center: props.center,
+      zoom: props.zoom,
+      inertia: props.inertia,
+      inertiaDeceleration: props.inertiaDeceleration,
+      inertiaMaxSpeed: props.inertiaMaxSpeed,
+      easeLinearity: props.easeLinearity,
+      zoomAnimation: props.zoomAnimation,
+      zoomAnimationThreshold: props.zoomAnimationThreshold,
+      fadeAnimation: props.fadeAnimation,
+      markerZoomAnimation: props.markerZoomAnimation,
+    };
 
     const addLayer = provideLeafletWrapper("addLayer");
     const removeLayer = provideLeafletWrapper("removeLayer");
