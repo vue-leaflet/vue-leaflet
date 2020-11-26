@@ -1,4 +1,4 @@
-import { props as layerProps, setup as layerSetup } from "../functions/layer";
+import { props as layerProps, setup as layerSetup } from "./layer";
 
 export const props = {
   ...layerProps,

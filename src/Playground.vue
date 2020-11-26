@@ -38,11 +38,20 @@
           >Hello, Map!</l-control
         >
 
-        <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
+        <l-marker
+          :lat-lng="[50, 50]"
+          draggable
+          @moveend="log('moveend')"
+          :options="{ riseOnHover: true, riseOffset: 300 }"
+        >
           <l-tooltip>
-            lol
+            options
           </l-tooltip>
         </l-marker>
+        <l-marker :lat-lng="[51, 51]"/>
+        <l-marker :lat-lng="[51, 49]"/>
+        <l-marker :lat-lng="[49, 51]"/>
+        <l-marker :lat-lng="[49, 49]"/>
 
         <l-layer-group>
           <l-marker :lat-lng="[0, 0]" draggable @moveend="log('moveend')">
@@ -55,12 +64,6 @@
             <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
           </l-marker>
         </l-layer-group>
-
-        <l-marker :lat-lng="[50, 50]" draggable @moveend="log('moveend')">
-          <l-popup>
-            lol
-          </l-popup>
-        </l-marker>
 
         <l-polyline
           :lat-lngs="[

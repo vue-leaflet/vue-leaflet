@@ -13,7 +13,7 @@ export default {
     const { options, methods } = wmsLayerSetup(props, leafletRef);
 
     onMounted(async () => {
-      const { tileLayer, DomEvent, setOptions } = await import(
+      const { tileLayer, DomEvent } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
@@ -22,7 +22,7 @@ export default {
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
 
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props);
       addLayer({
         ...props,
         ...methods,

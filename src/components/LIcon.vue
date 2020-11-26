@@ -1,14 +1,21 @@
 <script>
 import { onMounted, ref, inject, nextTick, h } from "vue";
 import { propsBinder, remapEvents } from "../utils";
-import { props } from "../functions/icon";
+import { props as iconProps } from "../functions/icon";
+import {
+  props as componentProps,
+  setup as componentSetup,
+} from "../functions/component";
 
 /**
  * Icon component, lets you add and custom icons to the map
  */
 export default {
   name: "LIcon",
-  props,
+  props: {
+    ...iconProps,
+    ...componentProps,
+  },
   setup(props, context) {
     const root = ref(null);
 
@@ -36,13 +43,23 @@ export default {
         offDomEvent(iconObject, listeners);
       }
 
+      const { options: componentOptions } = componentSetup(props);
       const options = {
-        ...props,
+        ...componentOptions,
+        iconUrl: props.iconUrl,
+        iconRetinaUrl: props.iconRetinaUrl,
+        iconSize: props.iconSize,
+        iconAnchor: props.iconAnchor,
+        popupAnchor: props.popupAnchor,
+        tooltipAnchor: props.tooltipAnchor,
+        shadowUrl: props.shadowUrl,
+        shadowRetinaUrl: props.shadowRetinaUrl,
+        shadowSize: props.shadowSize,
+        shadowAnchor: props.shadowAnchor,
+        bgPos: props.bgPos,
+        className: props.className,
+        html: elHtml || props.html,
       };
-
-      if (elHtml) {
-        options.html = elHtml;
-      }
 
       iconObject = options.html ? divIcon(options) : icon(options);
       onDomEvent(iconObject, listeners);

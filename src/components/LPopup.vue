@@ -1,7 +1,7 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { propsBinder, remapEvents } from "../utils.js";
-import { setup as popupSetup, props } from "../functions/popup";
+import { props, setup as popupSetup } from "../functions/popup";
 import { render } from "../functions/popper";
 
 /**
@@ -18,9 +18,7 @@ export default {
     const { options, methods } = popupSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { popup, DomEvent, setOptions } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { popup, DomEvent } = await import("leaflet/dist/leaflet-src.esm");
 
       leafletRef.value = popup(options);
 
@@ -28,7 +26,7 @@ export default {
         leafletRef.value.setLatLng(props.latLng);
       }
 
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props);
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
       leafletRef.value.setContent(props.content || root.value);

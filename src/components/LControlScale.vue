@@ -12,12 +12,10 @@ export default {
     const registerControl = inject("registerControl");
     const { options, methods } = scaleControlSetup(props, leafletRef);
     onMounted(async () => {
-      const { control, setOptions } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { control } = await import("leaflet/dist/leaflet-src.esm");
 
       leafletRef.value = control.scale(options);
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props);
       registerControl({ leafletObject: leafletRef.value });
       nextTick(() => context.emit("ready", leafletRef.value));
     });

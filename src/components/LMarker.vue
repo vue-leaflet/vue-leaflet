@@ -28,17 +28,14 @@ export default {
     const { options, methods } = markerSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { marker, DomEvent, setOptions } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
-
+      const { marker, DomEvent } = await import("leaflet/dist/leaflet-src.esm");
       leafletRef.value = marker(props.latLng, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
 
       leafletRef.value.on("move", debounce(methods.latLngSync, 100));
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props);
       addLayer({
         ...props,
         ...methods,

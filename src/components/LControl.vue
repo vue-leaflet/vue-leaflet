@@ -1,12 +1,16 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { props, setup as controlSetup, render } from "../functions/control";
+import {
+  props as controlProps,
+  setup as controlSetup,
+  render,
+} from "../functions/control";
 import { propsBinder } from "../utils.js";
 
 export default {
   name: "LControl",
   props: {
-    ...props,
+    ...controlProps,
     disableClickPropagation: {
       type: Boolean,
       custom: true,
@@ -25,7 +29,7 @@ export default {
     const registerControl = inject("registerControl");
     const { options, methods } = controlSetup(props, leafletRef);
     onMounted(async () => {
-      const { Control, setOptions, DomEvent } = await import(
+      const { Control, DomEvent } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
@@ -36,7 +40,7 @@ export default {
       });
 
       leafletRef.value = new LControl(options);
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props);
       registerControl({ leafletObject: leafletRef.value });
 
       if (props.disableClickPropagation) {

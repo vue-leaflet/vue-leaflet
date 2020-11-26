@@ -19,16 +19,14 @@ export default {
     const { options, methods } = circleSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { circle, DomEvent, setOptions } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { circle, DomEvent } = await import("leaflet/dist/leaflet-src.esm");
 
       leafletRef.value = circle(props.latLng, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
 
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props);
 
       addLayer({
         ...props,

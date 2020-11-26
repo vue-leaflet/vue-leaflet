@@ -18,7 +18,7 @@ export default {
     const { options, methods } = polygonSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { polygon, DomEvent, setOptions } = await import(
+      const { polygon, DomEvent } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
@@ -27,7 +27,7 @@ export default {
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
 
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props);
 
       addLayer({
         ...props,

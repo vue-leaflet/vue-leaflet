@@ -1,6 +1,8 @@
 import { onUnmounted, provide, inject, h } from "vue";
+import { props as componentProps, setup as componentSetup } from "./component";
 
 export const props = {
+  ...componentProps,
   pane: {
     type: String,
     default: "overlayPane",
@@ -29,7 +31,13 @@ export const props = {
 export const setup = (props, leafletRef, context) => {
   const addLayer = inject("addLayer");
   const removeLayer = inject("removeLayer");
+  const {
+    options: componentOptions,
+    methods: componentMethods,
+  } = componentSetup(props);
+
   const options = {
+    ...componentOptions,
     attribution: props.attribution,
     pane: props.pane,
   };
@@ -39,6 +47,7 @@ export const setup = (props, leafletRef, context) => {
     removeLayer({ leafletObject: leafletRef.value });
 
   const methods = {
+    ...componentMethods,
     setAttribution(val, old) {
       const attributionControl = this.$parent.leafletObject.attributionControl;
       attributionControl.removeAttribution(old).addAttribution(val);

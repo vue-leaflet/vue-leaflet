@@ -12,12 +12,11 @@ export default {
     const registerLayerControl = inject("registerLayerControl");
     const { options, methods } = layerControlSetup(props, leafletRef);
     onMounted(async () => {
-      const { control, setOptions } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { control } = await import("leaflet/dist/leaflet-src.esm");
 
       leafletRef.value = control.layers(null, null, options);
-      propsBinder(methods, leafletRef.value, props, setOptions);
+
+      propsBinder(methods, leafletRef.value, props);
 
       registerLayerControl({
         ...props,

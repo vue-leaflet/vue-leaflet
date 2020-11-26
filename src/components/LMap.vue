@@ -16,9 +16,14 @@ import {
   provideLeafletWrapper,
   updateLeafletWrapper,
 } from "../utils.js";
+import {
+  props as componentProps,
+  setup as componentSetup,
+} from "../functions/component";
 
 export default {
   props: {
+    ...componentProps,
     /**
      * The center of the map, supports .sync modifier
      */
@@ -145,8 +150,9 @@ export default {
       layersToAdd: [],
       layersInControl: [],
     });
-
+    const { options: componentOptions } = componentSetup(props);
     const options = {
+      ...componentOptions,
       minZoom: props.minZoom,
       maxZoom: props.maxZoom,
       maxBounds: props.maxBounds,
@@ -204,15 +210,9 @@ export default {
     };
 
     onMounted(async () => {
-      const {
-        map,
-        CRS,
-        Icon,
-        latLngBounds,
-        latLng,
-        DomEvent,
-        setOptions,
-      } = await import("leaflet/dist/leaflet-src.esm");
+      const { map, CRS, Icon, latLngBounds, latLng, DomEvent } = await import(
+        "leaflet/dist/leaflet-src.esm"
+      );
       await resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
 
@@ -343,7 +343,7 @@ export default {
 
       blueprint.leafletRef = map(root.value, options);
 
-      propsBinder(methods, blueprint.leafletRef, props, setOptions);
+      propsBinder(methods, blueprint.leafletRef, props);
       const listeners = remapEvents(context.attrs);
 
       blueprint.leafletRef.on(

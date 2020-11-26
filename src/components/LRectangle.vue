@@ -18,7 +18,7 @@ export default {
     const { options, methods } = rectangleSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { rectangle, latLngBounds, DomEvent, setOptions } = await import(
+      const { rectangle, latLngBounds, DomEvent } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
@@ -31,7 +31,7 @@ export default {
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
 
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props);
 
       addLayer({
         ...props,

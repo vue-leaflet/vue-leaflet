@@ -15,15 +15,15 @@ export default {
     const { methods } = layerGroupSetup(props, leafletRef);
 
     onMounted(async () => {
-      const { layerGroup, DomEvent, setOptions } = await import(
+      const { layerGroup, DomEvent } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
-      leafletRef.value = layerGroup();
+      leafletRef.value = layerGroup(props.options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
 
-      propsBinder(methods, leafletRef.value, props, setOptions);
+      propsBinder(methods, leafletRef.value, props);
       addLayer({
         ...props,
         ...methods,
