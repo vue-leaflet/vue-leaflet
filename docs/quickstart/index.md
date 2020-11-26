@@ -22,7 +22,7 @@ yarn add leaflet @vue-leaflet/vue-leaflet
 
 ### In a webpack / rollup build system
 
-#### System wide components
+#### System-wide components
 
 ```js
 import Vue from "vue";
@@ -34,14 +34,24 @@ Vue.component("l-tile-layer", LTileLayer);
 Vue.component("l-marker", LMarker);
 ```
 
+If you need a globally available `L`, such as for compatibility
+with some plugins, be sure to explicitly import Leaflet from the
+ES2015 module used by vue-leaflet.
+```js
+import * as L from "leaflet/dist/leaflet-src.esm";
+
+window.L = L;
+```
+
 #### Locally installed components
 
 ##### In your component:
 
 ```js
-// If you need to reference 'L', such as in 'L.icon', then be sure to
-// explicitly import 'leaflet' into your component
-import L from "leaflet";
+// If you need to reference 'L', such as to create latLng instances,
+// then be sure to explicitly import 'leaflet' from the ES2015
+// module used by vue-leaflet.
+import { latLng } from "leaflet/dist/leaflet-src.esm";
 import { LMap, LTileLayer, LMarker } from "vue-leaflet";
 
 export default {
