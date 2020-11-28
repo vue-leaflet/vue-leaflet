@@ -7,6 +7,7 @@ import Home from "./views/Home.vue";
 const routes = [
   { path: "/", component: Home },
   { path: "/marker", component: () => import("./views/Marker.vue") },
+  { path: "/rectangle", component: () => import("./views/Rectangle.vue") },
 ];
 
 const router = createRouter({
