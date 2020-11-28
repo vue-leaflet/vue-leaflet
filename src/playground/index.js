@@ -7,6 +7,7 @@ import Home from "./views/Home.vue";
 const routes = [
   { path: "/", component: Home },
   { path: "/marker", component: () => import("./views/Marker.vue") },
+  { path: "/polyline", component: () => import("./views/Polyline.vue") },
 ];
 
 const router = createRouter({
