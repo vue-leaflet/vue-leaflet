@@ -8,6 +8,10 @@ const routes = [
   { path: "/", component: Home },
   { path: "/marker", component: () => import("./views/Marker.vue") },
   { path: "/circle", component: () => import("./views/Circle.vue") },
+  {
+    path: "/control-scale",
+    component: () => import("./views/ControlScale.vue"),
+  },
 ];
 
 const router = createRouter({
