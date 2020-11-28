@@ -7,6 +7,10 @@ import Home from "./views/Home.vue";
 const routes = [
   { path: "/", component: Home },
   { path: "/marker", component: () => import("./views/Marker.vue") },
+  {
+    path: "/circle-marker",
+    component: () => import("./views/CircleMarker.vue"),
+  },
 ];
 
 const router = createRouter({
