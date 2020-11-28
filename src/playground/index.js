@@ -8,6 +8,7 @@ const routes = [
   { path: "/", component: Home },
   { path: "/marker", component: () => import("./views/Marker.vue") },
   { path: "/circle", component: () => import("./views/Circle.vue") },
+  { path: "/control-zoom", component: () => import("./views/ControlZoom.vue") },
 ];
 
 const router = createRouter({
