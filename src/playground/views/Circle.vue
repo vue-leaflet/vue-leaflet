@@ -1,12 +1,12 @@
 <template>
-  <l-map ref="map" v-model:zoom="zoom" :center="[35.865, 12.865]">
+  <l-map ref="map" v-model:zoom="zoom" :center="[44.48865, 11.3317]">
     <l-tile-layer
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       layer-type="base"
       name="OpenStreetMap"
     ></l-tile-layer>
 
-    <l-circle :lat-lng="[35.865, 12.865]" :radius="10000" color="green" />
+    <l-circle :lat-lng="[44.48865, 11.3317]" :radius="5000" color="green" />
   </l-map>
 </template>
 <script>
@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      zoom: 8,
+      zoom: 11,
     };
   },
 };
