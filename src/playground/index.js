@@ -9,6 +9,8 @@ const routes = [
   { path: "/marker", component: () => import("./views/Marker.vue") },
   { path: "/circle", component: () => import("./views/Circle.vue") },
   {
+    path: "/control-scale",
+    component: () => import("./views/ControlScale.vue"),
     path: "/control-layers",
     component: () => import("./views/ControlLayers.vue"),
   { path: "/control-zoom", component: () => import("./views/ControlZoom.vue") },
