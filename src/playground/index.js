@@ -11,6 +11,16 @@ const routes = [
   {
     path: "/control-scale",
     component: () => import("./views/ControlScale.vue"),
+    path: "/control-layers",
+    component: () => import("./views/ControlLayers.vue"),
+  { path: "/control-zoom", component: () => import("./views/ControlZoom.vue") },
+  {
+    path: "/control-attribution",
+    component: () => import("./views/ControlAttribution.vue"),
+  { path: "/icon", component: () => import("./views/Icon.vue") },
+  {
+    path: "/control-custom-message",
+    component: () => import("./views/ControlCustomMessage.vue"),
   },
 ];
 
