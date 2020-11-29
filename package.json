@@ -17,8 +17,7 @@
     "url": "git@github.com:vue-leaflet/vue-leaflet.git"
   },
   "scripts": {
-    "serve": "vue-cli-service serve ./src/playground.js",
-    "playground": "vue-cli-service serve ./src/playground/index.js",
+    "serve": "vue-cli-service serve ./src/playground/index.js",
     "build": "rollup -c rollup.config.js",
     "lint": "vue-cli-service lint",
     "prepublishOnly": "npm run lint && npm run build",
