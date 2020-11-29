@@ -3,6 +3,7 @@
     <div class="menu">
       <router-link to="/">Home</router-link>
       <router-link to="/marker">Marker</router-link>
+      <router-link to="/tooltips">Tooltips</router-link>
       <router-link to="/circle-marker">CircleMarker</router-link>
       <router-link to="/polygon">Polygon</router-link>
       <router-link to="/circle">Circle</router-link>
