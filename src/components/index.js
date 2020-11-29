@@ -6,6 +6,7 @@ export { default as LControlLayers } from "./LControlLayers.vue";
 export { default as LControlScale } from "./LControlScale.vue";
 export { default as LControlZoom } from "./LControlZoom.vue";
 export { default as LGeoJson } from "./LGeoJson.vue";
+export { default as LGridLayer } from "./LGridLayer.vue";
 export { default as LIcon } from "./LIcon.vue";
 export { default as LLayerGroup } from "./LLayerGroup.vue";
 export { default as LMap } from "./LMap.vue";
