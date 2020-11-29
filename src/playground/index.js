@@ -8,6 +8,9 @@ const routes = [
   { path: "/", component: Home },
   { path: "/marker", component: () => import("./views/Marker.vue") },
   { path: "/circle", component: () => import("./views/Circle.vue") },
+  {
+    path: "/control-attribution",
+    component: () => import("./views/ControlAttribution.vue"),
   { path: "/icon", component: () => import("./views/Icon.vue") },
   {
     path: "/control-custom-message",
