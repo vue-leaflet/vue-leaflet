@@ -2,6 +2,7 @@
   <div class="main-wrapper">
     <div class="menu">
       <router-link to="/">Home</router-link>
+      <router-link to="/feature-group">Feature Group</router-link>
       <router-link to="/marker">Marker</router-link>
     </div>
     <div class="map-wrapper">
