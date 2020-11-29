@@ -5,6 +5,8 @@
       <router-link to="/marker">Marker</router-link>
       <router-link to="/circle">Circle</router-link>
       <router-link to="/control-attribution">Attribution</router-link>
+      <router-link to="/icon">Icon</router-link>
+      <router-link to="/control-custom-message">Custom Message</router-link>
     </div>
     <div class="map-wrapper">
       <router-view />

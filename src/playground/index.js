@@ -11,6 +11,10 @@ const routes = [
   {
     path: "/control-attribution",
     component: () => import("./views/ControlAttribution.vue"),
+  { path: "/icon", component: () => import("./views/Icon.vue") },
+  {
+    path: "/control-custom-message",
+    component: () => import("./views/ControlCustomMessage.vue"),
   },
 ];
 
