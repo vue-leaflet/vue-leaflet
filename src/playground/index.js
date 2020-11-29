@@ -7,6 +7,7 @@ import Home from "./views/Home.vue";
 const routes = [
   { path: "/", component: Home },
   { path: "/marker", component: () => import("./views/Marker.vue") },
+  { path: "/polygon", component: () => import("./views/Polygon.vue") },
   { path: "/circle", component: () => import("./views/Circle.vue") },
   {
     path: "/control-scale",
@@ -22,6 +23,7 @@ const routes = [
     path: "/control-custom-message",
     component: () => import("./views/ControlCustomMessage.vue"),
   },
+
 ];
 
 const router = createRouter({
