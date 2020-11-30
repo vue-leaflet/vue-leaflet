@@ -6,7 +6,7 @@
       name="OpenStreetMap"
     ></l-tile-layer>
 
-    <l-marker :lat-lng="[50, 50]" draggable> </l-marker>
+    <l-marker :lat-lng="coordinates" draggable> </l-marker>
   </l-map>
 </template>
 <script>
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       zoom: 2,
+      coordinates: [50, 50],
     };
   },
 };

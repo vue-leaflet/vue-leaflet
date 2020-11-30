@@ -13,7 +13,7 @@
     </l-marker>
 
     <l-layer-group>
-      <l-marker :lat-lng="[41.75, -87.65]" draggable>
+      <l-marker :lat-lng="coordinates" draggable>
         <l-popup>
           Hi! You can drag me around!
         </l-popup>
@@ -107,6 +107,7 @@ export default {
   data() {
     return {
       zoom: 9,
+      coordinates: [41.75, -87.65],
     };
   },
 };
