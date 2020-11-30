@@ -6,19 +6,14 @@
       name="OpenStreetMap"
     ></l-tile-layer>
 
-    <l-marker
-      :lat-lng="[41.8329, -87.7327]"
-      draggable
-      @moveend="log('moveend')"
-      :options="{ riseOnHover: true, riseOffset: 300 }"
-    >
+    <l-marker :lat-lng="[41.8329, -87.7327]">
       <l-popup>
         Hi! I'm staying here on this location!
       </l-popup>
     </l-marker>
 
     <l-layer-group>
-      <l-marker :lat-lng="[41.75, -87.65]" draggable @moveend="log('moveend')">
+      <l-marker :lat-lng="[41.75, -87.65]" draggable>
         <l-popup>
           Hi! You can drag me around!
         </l-popup>
