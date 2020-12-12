@@ -6,6 +6,10 @@ import Home from "./views/Home.vue";
 
 const routes = [
   { path: "/", component: Home },
+  {
+    path: "/feature-group",
+    component: () => import("./views/FeatureGroup.vue"),
+  },
   { path: "/circle", component: () => import("./views/Circle.vue") },
   {
     path: "/circle-marker",
