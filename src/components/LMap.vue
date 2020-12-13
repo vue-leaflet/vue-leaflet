@@ -211,7 +211,7 @@ export default {
 
     onMounted(async () => {
       const { map, CRS, Icon, latLngBounds, latLng, DomEvent } = await import(
-        "leaflet/dist/leaflet-src.esm"
+        "leaflet"
       );
       await resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
