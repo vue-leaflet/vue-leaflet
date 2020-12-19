@@ -210,9 +210,10 @@ export default {
     };
 
     onMounted(async () => {
-      const { map, CRS, Icon, latLngBounds, latLng, DomEvent } = await import(
-        "leaflet"
-      );
+      window.L = window.L || (await import("leaflet"));
+      const { map, CRS, Icon, latLngBounds, latLng, DomEvent } = window.L;
+      options.beforeMapMount && (await options.beforeMapMount());
+
       await resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
 
