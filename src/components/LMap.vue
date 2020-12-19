@@ -21,6 +21,11 @@ import {
   setup as componentSetup,
 } from "../functions/component";
 
+const WINDOW_OR_GLOBAL =
+  (typeof self === "object" && self.self === self && self) ||
+  (typeof global === "object" && global.global === global && global) ||
+  this;
+
 export default {
   props: {
     ...componentProps,
@@ -210,8 +215,15 @@ export default {
     };
 
     onMounted(async () => {
-      window.L = window.L || (await import("leaflet"));
-      const { map, CRS, Icon, latLngBounds, latLng, DomEvent } = window.L;
+      WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet"));
+      const {
+        map,
+        CRS,
+        Icon,
+        latLngBounds,
+        latLng,
+        DomEvent,
+      } = WINDOW_OR_GLOBAL.L;
       options.beforeMapMount && (await options.beforeMapMount());
 
       await resetWebpackIcon(Icon);
