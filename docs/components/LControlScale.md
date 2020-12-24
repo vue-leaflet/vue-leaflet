@@ -1,0 +1,7 @@
+---
+title: LControlScale
+---
+
+# LControlScale
+
+---
