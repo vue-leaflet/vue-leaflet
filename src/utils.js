@@ -58,20 +58,18 @@ export const remapEvents = (contextAttrs) => {
   return result;
 };
 
-export const resetWebpackIcon = async (Icon) => {
-  const modules = await Promise.all([
-    import("leaflet/dist/images/marker-icon-2x.png"),
-    import("leaflet/dist/images/marker-icon.png"),
-    import("leaflet/dist/images/marker-shadow.png"),
-  ]);
-
-  delete Icon.Default.prototype._getIconUrl;
-
-  Icon.Default.mergeOptions({
-    iconRetinaUrl: modules[0].default,
-    iconUrl: modules[1].default,
-    shadowUrl: modules[2].default,
-  });
+export const resetWebpackIcon = async () => {
+  // const modules = await Promise.all([
+  //   import("leaflet/dist/images/marker-icon-2x.png"),
+  //   import("leaflet/dist/images/marker-icon.png"),
+  //   import("leaflet/dist/images/marker-shadow.png"),
+  // ]);
+  // delete Icon.Default.prototype._getIconUrl;
+  // Icon.Default.mergeOptions({
+  //   iconRetinaUrl: modules[0].default,
+  //   iconUrl: modules[1].default,
+  //   shadowUrl: modules[2].default,
+  // });
 };
 
 /**
