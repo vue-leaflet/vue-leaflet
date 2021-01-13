@@ -30,11 +30,11 @@ This is a Beta version! And may yet be instable! If you want to help, please rea
 
 ## Installation
 
-`npm i @vue-leaflet/vue-leaflet`
+`yarn add @vue-leaflet/vue-leaflet`
 
 or
 
-`yarn add @vue-leaflet/vue-leaflet`
+`npm i -D @vue-leaflet/vue-leaflet`
 
 ## Usage
 
