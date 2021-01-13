@@ -6,7 +6,15 @@ This is a Beta version! And may yet be instable! If you want to help please reac
 
 ## What Works:
 
+- LCircle
+- LCircleMarker
+- LControl
+- LControlAttribution
 - LControlLayers
+- LControlScale
+- LControlZoom
+- LFeatureGroup
+- LGeoJson
 - LIcon
 - LMap
 - LMarker
@@ -16,6 +24,7 @@ This is a Beta version! And may yet be instable! If you want to help please reac
 - LRectangle
 - LTileLayer
 - LTooltip
+- LWmsTileLayer
 
 Note that unlikely the version for vue2 this version is fully compatible with SSR
 
