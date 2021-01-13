@@ -1,8 +1,8 @@
 # vue-leaflet
 
-Vue-leaflet written and compatible with vue3
+Vue-leaflet, written and compatible with Vue 3!
 
-This is a Beta version! And may yet be instable! If you want to help please reach out in an issue or [discord](https://discord.gg/uVZAfUf)
+This is a Beta version! And may yet be instable! If you want to help, please reach out in an issue or on [discord](https://discord.gg/uVZAfUf).
 
 ## What Works:
 
@@ -26,7 +26,7 @@ This is a Beta version! And may yet be instable! If you want to help please reac
 - LTooltip
 - LWmsTileLayer
 
-Note that unlikely the version for vue2 this version is fully compatible with SSR
+> Note that unlike the [Vue 2 version](https://github.com/vue-leaflet/Vue2Leaflet), this library is fully compatible with SSR.
 
 ## Installation
 
