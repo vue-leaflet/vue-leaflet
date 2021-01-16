@@ -22,6 +22,7 @@ export default {
       childRender: (props) => () => {
         return h(
           "div",
+          { style: "border: 1px solid grey; height: 100%;" },
           `x: ${props.coords.x} y: ${props.coords.y} z: ${props.coords.z}`
         );
       },
