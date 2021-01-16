@@ -24,7 +24,7 @@ import {
 const WINDOW_OR_GLOBAL =
   (typeof self === "object" && self.self === self && self) ||
   (typeof global === "object" && global.global === global && global) ||
-  this;
+  undefined;
 
 export default {
   props: {
