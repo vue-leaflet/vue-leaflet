@@ -25,7 +25,7 @@ export default {
     const { options, methods } = gridLayerSetup(props, leafletRef);
 
     onMounted(async () => {
-      const { GridLayer, DomEvent } = await import(
+      const { GridLayer, DomEvent, DomUtil } = await import(
         "leaflet/dist/leaflet-src.esm"
       );
 
@@ -44,7 +44,7 @@ export default {
       const GLayer = GridLayer.extend({
         createTile(coords) {
           const key = leafletRef.value._tileCoordsToKey(coords);
-          tileComponents[key] = document.createElement("div");
+          tileComponents[key] = DomUtil.create("div");
 
           let vNode = h(
             { setup: props.childRender, props: ["coords"] },
