@@ -224,7 +224,14 @@ export default {
         latLng,
         DomEvent,
       } = WINDOW_OR_GLOBAL.L;
-      options.beforeMapMount && (await options.beforeMapMount());
+
+      try {
+        options.beforeMapMount && (await options.beforeMapMount());
+      } catch (error) {
+        console.error(
+          `The following error occurred running the provided beforeMapMount hook ${error.message}`
+        );
+      }
 
       await resetWebpackIcon(Icon);
       options.crs = options.crs || CRS.EPSG3857;
