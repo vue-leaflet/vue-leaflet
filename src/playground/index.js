@@ -6,6 +6,7 @@ import Home from "./views/Home.vue";
 
 const routes = [
   { path: "/", component: Home },
+  { path: "/grid-layer", component: () => import("./views/GridLayer.vue") },
   {
     path: "/feature-group",
     component: () => import("./views/FeatureGroup.vue"),
