@@ -23,6 +23,14 @@ export const props = {
     type: Boolean,
     default: false,
   },
+  minZoom: {
+    type: Number,
+    default: 0,
+  },
+  maxZoom: {
+    type: Number,
+    default: undefined,
+  },
 };
 
 export const setup = (props, leafletRef) => {
@@ -37,6 +45,8 @@ export const setup = (props, leafletRef) => {
     zIndex: props.zIndex,
     tileSize: props.tileSize,
     noWrap: props.noWrap,
+    minZoom: props.minZoom,
+    maxZoom: props.maxZoom,
   };
   return { options, methods: { ...layerMethods } };
 };
