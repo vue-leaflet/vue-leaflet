@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, provide, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, debounce } from "../utils.js";
+import { remapEvents, propsBinder, debounce } from "../utils.ts";
 import { props, setup as markerSetup } from "../functions/marker";
 import { render } from "../functions/layer";
 

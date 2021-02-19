@@ -1,28 +1,33 @@
 import { watch, ref, provide } from "vue";
+import { Handler, Map, MapOptions, Control, Zoom, Marker } from "leaflet";
 
-export const debounce = (fn, time) => {
-  let timeout;
+export const debounce = (fn: Function, time: number) => {
+  let timeout: number | null;
 
-  return function (...args) {
-    const context = this;
+  return function (...args: any) {
+    const context: any = this;
     if (timeout) {
       clearTimeout(timeout);
     }
-    timeout = setTimeout(() => {
+    timeout = (setTimeout(() => {
       fn.apply(context, args);
       timeout = null;
-    }, time);
+    }, time) as unknown) as number;
   };
 };
 
-export const capitalizeFirstLetter = (string) => {
+export const capitalizeFirstLetter = (string: string) => {
   if (!string || typeof string.charAt !== "function") {
     return string;
   }
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const propsBinder = (methods, leafletElement, props) => {
+export const propsBinder = (
+  methods: { [methodName: string]: Function },
+  leafletElement: {[key: string]: any},
+  props: Readonly<{ [key: string]: any }>
+) => {
   for (const key in props) {
     const setMethodName = "set" + capitalizeFirstLetter(key);
     if (methods[setMethodName]) {
@@ -43,8 +48,9 @@ export const propsBinder = (methods, leafletElement, props) => {
   }
 };
 
-export const remapEvents = (contextAttrs) => {
-  const result = {};
+type EventHandlerFn = (event: Event) => void;
+export const remapEvents = (contextAttrs: Record<string, unknown>) => {
+  const result: { [eventName: string]: EventHandlerFn } = {};
   for (const attrName in contextAttrs) {
     if (
       attrName.startsWith("on") &&
@@ -52,12 +58,13 @@ export const remapEvents = (contextAttrs) => {
       attrName !== "onReady"
     ) {
       const eventName = attrName.slice(2).toLocaleLowerCase();
-      result[eventName] = contextAttrs[attrName];
+      result[eventName] = contextAttrs[attrName] as EventHandlerFn;
     }
   }
   return result;
 };
 
+// FIXME: Type of Icon
 export const resetWebpackIcon = async (Icon) => {
   const modules = await Promise.all([
     import("leaflet/dist/images/marker-icon-2x.png"),
@@ -81,11 +88,11 @@ export const resetWebpackIcon = async (Icon) => {
  *
  * @param {String} methodName Key used to provide the wrapper function
  */
-export const provideLeafletWrapper = (methodName) => {
-  const wrapped = ref(() =>
+export const provideLeafletWrapper = (methodName: string) => {
+  const wrapped = ref<Function>(() =>
     console.warn(`Method ${methodName} has been invoked without being replaced`)
   );
-  const wrapper = (...args) => wrapped.value(...args);
+  const wrapper = (...args: any[]) => wrapped.value(...args);
   // eslint-disable-next-line vue/no-ref-as-operand
   wrapper.wrapped = wrapped;
   provide(methodName, wrapper);
@@ -100,5 +107,5 @@ export const provideLeafletWrapper = (methodName) => {
  * @param {*} wrapper Provided wrapper whose wrapped function is to be updated
  * @param {function} leafletMethod New method to be wrapped by the wrapper
  */
-export const updateLeafletWrapper = (wrapper, leafletMethod) =>
+export const updateLeafletWrapper = (wrapper: any, leafletMethod: Function) =>
   (wrapper.wrapped.value = leafletMethod);

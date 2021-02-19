@@ -4,7 +4,7 @@ import {
   props,
   setup as attributionControlSetup,
 } from "../functions/controlAttribution";
-import { propsBinder } from "../utils.js";
+import { propsBinder } from "../utils.ts";
 
 export default {
   name: "LControlAttribution",

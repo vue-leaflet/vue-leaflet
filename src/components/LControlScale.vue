@@ -1,7 +1,7 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import { props, setup as scaleControlSetup } from "../functions/controlScale";
-import { propsBinder } from "../utils.js";
+import { propsBinder } from "../utils.ts";
 
 export default {
   name: "LControlScale",
