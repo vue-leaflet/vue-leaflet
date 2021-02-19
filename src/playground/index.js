@@ -37,6 +37,10 @@ const routes = [
   { path: "/icon", component: () => import("./views/Icon.vue") },
   { path: "/marker", component: () => import("./views/Marker.vue") },
   { path: "/tile-layer", component: () => import("./views/TileLayer.vue") },
+  {
+    path: "/image-overlay",
+    component: () => import("./views/ImageOverlay.vue"),
+  },
   { path: "/polygon", component: () => import("./views/Polygon.vue") },
   { path: "/polyline", component: () => import("./views/Polyline.vue") },
   { path: "/popups", component: () => import("./views/Popups.vue") },
