@@ -15,10 +15,11 @@
     <button @click="changeIcon">New kitten icon</button>
   </div>
 </template>
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
 import { LMap, LTileLayer, LMarker, LIcon } from "./../../components";
 
-export default {
+export default defineComponent({
   components: {
     LMap,
     LTileLayer,
@@ -48,7 +49,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style></style>

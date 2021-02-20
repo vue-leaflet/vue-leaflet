@@ -64,4 +64,8 @@ export const props = {
     custom: true,
     default: () => ({}),
   },
+  html: {
+    type: String,
+    custom: true,
+  },
 };

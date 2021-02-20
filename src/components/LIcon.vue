@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { onMounted, ref, inject, nextTick, h } from "vue";
 import { propsBinder, remapEvents } from "../utils";
 import { props as iconProps } from "../functions/icon";
@@ -6,6 +6,7 @@ import {
   props as componentProps,
   setup as componentSetup,
 } from "../functions/component";
+import { DivIcon, DivIconOptions, Icon, IconOptions, Marker } from "leaflet";
 
 /**
  * Icon component, lets you add and custom icons to the map
@@ -17,22 +18,28 @@ export default {
     ...componentProps,
   },
   setup(props, context) {
-    const root = ref(null);
+    const root = ref<HTMLElement | null>(null);
 
-    const canSetParentHtml = inject("canSetParentHtml");
-    const setParentHtml = inject("setParentHtml");
-    const setIcon = inject("setIcon");
+    const canSetParentHtml = inject<() => boolean>("canSetParentHtml");
+    const setParentHtml = inject<(html: string) => void>("setParentHtml");
+    const setIcon = inject<(newIcon: Icon | DivIcon) => Marker<any>>("setIcon");
 
     let onDomEvent;
     let offDomEvent;
-    let divIcon;
-    let icon;
-    let iconObject = undefined;
+    let divIcon: (options?: DivIconOptions) => DivIcon | null;
+    let icon: (options: IconOptions) => Icon | null;
+    let iconObject: DivIcon | Icon | null;
 
-    const createIcon = (el, recreationNeeded, htmlSwapNeeded) => {
+    const createIcon = (el: HTMLElement, recreationNeeded, htmlSwapNeeded) => {
       const elHtml = el && el.innerHTML;
       if (!recreationNeeded) {
-        if (htmlSwapNeeded && iconObject && canSetParentHtml()) {
+        if (
+          htmlSwapNeeded &&
+          iconObject &&
+          canSetParentHtml &&
+          canSetParentHtml() &&
+          setParentHtml
+        ) {
           setParentHtml(elHtml);
         }
         return;
@@ -63,15 +70,25 @@ export default {
 
       iconObject = options.html ? divIcon(options) : icon(options);
       onDomEvent(iconObject, listeners);
-      setIcon(iconObject);
+      if (setIcon && iconObject) {
+        setIcon(iconObject);
+      }
     };
 
     const scheduleCreateIcon = () => {
-      nextTick(() => createIcon(root.value, true, false));
+      nextTick(() => {
+        if (root.value) {
+          createIcon(root.value, true, false);
+        }
+      });
     };
 
     const scheduleHtmlSwap = () => {
-      nextTick(() => createIcon(root.value, false, true));
+      nextTick(() => {
+        if (root.value) {
+          createIcon(root.value, false, true);
+        }
+      });
     };
 
     const methods = {
@@ -91,7 +108,7 @@ export default {
 
     onMounted(async () => {
       const { DomEvent, divIcon: lDivIcon, icon: lIcon } = await import(
-        "leaflet/dist/leaflet-src.esm"
+        "leaflet"
       );
 
       onDomEvent = DomEvent.on;
@@ -102,12 +119,14 @@ export default {
       propsBinder(methods, {}, props);
 
       const observer = new MutationObserver(scheduleHtmlSwap);
-      observer.observe(root.value, {
-        attributes: true,
-        childList: true,
-        characterData: true,
-        subtree: true,
-      });
+      if (root.value) {
+        observer.observe(root.value, {
+          attributes: true,
+          childList: true,
+          characterData: true,
+          subtree: true,
+        });
+      }
       scheduleCreateIcon();
     });
 
