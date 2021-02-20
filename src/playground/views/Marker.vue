@@ -9,22 +9,24 @@
     <l-marker :lat-lng="coordinates" draggable> </l-marker>
   </l-map>
 </template>
-<script>
-import { LMap, LTileLayer, LMarker } from "./../../components";
+<script lang="ts">
+import { defineComponent } from "vue";
+import { LMap, LTileLayer } from "./../../components";
+import LMarker from "../../components/LMarker.vue";
 
-export default {
+export default defineComponent({
   components: {
     LMap,
     LTileLayer,
     LMarker,
   },
-  data() {
+  setup() {
     return {
       zoom: 2,
       coordinates: [50, 50],
     };
   },
-};
+});
 </script>
 
 <style></style>

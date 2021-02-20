@@ -1,3 +1,5 @@
+import { LatLngExpression } from "leaflet";
+import { PropType } from "vue";
 import { props as layerProps, setup as layerSetup } from "./layer";
 
 export const props = {
@@ -8,34 +10,30 @@ export const props = {
   },
   draggable: {
     type: Boolean,
-    custom: true,
     default: false,
   },
   latLng: {
-    type: [Object, Array],
-    custom: true,
-    default: null,
+    type: [Object, Array] as PropType<LatLngExpression>,
+    required: true,
   },
   icon: {
     type: [Object],
-    custom: false,
   },
   zIndexOffset: {
     type: Number,
-    custom: false,
     default: null,
   },
 };
 
-export const setup = (props, leafletRef, context) => {
+export const setup = (setupProps, leafletRef, context) => {
   const { options: layerOptions, methods: layerMethods } = layerSetup(
-    props,
+    setupProps,
     leafletRef,
     context
   );
   const options = {
     ...layerOptions,
-    ...props,
+    ...setupProps,
   };
 
   const methods = {

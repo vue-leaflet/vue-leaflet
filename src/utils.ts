@@ -1,5 +1,4 @@
 import { watch, ref, provide } from "vue";
-import { Handler, Map, MapOptions, Control, Zoom, Marker } from "leaflet";
 
 export const debounce = (fn: Function, time: number) => {
   let timeout: number | null;
@@ -25,7 +24,7 @@ export const capitalizeFirstLetter = (string: string) => {
 
 export const propsBinder = (
   methods: { [methodName: string]: Function },
-  leafletElement: {[key: string]: any},
+  leafletElement: { [key: string]: any },
   props: Readonly<{ [key: string]: any }>
 ) => {
   for (const key in props) {
