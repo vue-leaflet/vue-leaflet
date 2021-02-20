@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder } from "../utils.js";
+import { remapEvents, propsBinder } from "../utils.ts";
 import { props, setup as circleMarkerSetup } from "../functions/circleMarker";
 import { render } from "../functions/layer";
 

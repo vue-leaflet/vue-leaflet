@@ -5,7 +5,7 @@ import {
   setup as controlSetup,
   render,
 } from "../functions/control";
-import { propsBinder } from "../utils.js";
+import { propsBinder } from "../utils.ts";
 
 export default {
   name: "LControl",

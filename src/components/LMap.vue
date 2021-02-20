@@ -15,7 +15,7 @@ import {
   resetWebpackIcon,
   provideLeafletWrapper,
   updateLeafletWrapper,
-} from "../utils.js";
+} from "../utils.ts";
 import {
   props as componentProps,
   setup as componentSetup,

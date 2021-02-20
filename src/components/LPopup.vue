@@ -1,6 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { propsBinder, remapEvents } from "../utils.js";
+import { propsBinder, remapEvents } from "../utils.ts";
 import { props, setup as popupSetup } from "../functions/popup";
 import { render } from "../functions/popper";
 

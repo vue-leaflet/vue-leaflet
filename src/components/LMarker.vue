@@ -1,41 +1,81 @@
-<script>
-import { onMounted, ref, provide, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, debounce } from "../utils.js";
-import { props, setup as markerSetup } from "../functions/marker";
+<script lang="ts">
+import {
+  onMounted,
+  ref,
+  provide,
+  inject,
+  nextTick,
+  defineComponent,
+} from "vue";
+import { remapEvents, propsBinder, debounce } from "../utils";
+import {
+  props as markerProps,
+  setup as markerSetup,
+} from "../functions/marker";
 import { render } from "../functions/layer";
+import {
+  DivIcon,
+  DomEvent as DomEventLeaflet,
+  Icon,
+  LatLngExpression,
+  marker as markerLeaflet,
+  Marker,
+} from "leaflet";
 
 /**
  * Marker component, lets you add and personalize markers on the map
  */
-export default {
+export default defineComponent({
   name: "LMarker",
-  props,
+  props: markerProps,
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletRef = ref<Marker | null>(null);
     const ready = ref(false);
 
-    const addLayer = inject("addLayer");
+    // FIXME: Type of addLayer
+    const addLayer = inject<any>("addLayer");
 
-    provide("canSetParentHtml", () => !!leafletRef.value.getElement());
     provide(
-      "setParentHtml",
-      (html) => (leafletRef.value.getElement().innerHTML = html)
+      "canSetParentHtml",
+      () => leafletRef.value && !!leafletRef.value.getElement()
     );
+    provide("setParentHtml", (html: string) => {
+      if (leafletRef.value) {
+        const element = leafletRef.value.getElement();
+        if (element) {
+          element.innerHTML = html;
+        }
+      }
+    });
+
     provide(
       "setIcon",
-      (newIcon) => leafletRef.value.setIcon && leafletRef.value.setIcon(newIcon)
+      (newIcon: Icon | DivIcon) =>
+        leafletRef.value &&
+        leafletRef.value.setIcon &&
+        leafletRef.value.setIcon(newIcon)
     );
     const { options, methods } = markerSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { marker, DomEvent } = await import("leaflet/dist/leaflet-src.esm");
-      leafletRef.value = marker(props.latLng, options);
+      // FIXME: Importing from "leaflet" results in error when loading markerImg, but works when importing from "leaflet/dist/leaflet-src.esm"
+      const {
+        marker,
+        DomEvent,
+      }: {
+        marker: typeof markerLeaflet;
+        DomEvent: typeof DomEventLeaflet;
+      } = await import("leaflet/dist/leaflet-src.esm");
+      // FIXME: props.latlng should not be needed to be casted
+      leafletRef.value = marker(props.latLng as LatLngExpression, options);
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletRef.value, listeners);
+
+      // FIXME: Types seems to not match, might be an issue in @types/leaflet
+      DomEvent.on((leafletRef.value as unknown) as HTMLElement, listeners);
 
       leafletRef.value.on("move", debounce(methods.latLngSync, 100));
-      propsBinder(methods, leafletRef.value, props);
+      propsBinder(methods, (leafletRef.value as unknown) as HTMLElement, props);
       addLayer({
         ...props,
         ...methods,
@@ -50,5 +90,5 @@ export default {
   render() {
     return render(this.ready, this.$slots);
   },
-};
+});
 </script>
