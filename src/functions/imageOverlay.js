@@ -10,7 +10,7 @@ export const props = {
     required: true,
   },
   bounds: {
-    type: Array,
+    type: [Array, Object],
     required: true,
   },
   opacity: {
