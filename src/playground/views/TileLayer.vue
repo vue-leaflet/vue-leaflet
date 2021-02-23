@@ -4,13 +4,13 @@
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       layer-type="base"
       name="OpenStreetMap"
-      max-zoom="10"
+      :max-zoom="10"
     />
     <l-tile-layer
       url="https://s3.amazonaws.com/te512.safecast.org/{z}/{x}/{y}.png"
       attribution="<a href='https://blog.safecast.org/about/'>SafeCast</a> (<a href='https://creativecommons.org/licenses/by-sa/3.0/'>CC-BY-SA</a>"
-      min-zoom="5"
-      max-zoom="7"
+      :min-zoom="5"
+      :max-zoom="7"
     />
   </l-map>
 </template>
