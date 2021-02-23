@@ -7,6 +7,11 @@ import Home from "./views/Home.vue";
 const routes = [
   { path: "/", component: Home },
   { path: "/grid-layer", component: () => import("./views/GridLayer.vue") },
+  { path: "/tile-layer", component: () => import("./views/TileLayer.vue") },
+  {
+    path: "/wms-tile-layer",
+    component: () => import("./views/WmsTileLayer.vue"),
+  },
   {
     path: "/feature-group",
     component: () => import("./views/FeatureGroup.vue"),
@@ -36,7 +41,6 @@ const routes = [
   { path: "/geo-json", component: () => import("./views/GeoJSON.vue") },
   { path: "/icon", component: () => import("./views/Icon.vue") },
   { path: "/marker", component: () => import("./views/Marker.vue") },
-  { path: "/tile-layer", component: () => import("./views/TileLayer.vue") },
   { path: "/polygon", component: () => import("./views/Polygon.vue") },
   { path: "/polyline", component: () => import("./views/Polyline.vue") },
   { path: "/popups", component: () => import("./views/Popups.vue") },
