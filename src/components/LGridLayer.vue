@@ -22,7 +22,7 @@ export default {
 
     const addLayer = inject("addLayer");
 
-    const { options, methods } = gridLayerSetup(props, leafletRef);
+    const { options, methods } = gridLayerSetup(props, leafletRef, context);
 
     onMounted(async () => {
       const { GridLayer, DomEvent, DomUtil } = await import(

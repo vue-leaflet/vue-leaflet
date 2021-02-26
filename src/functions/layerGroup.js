@@ -5,10 +5,11 @@ export const props = {
   ...layerProps,
 };
 
-export const setup = (props, leafletRef) => {
+export const setup = (props, leafletRef, context) => {
   const { options: layerOptions, methods: layerMethods } = layerSetup(
     props,
-    leafletRef
+    leafletRef,
+    context
   );
 
   const options = {
