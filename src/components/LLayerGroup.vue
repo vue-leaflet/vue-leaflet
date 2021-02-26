@@ -12,7 +12,7 @@ export default {
 
     const addLayer = inject("addLayer");
 
-    const { methods } = layerGroupSetup(props, leafletRef);
+    const { methods } = layerGroupSetup(props, leafletRef, context);
 
     onMounted(async () => {
       const { layerGroup, DomEvent } = await import(
