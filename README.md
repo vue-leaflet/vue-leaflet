@@ -17,6 +17,7 @@ This is a Beta version! And may yet be instable! If you want to help, please rea
 - LFeatureGroup
 - LGeoJson
 - LIcon
+- LImageOverlay
 - LMap
 - LMarker
 - LPolygon
