@@ -22,6 +22,12 @@ import {
 } from "../functions/component";
 
 export default {
+  emits: [
+    'ready',
+    'update:zoom',
+    'update:center',
+    'update:bounds',
+  ],
   props: {
     ...componentProps,
     /**
