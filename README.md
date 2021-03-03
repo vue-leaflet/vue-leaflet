@@ -56,14 +56,16 @@ classes are technically no longer the same. See [Issue 48](https://github.com/vu
 To avoid these issues, import any Leaflet methods asynchronously in response to the LMap component's `@ready` event:
 ```vue
 <template>
-  <l-map>
+  <l-map style="height:50vh">
     <l-geo-json :geojson="geojson" :options="geojsonOptions" />
   </l-map>
 </template>
 
 <script>
 // DON'T load Leaflet components here!
-import { LMap, LGeoJson } from "./../../components";
+// Its CSS is needed though, if not imported elsewhere in your application.
+import "leaflet/dist/leaflet.css"
+import { LMap, LGeoJson } from "@vue-leaflet/vue-leaflet";
 
 export default {
   components: {
