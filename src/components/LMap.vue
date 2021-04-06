@@ -219,7 +219,6 @@ export default {
     };
 
     onMounted(async () => {
-      WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet"));
       const {
         map,
         CRS,
@@ -227,7 +226,9 @@ export default {
         latLngBounds,
         latLng,
         DomEvent,
-      } = WINDOW_OR_GLOBAL.L;
+      } = options.useGlobalLeaflet
+        ? (WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet")))
+        : await import("leaflet/dist/leaflet-src.esm");
 
       try {
         options.beforeMapMount && (await options.beforeMapMount());
