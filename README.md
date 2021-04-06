@@ -17,6 +17,7 @@ This is a Beta version! And may yet be instable! If you want to help, please rea
 - LFeatureGroup
 - LGeoJson
 - LIcon
+- LImageOverlay
 - LMap
 - LMarker
 - LPolygon
@@ -39,7 +40,11 @@ or
 
 ## Usage
 
-Until the complete documentation is ready, please check the [demo project](https://github.com/vue-leaflet/vue3-demo-project/blob/master/src/App.vue) for example usage.
+Until the complete documentation is ready, please check the
+[component playground](https://github.com/vue-leaflet/vue-leaflet/tree/master/src/playground/views) examples or the
+[demo project](https://github.com/vue-leaflet/vue3-demo-project/blob/master/src/App.vue) for usage with Vue 3.
+Most component props mimic the vanilla [Leaflet options](https://leafletjs.com/reference-1.7.1.html) as closely as
+possible, and generally remain the same as in their [Vue2Leaflet counterparts](https://vue2-leaflet.netlify.app/components/).
 
 ### Working with Leaflet
 
@@ -52,14 +57,16 @@ classes are technically no longer the same. See [Issue 48](https://github.com/vu
 To avoid these issues, import any Leaflet methods asynchronously in response to the LMap component's `@ready` event:
 ```vue
 <template>
-  <l-map>
+  <l-map style="height:50vh">
     <l-geo-json :geojson="geojson" :options="geojsonOptions" />
   </l-map>
 </template>
 
 <script>
 // DON'T load Leaflet components here!
-import { LMap, LGeoJson } from "./../../components";
+// Its CSS is needed though, if not imported elsewhere in your application.
+import "leaflet/dist/leaflet.css"
+import { LMap, LGeoJson } from "@vue-leaflet/vue-leaflet";
 
 export default {
   components: {

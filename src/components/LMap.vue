@@ -27,6 +27,7 @@ const WINDOW_OR_GLOBAL =
   undefined;
 
 export default {
+  emits: ["ready", "update:zoom", "update:center", "update:bounds"],
   props: {
     ...componentProps,
     /**
@@ -100,11 +101,14 @@ export default {
       default: false,
     },
     /**
-     * The crs option for the map
-     * @values CRS.EPSG3857
+     * The CRS to use for the map. Can be an object that defines a coordinate reference
+     * system for projecting geographical points into screen coordinates and back
+     * (see https://leafletjs.com/reference-1.7.1.html#crs-l-crs-base), or a string
+     * name identifying one of Leaflet's defined CRSs, such as "EPSG4326".
      */
     crs: {
-      type: Object,
+      type: [String, Object],
+      default: "EPSG3857",
     },
     maxBoundsViscosity: {
       type: Number,
@@ -234,7 +238,10 @@ export default {
       }
 
       await resetWebpackIcon(Icon);
-      options.crs = options.crs || CRS.EPSG3857;
+
+      const optionsCrs =
+        typeof options.crs == "string" ? CRS[options.crs] : options.crs;
+      options.crs = optionsCrs || CRS.EPSG3857;
 
       const methods = {
         addLayer(layer) {
