@@ -21,13 +21,13 @@ import {
   setup as componentSetup,
 } from "../functions/component";
 
+const WINDOW_OR_GLOBAL =
+  (typeof self === "object" && self.self === self && self) ||
+  (typeof global === "object" && global.global === global && global) ||
+  undefined;
+
 export default {
-  emits: [
-    'ready',
-    'update:zoom',
-    'update:center',
-    'update:bounds',
-  ],
+  emits: ["ready", "update:zoom", "update:center", "update:bounds"],
   props: {
     ...componentProps,
     /**
@@ -219,9 +219,25 @@ export default {
     };
 
     onMounted(async () => {
-      const { map, CRS, Icon, latLngBounds, latLng, DomEvent } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const {
+        map,
+        CRS,
+        Icon,
+        latLngBounds,
+        latLng,
+        DomEvent,
+      } = options.useGlobalLeaflet
+        ? (WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet")))
+        : await import("leaflet/dist/leaflet-src.esm");
+
+      try {
+        options.beforeMapMount && (await options.beforeMapMount());
+      } catch (error) {
+        console.error(
+          `The following error occurred running the provided beforeMapMount hook ${error.message}`
+        );
+      }
+
       await resetWebpackIcon(Icon);
 
       const optionsCrs =
