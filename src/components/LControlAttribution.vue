@@ -4,7 +4,7 @@ import {
   props,
   setup as attributionControlSetup,
 } from "../functions/controlAttribution";
-import { propsBinder } from "../utils.js";
+import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
 export default {
   name: "LControlAttribution",
@@ -12,10 +12,15 @@ export default {
   setup(props, context) {
     const leafletRef = ref({});
 
+    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const registerControl = inject("registerControl");
+
     const { options, methods } = attributionControlSetup(props, leafletRef);
+
     onMounted(async () => {
-      const { control } = await import("leaflet/dist/leaflet-src.esm");
+      const { control } = useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
+        : await import("leaflet/dist/leaflet-src.esm");
 
       leafletRef.value = control.attribution(options);
       propsBinder(methods, leafletRef.value, props);

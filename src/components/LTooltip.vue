@@ -1,6 +1,11 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { propsBinder, remapEvents } from "../utils.js";
+import {
+  propsBinder,
+  remapEvents,
+  WINDOW_OR_GLOBAL,
+  GLOBAL_LEAFLET_OPT,
+} from "../utils.js";
 import { props, setup as tooltipSetup } from "../functions/tooltip";
 import { render } from "../functions/popper";
 
@@ -14,13 +19,15 @@ export default {
     const leafletRef = ref({});
     const root = ref(null);
 
+    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const bindTooltip = inject("bindTooltip");
+
     const { options, methods } = tooltipSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { tooltip, DomEvent } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { tooltip, DomEvent } = useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
+        : await import("leaflet/dist/leaflet-src.esm");
 
       leafletRef.value = tooltip(options);
 

@@ -1,6 +1,11 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder } from "../utils.js";
+import {
+  remapEvents,
+  propsBinder,
+  WINDOW_OR_GLOBAL,
+  GLOBAL_LEAFLET_OPT,
+} from "../utils.js";
 import {
   props as imageOverlayProps,
   setup as imageOverlaySetup,
@@ -17,14 +22,15 @@ export default {
     const leafletRef = ref({});
     const ready = ref(false);
 
+    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
     const { options, methods } = imageOverlaySetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { imageOverlay, DomEvent } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { imageOverlay, DomEvent } = useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
+        : await import("leaflet/dist/leaflet-src.esm");
       leafletRef.value = imageOverlay(props.url, props.bounds, options);
 
       const listeners = remapEvents(context.attrs);

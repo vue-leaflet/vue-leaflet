@@ -1,6 +1,11 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder } from "../utils.js";
+import {
+  remapEvents,
+  propsBinder,
+  WINDOW_OR_GLOBAL,
+  GLOBAL_LEAFLET_OPT,
+} from "../utils.js";
 import { props, setup as polylineSetup } from "../functions/polyline";
 import { render } from "../functions/layer";
 
@@ -14,14 +19,15 @@ export default {
     const leafletRef = ref({});
     const ready = ref(false);
 
+    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
     const { options, methods } = polylineSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { polyline, DomEvent } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { polyline, DomEvent } = useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
+        : await import("leaflet/dist/leaflet-src.esm");
 
       leafletRef.value = polyline(props.latLngs, options);
 

@@ -1,6 +1,11 @@
 <script>
 import { onMounted, ref, inject, nextTick, h } from "vue";
-import { propsBinder, remapEvents } from "../utils";
+import {
+  propsBinder,
+  remapEvents,
+  WINDOW_OR_GLOBAL,
+  GLOBAL_LEAFLET_OPT,
+} from "../utils";
 import { props as iconProps } from "../functions/icon";
 import {
   props as componentProps,
@@ -19,6 +24,7 @@ export default {
   setup(props, context) {
     const root = ref(null);
 
+    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const canSetParentHtml = inject("canSetParentHtml");
     const setParentHtml = inject("setParentHtml");
     const setIcon = inject("setIcon");
@@ -90,9 +96,9 @@ export default {
     };
 
     onMounted(async () => {
-      const { DomEvent, divIcon: lDivIcon, icon: lIcon } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { DomEvent, divIcon: lDivIcon, icon: lIcon } = useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
+        : await import("leaflet/dist/leaflet-src.esm");
 
       onDomEvent = DomEvent.on;
       offDomEvent = DomEvent.off;

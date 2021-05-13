@@ -1,6 +1,12 @@
 <script>
 import { onMounted, ref, provide, inject, nextTick } from "vue";
-import { remapEvents, propsBinder, debounce } from "../utils.js";
+import {
+  remapEvents,
+  propsBinder,
+  debounce,
+  WINDOW_OR_GLOBAL,
+  GLOBAL_LEAFLET_OPT,
+} from "../utils.js";
 import { props, setup as markerSetup } from "../functions/marker";
 import { render } from "../functions/layer";
 
@@ -14,6 +20,7 @@ export default {
     const leafletRef = ref({});
     const ready = ref(false);
 
+    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
     provide("canSetParentHtml", () => !!leafletRef.value.getElement());
@@ -28,7 +35,9 @@ export default {
     const { options, methods } = markerSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { marker, DomEvent } = await import("leaflet/dist/leaflet-src.esm");
+      const { marker, DomEvent } = useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
+        : await import("leaflet/dist/leaflet-src.esm");
       leafletRef.value = marker(props.latLng, options);
 
       const listeners = remapEvents(context.attrs);

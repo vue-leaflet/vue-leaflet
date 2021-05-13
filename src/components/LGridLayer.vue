@@ -1,6 +1,11 @@
 <script>
 import { onMounted, onUnmounted, ref, inject, nextTick, h, render } from "vue";
-import { remapEvents, propsBinder } from "../utils.js";
+import {
+  remapEvents,
+  propsBinder,
+  WINDOW_OR_GLOBAL,
+  GLOBAL_LEAFLET_OPT,
+} from "../utils.js";
 import {
   props as gridLayerProps,
   setup as gridLayerSetup,
@@ -20,14 +25,15 @@ export default {
     const root = ref(null);
     const ready = ref(false);
 
+    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
     const { options, methods } = gridLayerSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { GridLayer, DomEvent, DomUtil } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { GridLayer, DomEvent, DomUtil } = useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
+        : await import("leaflet/dist/leaflet-src.esm");
 
       methods.onUnload = (e) => {
         const key = leafletRef.value._tileCoordsToKey(e.coords);
