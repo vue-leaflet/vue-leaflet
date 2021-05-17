@@ -22,30 +22,30 @@ First add a ref to the map
 </l-map>
 ```
 
-Then in you JavaScript you can use mapObject which is Leaflet map instance :
+Then in you JavaScript you can use leafletObject which is Leaflet map instance :
 
 ```javascript
-this.$refs.map.mapObject;
+this.$refs.map.leafletObject;
 ```
 
-**Note:** `mapObject` is not available directly in vue's `mounted` hook. You need to wrap the call to `this.$refs.map` in a `nextTick` call:
+**Note:** `leafletObject` is not available directly in vue's `mounted` hook. You need to wrap the call to `this.$refs.map` in a `nextTick` call:
 
 ```javascript
 data: () => ({map: null}),
 mounted () {
   // DON'T
-  this.map = this.$refs.map.mapObject // doesn't work, this.map is null
+  this.map = this.$refs.map.leafletObject // doesn't work, this.map is null
 
   // DO
   this.$nextTick(() => {
-    this.map = this.$refs.map.mapObject // work as expected
+    this.map = this.$refs.map.leafletObject // work as expected
   })
 },
 ```
 
 This also work for any other component (Marker, Polyline, etc...)
 
-**Note:** If you're having troubles using `mounted` hook, you can use [l-map](/components/LMap.md) component `ready` event to ensure that you access `mapObject` after it's loaded:
+**Note:** If you're having troubles using `mounted` hook, you can use [l-map](/components/LMap.md) component `ready` event to ensure that you access `leafletObject` after it's loaded:
 
 ```html
 <l-map ref="map" @ready="doSomethingOnReady()"></l-map>
@@ -54,7 +54,7 @@ This also work for any other component (Marker, Polyline, etc...)
 ```javascript
 methods: {
     doSomethingOnReady() {
-        this.map = this.$refs.map.mapObject
+        this.map = this.$refs.map.leafletObject
     },
 },
 ```
