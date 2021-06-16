@@ -26,15 +26,15 @@ export default {
       (newIcon) => leafletRef.value.setIcon && leafletRef.value.setIcon(newIcon)
     );
     const { options, methods } = markerSetup(props, leafletRef, context);
+    if (options.icon === undefined) {
+      // If the options objection has a property named 'icon', then Leaflet will overwrite
+      // the default icon with it for the marker, _even if it is undefined_.
+      // This leads to the issue discussed in https://github.com/vue-leaflet/vue-leaflet/issues/130
+      delete options.icon;
+    }
 
     onMounted(async () => {
       const { marker, DomEvent } = await import("leaflet/dist/leaflet-src.esm");
-      if (options.icon === undefined) {
-        // If the options objection has a property named 'icon', then Leaflet will overwrite
-        // the default icon with it for the marker, _even if it is undefined_.
-        // This leads to the issue discussed in https://github.com/vue-leaflet/vue-leaflet/issues/130
-        delete options.icon;
-      }
       leafletRef.value = marker(props.latLng, options);
 
       const listeners = remapEvents(context.attrs);
