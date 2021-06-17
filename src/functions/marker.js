@@ -18,6 +18,7 @@ export const props = {
   },
   icon: {
     type: [Object],
+    default: () => undefined,
     custom: false,
   },
   zIndexOffset: {
