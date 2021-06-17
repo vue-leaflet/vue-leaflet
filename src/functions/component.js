@@ -1,7 +1,7 @@
 export const props = {
   options: {
     type: Object,
-    default: () => ({ useGlobalLeaflet: false }),
+    default: () => ({}),
   },
 };
 

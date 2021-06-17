@@ -1,6 +1,11 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder } from "../utils.js";
+import {
+  remapEvents,
+  propsBinder,
+  WINDOW_OR_GLOBAL,
+  GLOBAL_LEAFLET_OPT,
+} from "../utils.js";
 import { props, setup as layerGroupSetup } from "../functions/layerGroup";
 import { render } from "../functions/layer";
 
@@ -10,14 +15,15 @@ export default {
     const leafletRef = ref({});
     const ready = ref(false);
 
+    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
     const { methods } = layerGroupSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { layerGroup, DomEvent } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { layerGroup, DomEvent } = useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
+        : await import("leaflet/dist/leaflet-src.esm");
       leafletRef.value = layerGroup(props.options);
 
       const listeners = remapEvents(context.attrs);

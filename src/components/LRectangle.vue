@@ -1,6 +1,11 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { remapEvents, propsBinder } from "../utils.js";
+import {
+  remapEvents,
+  propsBinder,
+  WINDOW_OR_GLOBAL,
+  GLOBAL_LEAFLET_OPT,
+} from "../utils.js";
 import { props, setup as rectangleSetup } from "../functions/rectangle";
 import { render } from "../functions/layer";
 
@@ -13,14 +18,16 @@ export default {
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);
+
+    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
     const { options, methods } = rectangleSetup(props, leafletRef, context);
 
     onMounted(async () => {
-      const { rectangle, latLngBounds, DomEvent } = await import(
-        "leaflet/dist/leaflet-src.esm"
-      );
+      const { rectangle, latLngBounds, DomEvent } = useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
+        : await import("leaflet/dist/leaflet-src.esm");
 
       const bounds =
         props.bounds && props.bounds.length

@@ -102,3 +102,10 @@ export const provideLeafletWrapper = (methodName) => {
  */
 export const updateLeafletWrapper = (wrapper, leafletMethod) =>
   (wrapper.wrapped.value = leafletMethod);
+
+export const WINDOW_OR_GLOBAL =
+  (typeof self === "object" && self.self === self && self) ||
+  (typeof global === "object" && global.global === global && global) ||
+  undefined;
+
+export const GLOBAL_LEAFLET_OPT = "useGlobalLeaflet";

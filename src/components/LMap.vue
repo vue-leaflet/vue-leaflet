@@ -1,12 +1,13 @@
 <script>
 import {
-  onMounted,
-  onBeforeUnmount,
   computed,
+  h,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
   reactive,
   ref,
-  nextTick,
-  h,
 } from "vue";
 import {
   remapEvents,
@@ -15,16 +16,13 @@ import {
   resetWebpackIcon,
   provideLeafletWrapper,
   updateLeafletWrapper,
+  WINDOW_OR_GLOBAL,
+  GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
 import {
   props as componentProps,
   setup as componentSetup,
 } from "../functions/component";
-
-const WINDOW_OR_GLOBAL =
-  (typeof self === "object" && self.self === self && self) ||
-  (typeof global === "object" && global.global === global && global) ||
-  undefined;
 
 export default {
   emits: ["ready", "update:zoom", "update:center", "update:bounds"],
@@ -150,6 +148,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    useGlobalLeaflet: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, context) {
     const root = ref(null);
@@ -184,6 +186,7 @@ export default {
     const removeLayer = provideLeafletWrapper("removeLayer");
     const registerControl = provideLeafletWrapper("registerControl");
     const registerLayerControl = provideLeafletWrapper("registerLayerControl");
+    provide(GLOBAL_LEAFLET_OPT, props.useGlobalLeaflet);
 
     const eventHandlers = {
       moveEndHandler() {
@@ -219,6 +222,9 @@ export default {
     };
 
     onMounted(async () => {
+      if (props.useGlobalLeaflet) {
+        WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet"));
+      }
       const {
         map,
         CRS,
@@ -226,8 +232,8 @@ export default {
         latLngBounds,
         latLng,
         DomEvent,
-      } = options.useGlobalLeaflet
-        ? (WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet")))
+      } = props.useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
       try {
