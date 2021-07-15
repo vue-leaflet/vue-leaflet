@@ -22,6 +22,8 @@ export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+export const isFunction = (obj) => obj && typeof obj === "function";
+
 export const propsBinder = (methods, leafletElement, props) => {
   for (const key in props) {
     const setMethodName = "set" + capitalizeFirstLetter(key);
