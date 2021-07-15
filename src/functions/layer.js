@@ -1,5 +1,6 @@
 import { onUnmounted, provide, inject, h } from "vue";
 import { props as componentProps, setup as componentSetup } from "./component";
+import { isFunction } from "../utils";
 
 export const props = {
   ...componentProps,
@@ -74,19 +75,41 @@ export const setup = (props, leafletRef, context) => {
       }
     },
     bindPopup({ leafletObject }) {
+      if (!leafletRef.value || !isFunction(leafletRef.value.bindPopup)) {
+        console.warn(
+          "Attempt to bind popup before bindPopup method available on layer."
+        );
+
+        return;
+      }
+
       leafletRef.value.bindPopup(leafletObject);
     },
     bindTooltip({ leafletObject }) {
+      if (!leafletRef.value || !isFunction(leafletRef.value.bindTooltip)) {
+        console.warn(
+          "Attempt to bind tooltip before bindTooltip method available on layer."
+        );
+
+        return;
+      }
+
       leafletRef.value.bindTooltip(leafletObject);
     },
     unbindTooltip() {
-      const tooltip = leafletRef.value ? leafletRef.value.getTooltip() : null;
+      const tooltip =
+        leafletRef.value && isFunction(leafletRef.value.unbindTooltip)
+          ? leafletRef.value.getTooltip()
+          : null;
       if (tooltip) {
         tooltip.unbindTooltip();
       }
     },
     unbindPopup() {
-      const popup = leafletRef.value ? leafletRef.value.getPopup() : null;
+      const popup =
+        leafletRef.value && isFunction(leafletRef.value.unbindPopup)
+          ? leafletRef.value.getPopup()
+          : null;
       if (popup) {
         popup.unbindPopup();
       }
