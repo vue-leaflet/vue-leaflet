@@ -98,19 +98,19 @@ export const setup = (props, leafletRef, context) => {
     },
     unbindTooltip() {
       const tooltip =
-        leafletRef.value && isFunction(leafletRef.value.unbindTooltip)
+        leafletRef.value && isFunction(leafletRef.value.getTooltip)
           ? leafletRef.value.getTooltip()
           : null;
-      if (tooltip) {
+      if (tooltip && isFunction(tooltip.unbindTooltip)) {
         tooltip.unbindTooltip();
       }
     },
     unbindPopup() {
       const popup =
-        leafletRef.value && isFunction(leafletRef.value.unbindPopup)
+        leafletRef.value && isFunction(leafletRef.value.getPopup)
           ? leafletRef.value.getPopup()
           : null;
-      if (popup) {
+      if (popup && isFunction(popup.unbindPopup)) {
         popup.unbindPopup();
       }
     },
