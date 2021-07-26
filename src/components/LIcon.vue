@@ -16,6 +16,9 @@ import {
  * Icon component, lets you add and custom icons to the map
  */
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LIcon",
   props: {
     ...iconProps,
