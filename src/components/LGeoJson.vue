@@ -10,6 +10,9 @@ import { props, setup as geoJSONSetup } from "../functions/geoJSON";
 import { render } from "../functions/layer";
 
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   props,
   setup(props, context) {
     const leafletRef = ref({});

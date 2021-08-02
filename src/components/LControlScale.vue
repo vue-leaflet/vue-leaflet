@@ -4,6 +4,9 @@ import { props, setup as scaleControlSetup } from "../functions/controlScale";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LControlScale",
   props,
   setup(props, context) {

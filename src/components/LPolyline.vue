@@ -13,6 +13,9 @@ import { render } from "../functions/layer";
  * Polyline component, lets you add and personalize polylines on the map
  */
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LPolyline",
   props,
   setup(props, context) {

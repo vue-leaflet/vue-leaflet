@@ -9,6 +9,9 @@ import {
 import { props, setup as tileLayerSetup } from "../functions/tileLayer";
 
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   props,
   setup(props, context) {
     const leafletRef = ref({});

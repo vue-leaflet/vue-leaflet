@@ -13,6 +13,9 @@ import { render } from "../functions/popper";
  * Display a tooltip on the map
  */
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LTooltip",
   props,
   setup(props, context) {

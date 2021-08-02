@@ -13,6 +13,9 @@ import { render } from "../functions/layer";
  * Polygon component, lets you add and customize polygon regions on the map
  */
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LPolygon",
   props,
   setup(props, context) {

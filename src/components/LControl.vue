@@ -8,6 +8,9 @@ import {
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LControl",
   props: {
     ...controlProps,
