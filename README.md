@@ -2,8 +2,9 @@
 
 Vue-leaflet, written and compatible with Vue 3!
 
-This is a Beta version! And may yet be instable! If you want to help, please reach out in an
-[issue](https://github.com/vue-leaflet/vue-leaflet/issues) or on [discord](https://discord.gg/uVZAfUf).
+This is a Beta version! And may yet be unstable! If you want to help, please reach out in an
+[issue](https://github.com/vue-leaflet/vue-leaflet/issues) or on [discord](https://discord.gg/uVZAfUf),
+or join the [discussions](https://github.com/vue-leaflet/vue-leaflet/discussions).
 
 ## What Works:
 
