@@ -19,6 +19,10 @@ export const props = {
     type: Number,
     default: 256,
   },
+  zoomOffset: {
+    type: Number,
+    default: 0
+  },
   noWrap: {
     type: Boolean,
     default: false,
@@ -45,6 +49,7 @@ export const setup = (props, leafletRef, context) => {
     opacity: props.opacity,
     zIndex: props.zIndex,
     tileSize: props.tileSize,
+    zoomOffset: props.zoomOffset,
     noWrap: props.noWrap,
     minZoom: props.minZoom,
     maxZoom: props.maxZoom,
