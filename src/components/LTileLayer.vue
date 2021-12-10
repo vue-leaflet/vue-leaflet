@@ -16,7 +16,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = tileLayerSetup(props, leafletRef);
+    const { options, methods } = tileLayerSetup(props, leafletRef, context);
 
     onMounted(async () => {
       const { tileLayer, DomEvent } = useGlobalLeaflet
