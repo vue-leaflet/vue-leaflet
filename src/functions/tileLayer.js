@@ -20,11 +20,11 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef) => {
+export const setup = (props, leafletRef, context) => {
   const {
     options: gridLayerOptions,
     methods: gridLayerMethods,
-  } = gridLayerSetup(props, leafletRef);
+  } = gridLayerSetup(props, leafletRef, context);
   const options = {
     ...gridLayerOptions,
     tms: props.tms,

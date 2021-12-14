@@ -11,10 +11,11 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef) => {
+export const setup = (props, leafletRef, context) => {
   const { options: layerOptions, methods: layerGroupMethods } = layerGroupSetup(
     props,
-    leafletRef
+    leafletRef,
+    context
   );
 
   const options = {
