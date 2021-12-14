@@ -1,16 +1,12 @@
 <script>
 import { onMounted, ref, inject, nextTick, h } from "vue";
-import {
-  propsBinder,
-  remapEvents,
-  WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
-} from "../utils";
+import { propsBinder, remapEvents } from "../utils";
 import { props as iconProps } from "../functions/icon";
 import {
   props as componentProps,
   setup as componentSetup,
 } from "../functions/component";
+import { DomEvent, divIcon as lDivIcon, icon as lIcon } from "leaflet";
 
 /**
  * Icon component, lets you add and custom icons to the map
@@ -24,7 +20,6 @@ export default {
   setup(props, context) {
     const root = ref(null);
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const canSetParentHtml = inject("canSetParentHtml");
     const setParentHtml = inject("setParentHtml");
     const setIcon = inject("setIcon");
@@ -94,12 +89,7 @@ export default {
       setClassName: scheduleCreateIcon,
       setHtml: scheduleCreateIcon,
     };
-
-    onMounted(async () => {
-      const { DomEvent, divIcon: lDivIcon, icon: lIcon } = useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
-
+    onMounted(() => {
       onDomEvent = DomEvent.on;
       offDomEvent = DomEvent.off;
       divIcon = lDivIcon;
