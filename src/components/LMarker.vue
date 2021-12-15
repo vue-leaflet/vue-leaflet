@@ -33,17 +33,31 @@ export default {
       (newIcon) => leafletRef.value.setIcon && leafletRef.value.setIcon(newIcon)
     );
     const { options, methods } = markerSetup(props, leafletRef, context);
-    if (options.icon === undefined) {
-      // If the options objection has a property named 'icon', then Leaflet will overwrite
-      // the default icon with it for the marker, _even if it is undefined_.
-      // This leads to the issue discussed in https://github.com/vue-leaflet/vue-leaflet/issues/130
-      delete options.icon;
-    }
 
     onMounted(async () => {
-      const { marker, DomEvent } = useGlobalLeaflet
+      const { marker, DomEvent, divIcon } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
+
+      // If an icon is not specified in the options, then either the content of the LMarker's
+      // slot should be displayed if present, or the default Leaflet icon should be used if not.
+      // Either way, the `undefined` property needs to be modified.
+      if (options.icon === undefined) {
+        if (context.slots.default) {
+          // If there is slot content to be displayed, then the initial state of the icon should be
+          // invisible until it is replaced by any calls to `setIcon` or `setParentHtml` from within
+          // the default slot.
+          // Creating an empty div with no classes accomplishes this, avoiding the issue discussed in
+          // https://github.com/vue-leaflet/vue-leaflet/issues/170.
+          options.icon = divIcon({ className: "" });
+        } else {
+          // If the options object has a property named 'icon' when passed to `marker`, then Leaflet
+          // will overwrite the default icon with that value for the marker, _even if it is undefined_.
+          // This leads to the issue discussed in https://github.com/vue-leaflet/vue-leaflet/issues/130,
+          // and is avoided by simply removing that property.
+          delete options.icon;
+        }
+      }
       leafletRef.value = marker(props.latLng, options);
 
       const listeners = remapEvents(context.attrs);
