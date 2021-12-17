@@ -32,8 +32,6 @@ export const props = {
 export const setup = (props, leafletRef, context) => {
   const addLayer = inject("addLayer");
   const removeLayer = inject("removeLayer");
-  const addAttribution = inject("addAttribution");
-  const removeAttribution = inject("removeAttribution");
   const {
     options: componentOptions,
     methods: componentMethods,
@@ -51,9 +49,12 @@ export const setup = (props, leafletRef, context) => {
 
   const methods = {
     ...componentMethods,
-    setAttribution(val, old) {
-      removeAttribution(old);
-      addAttribution(val);
+    setAttribution(val) {
+      removeThisLayer();
+      leafletRef.value.options.attribution = val;
+      if (props.visible) {
+        addThisLayer();
+      }
     },
     setName() {
       removeThisLayer();

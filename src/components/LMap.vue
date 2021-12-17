@@ -182,12 +182,8 @@ export default {
       markerZoomAnimation: props.markerZoomAnimation,
     };
 
-    const getAttributionControl = () => blueprint.leafletRef.attributionControl;
-
     const addLayer = provideLeafletWrapper("addLayer");
     const removeLayer = provideLeafletWrapper("removeLayer");
-    const addAttribution = provideLeafletWrapper("addAttribution");
-    const removeAttribution = provideLeafletWrapper("removeAttribution");
     const registerControl = provideLeafletWrapper("registerControl");
     const registerLayerControl = provideLeafletWrapper("registerLayerControl");
     provide(GLOBAL_LEAFLET_OPT, props.useGlobalLeaflet);
@@ -372,22 +368,10 @@ export default {
             });
           }
         },
-
-        addAttribution(attribution) {
-          const control = getAttributionControl();
-          control && control.addAttribution(attribution);
-        },
-
-        removeAttribution(attribution) {
-          const control = getAttributionControl();
-          control && control.removeAttribution(attribution);
-        },
       };
 
       updateLeafletWrapper(addLayer, methods.addLayer);
       updateLeafletWrapper(removeLayer, methods.removeLayer);
-      updateLeafletWrapper(addAttribution, methods.addAttribution);
-      updateLeafletWrapper(removeAttribution, methods.removeAttribution);
       updateLeafletWrapper(registerControl, methods.registerControl);
       updateLeafletWrapper(registerLayerControl, methods.registerLayerControl);
 
