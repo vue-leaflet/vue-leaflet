@@ -164,22 +164,33 @@ export default {
     const { options: componentOptions } = componentSetup(props);
     const options = {
       ...componentOptions,
-      minZoom: props.minZoom,
-      maxZoom: props.maxZoom,
-      maxBounds: props.maxBounds,
-      maxBoundsViscosity: props.maxBoundsViscosity,
-      worldCopyJump: props.worldCopyJump,
-      crs: props.crs,
-      center: props.center,
-      zoom: props.zoom,
-      inertia: props.inertia,
-      inertiaDeceleration: props.inertiaDeceleration,
-      inertiaMaxSpeed: props.inertiaMaxSpeed,
-      easeLinearity: props.easeLinearity,
-      zoomAnimation: props.zoomAnimation,
-      zoomAnimationThreshold: props.zoomAnimationThreshold,
-      fadeAnimation: props.fadeAnimation,
-      markerZoomAnimation: props.markerZoomAnimation,
+      ...[
+        "minZoom",
+        "maxZoom",
+        "maxBounds",
+        "maxBoundsViscosity",
+        "worldCopyJump",
+        "crs",
+        "center",
+        "zoom",
+        "inertia",
+        "inertiaDeceleration",
+        "inertiaMaxSpeed",
+        "easeLinearity",
+        "zoomAnimation",
+        "zoomAnimationThreshold",
+        "fadeAnimation",
+        "markerZoomAnimation",
+      ].reduce((acc, key) => {
+        if (typeof props[key] === "undefined") {
+          return acc;
+        }
+
+        return {
+          ...acc,
+          [key]: props[key],
+        };
+      }, {}),
     };
 
     const addLayer = provideLeafletWrapper("addLayer");
