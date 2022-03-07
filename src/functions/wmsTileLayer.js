@@ -30,7 +30,7 @@ export const props = {
   crs: {
     default: null,
   },
-  upperCase: {
+  uppercase: {
     type: Boolean,
     default: false,
   },
@@ -49,7 +49,7 @@ export const setup = (props, leafletRef) => {
     transparent: props.transparent,
     version: props.version,
     crs: props.crs,
-    upperCase: props.upperCase,
+    uppercase: props.uppercase,
   };
   return {
     options,
