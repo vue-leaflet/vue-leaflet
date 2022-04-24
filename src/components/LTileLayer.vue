@@ -22,7 +22,7 @@ export default {
       const { tileLayer, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
-      leafletRef.value = tileLayer(props.url, options);
+      leafletRef.value = tileLayer.wms(props.url, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
