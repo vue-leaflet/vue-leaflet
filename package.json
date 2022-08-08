@@ -10,7 +10,9 @@
   "module": "dist/vue-leaflet.esm.js",
   "files": [
     "dist/",
-    "src/"
+    "src/",
+    "rollup.config.js",
+    "vue.config.js"
   ],
   "repository": {
     "type": "git",

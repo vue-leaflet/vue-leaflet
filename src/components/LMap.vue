@@ -225,16 +225,10 @@ export default {
       if (props.useGlobalLeaflet) {
         WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet"));
       }
-      const {
-        map,
-        CRS,
-        Icon,
-        latLngBounds,
-        latLng,
-        DomEvent,
-      } = props.useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { map, CRS, Icon, latLngBounds, latLng, DomEvent } =
+        props.useGlobalLeaflet
+          ? WINDOW_OR_GLOBAL.L
+          : await import("leaflet/dist/leaflet-src.esm");
 
       try {
         options.beforeMapMount && (await options.beforeMapMount());
@@ -376,8 +370,8 @@ export default {
       updateLeafletWrapper(registerLayerControl, methods.registerLayerControl);
 
       blueprint.leafletRef = map(root.value, options);
-      if (this.bounds) {
-          blueprint.leafletRef.fitBounds(this.bounds);
+      if (props.bounds) {
+        blueprint.leafletRef.fitBounds(props.bounds);
       }
 
       propsBinder(methods, blueprint.leafletRef, props);
