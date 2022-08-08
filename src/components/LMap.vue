@@ -376,6 +376,9 @@ export default {
       updateLeafletWrapper(registerLayerControl, methods.registerLayerControl);
 
       blueprint.leafletRef = map(root.value, options);
+      if (this.bounds) {
+          blueprint.leafletRef.fitBounds(this.bounds);
+      }
 
       propsBinder(methods, blueprint.leafletRef, props);
       const listeners = remapEvents(context.attrs);
