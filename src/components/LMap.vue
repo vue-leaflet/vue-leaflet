@@ -371,7 +371,13 @@ export default {
 
       blueprint.leafletRef = map(root.value, options);
       if (props.bounds) {
-        blueprint.leafletRef.fitBounds(props.bounds);
+        // Need to do this because there seems to be a prototype conflict even if we use
+        // the same version/method to create the LatLngBounds object
+        const newBounds = latLngBounds(
+          props.bounds._northEast,
+          props.bounds._southWest
+        );
+        blueprint.leafletRef.fitBounds(newBounds);
       }
 
       propsBinder(methods, blueprint.leafletRef, props);
