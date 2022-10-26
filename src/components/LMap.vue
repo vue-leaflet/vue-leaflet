@@ -118,31 +118,31 @@ export default {
     },
     inertiaDeceleration: {
       type: Number,
-      default: undefined,
+      default: 3000,
     },
     inertiaMaxSpeed: {
       type: Number,
-      default: undefined,
+      default: Infinity,
     },
     easeLinearity: {
       type: Number,
-      default: undefined,
+      default: 0.2,
     },
     zoomAnimation: {
       type: Boolean,
-      default: undefined,
+      default: true,
     },
     zoomAnimationThreshold: {
       type: Number,
-      default: undefined,
+      default: 4,
     },
     fadeAnimation: {
       type: Boolean,
-      default: undefined,
+      default: true,
     },
     markerZoomAnimation: {
       type: Boolean,
-      default: undefined,
+      default: true,
     },
     noBlockingAnimations: {
       type: Boolean,
