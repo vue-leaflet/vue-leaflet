@@ -150,7 +150,7 @@ export default {
     },
     useGlobalLeaflet: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   setup(props, context) {
