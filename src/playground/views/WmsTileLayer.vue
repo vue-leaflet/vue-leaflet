@@ -8,7 +8,7 @@
       :max-zoom="10"
       version="1.3.0"
       format="image/png"
-      transparent="true"
+      :transparent="true"
       layers="osm_auto:all"
     />
   </l-map>

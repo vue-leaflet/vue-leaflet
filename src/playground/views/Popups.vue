@@ -7,16 +7,12 @@
     ></l-tile-layer>
 
     <l-marker :lat-lng="[41.8329, -87.7327]">
-      <l-popup>
-        Hi! I'm staying here on this location!
-      </l-popup>
+      <l-popup> Hi! I'm staying here on this location! </l-popup>
     </l-marker>
 
     <l-layer-group>
       <l-marker :lat-lng="coordinates" draggable>
-        <l-popup>
-          Hi! You can drag me around!
-        </l-popup>
+        <l-popup> Hi! You can drag me around! </l-popup>
       </l-marker>
     </l-layer-group>
 
@@ -32,9 +28,7 @@
       :fillOpacity="0.5"
       fillColor="#41b782"
     >
-      <l-popup>
-        Hi! I'm a polygon, nice to meet you!
-      </l-popup>
+      <l-popup> Hi! I'm a polygon, nice to meet you! </l-popup>
     </l-polygon>
 
     <l-polyline
@@ -44,9 +38,7 @@
       ]"
       color="green"
     >
-      <l-popup>
-        Hey! Polyline here, at your service!
-      </l-popup>
+      <l-popup> Hey! Polyline here, at your service! </l-popup>
     </l-polyline>
 
     <l-rectangle
@@ -59,21 +51,15 @@
       :fill="true"
       color="#35495d"
     >
-      <l-popup>
-        Good day! Rectangle is my name!
-      </l-popup>
+      <l-popup> Good day! Rectangle is my name! </l-popup>
     </l-rectangle>
 
     <l-circle :lat-lng="[41.4329, -87.7327]" :radius="10000" color="green">
-      <l-popup>
-        Hi! I'm a green Circle!
-      </l-popup>
+      <l-popup> Hi! I'm a green Circle! </l-popup>
     </l-circle>
 
     <l-circle-marker :lat-lng="[41.4329, -87.95]" :radius="20">
-      <l-popup>
-        Hi! You can call me Circle Marker!
-      </l-popup>
+      <l-popup> Hi! You can call me Circle Marker! </l-popup>
     </l-circle-marker>
   </l-map>
 </template>

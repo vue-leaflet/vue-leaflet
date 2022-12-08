@@ -6,7 +6,7 @@ This is a Beta version! And may yet be unstable! If you want to help, please rea
 [issue](https://github.com/vue-leaflet/vue-leaflet/issues) or on [discord](https://discord.gg/uVZAfUf),
 or join the [discussions](https://github.com/vue-leaflet/vue-leaflet/discussions).
 
-## What Works
+## What works
 
 - LCircle
 - LCircleMarker
@@ -85,7 +85,18 @@ export default {
 <style></style>
 ```
 
-### Server-side Rendering (SSR)
+### Component playground
+
+To see the [component playground](https://github.com/vue-leaflet/vue-leaflet/tree/master/src/playground/views) in action,
+clone this repo and run the local devserver, then visit localhost:8080,
+```bash
+git clone https://github.com/vue-leaflet/vue-leaflet.git
+cd vue-leaflet
+yarn
+yarn serve
+```
+
+### Server-side rendering (SSR)
 
 Note that while the vue-leaflet library has the option of enabling SSR, **Leaflet itself does not**.
 

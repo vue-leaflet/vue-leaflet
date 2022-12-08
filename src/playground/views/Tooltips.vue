@@ -7,16 +7,12 @@
     ></l-tile-layer>
 
     <l-marker :lat-lng="[41.8329, -87.7327]">
-      <l-tooltip>
-        Hi! I'm staying here on this location!
-      </l-tooltip>
+      <l-tooltip> Hi! I'm staying here on this location! </l-tooltip>
     </l-marker>
 
     <l-layer-group>
       <l-marker :lat-lng="coordinates" draggable>
-        <l-tooltip>
-          Hi! You can drag me around!
-        </l-tooltip>
+        <l-tooltip> Hi! You can drag me around! </l-tooltip>
       </l-marker>
     </l-layer-group>
 
@@ -32,9 +28,7 @@
       :fillOpacity="0.5"
       fillColor="#41b782"
     >
-      <l-tooltip>
-        Hi! I'm a polygon, nice to meet you!
-      </l-tooltip>
+      <l-tooltip> Hi! I'm a polygon, nice to meet you! </l-tooltip>
     </l-polygon>
 
     <l-polyline
@@ -44,9 +38,7 @@
       ]"
       color="green"
     >
-      <l-tooltip>
-        Hey! Polyline here, at your service!
-      </l-tooltip>
+      <l-tooltip> Hey! Polyline here, at your service! </l-tooltip>
     </l-polyline>
 
     <l-rectangle
@@ -59,21 +51,15 @@
       :fill="true"
       color="#35495d"
     >
-      <l-tooltip>
-        Good day! Rectangle is my name!
-      </l-tooltip>
+      <l-tooltip> Good day! Rectangle is my name! </l-tooltip>
     </l-rectangle>
 
     <l-circle :lat-lng="[41.4329, -87.7327]" :radius="10000" color="green">
-      <l-tooltip>
-        Hi! I'm a green Circle!
-      </l-tooltip>
+      <l-tooltip> Hi! I'm a green Circle! </l-tooltip>
     </l-circle>
 
     <l-circle-marker :lat-lng="[41.4329, -87.95]" :radius="20">
-      <l-tooltip>
-        Hi! You can call me Circle Marker!
-      </l-tooltip>
+      <l-tooltip> Hi! You can call me Circle Marker! </l-tooltip>
     </l-circle-marker>
   </l-map>
 </template>
