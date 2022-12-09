@@ -67,6 +67,7 @@ possible, and generally remain the same as in their [Vue2Leaflet counterparts](h
 </template>
 
 <script>
+import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
 
 export default {
