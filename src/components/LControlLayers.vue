@@ -4,6 +4,9 @@ import { props, setup as layerControlSetup } from "../functions/controlLayers";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LControlLayers",
   props,
   setup(props, context) {

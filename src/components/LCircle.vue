@@ -13,6 +13,9 @@ import { render } from "../functions/layer";
  * Circle component, lets you add and personalize circles on the map
  */
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LCircle",
   props,
   setup(props, context) {

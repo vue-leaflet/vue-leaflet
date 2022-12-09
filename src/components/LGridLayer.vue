@@ -12,6 +12,9 @@ import {
 } from "../functions/gridLayer";
 
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   props: {
     ...gridLayerProps,
     childRender: {

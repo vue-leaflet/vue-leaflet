@@ -13,6 +13,9 @@ import { render } from "../functions/layer";
  * Circle Marker component, lets you add and personalize circle markers on the map
  */
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LCircleMarker",
   props,
   setup(props, context) {

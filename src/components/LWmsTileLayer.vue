@@ -9,6 +9,9 @@ import {
 import { props, setup as wmsLayerSetup } from "../functions/wmsTileLayer";
 
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   props,
   setup(props, context) {
     const leafletRef = ref({});

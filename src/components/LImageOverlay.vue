@@ -16,6 +16,9 @@ import { render } from "../functions/layer";
  * ImageOverlay component, render a plain image instead of a geospatial map.
  */
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LImageOverlay",
   props: imageOverlayProps,
   setup(props, context) {

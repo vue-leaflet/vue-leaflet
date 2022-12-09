@@ -14,6 +14,9 @@ import { render } from "../functions/layer";
  * Marker component, lets you add and personalize markers on the map
  */
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LMarker",
   props,
   setup(props, context) {

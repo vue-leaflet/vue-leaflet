@@ -25,6 +25,9 @@ import {
 } from "../functions/component";
 
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   emits: ["ready", "update:zoom", "update:center", "update:bounds"],
   props: {
     ...componentProps,

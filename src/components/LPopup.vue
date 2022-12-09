@@ -13,6 +13,9 @@ import { render } from "../functions/popper";
  * Display a popup on the map
  */
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LPopup",
   props,
   setup(props, context) {

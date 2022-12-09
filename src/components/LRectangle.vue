@@ -13,6 +13,9 @@ import { render } from "../functions/layer";
  * Rectangle component, lets you add and customize rectangular regions on the map
  */
 export default {
+  compatConfig: {
+    RENDER_FUNCTION: false,
+  },
   name: "LRectangle",
   props,
   setup(props, context) {
