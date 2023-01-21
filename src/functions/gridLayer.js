@@ -1,6 +1,6 @@
-import { props as layerProps, setup as layerSetup } from "./layer";
+import { layerProps, setupLayer } from "./layer";
 
-export const props = {
+export const gridLayerProps = {
   ...layerProps,
   pane: {
     type: String,
@@ -25,8 +25,8 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = layerSetup(
+export const setupGridLayer = (props, leafletRef, context) => {
+  const { options: layerOptions, methods: layerMethods } = setupLayer(
     props,
     leafletRef,
     context

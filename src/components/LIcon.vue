@@ -6,11 +6,8 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils";
-import { props as iconProps } from "../functions/icon";
-import {
-  props as componentProps,
-  setup as componentSetup,
-} from "../functions/component";
+import { iconProps } from "../functions/icon";
+import { componentProps, setupComponent } from "../functions/component";
 
 /**
  * Icon component, lets you add and custom icons to the map
@@ -49,7 +46,7 @@ export default {
         offDomEvent(iconObject, listeners);
       }
 
-      const { options: componentOptions } = componentSetup(props);
+      const { options: componentOptions } = setupComponent(props);
       const options = {
         ...componentOptions,
         iconUrl: props.iconUrl,

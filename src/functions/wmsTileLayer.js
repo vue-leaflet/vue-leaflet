@@ -1,6 +1,6 @@
-import { props as tileLayerProps, setup as tileLayerSetup } from "./tileLayer";
+import { tileLayerProps, setupTileLayer } from "./tileLayer";
 
-export const props = {
+export const wmsTileLayerProps = {
   ...tileLayerProps,
   layers: {
     type: String,
@@ -31,11 +31,11 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef) => {
+export const setupWMSTileLayer = (props, leafletRef) => {
   const {
     options: tileLayerOptions,
     methods: tileLayerMethods,
-  } = tileLayerSetup(props, leafletRef);
+  } = setupTileLayer(props, leafletRef);
   const options = {
     ...tileLayerOptions,
     layers: props.layers,

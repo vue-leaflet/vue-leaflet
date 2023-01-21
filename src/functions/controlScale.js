@@ -1,6 +1,6 @@
-import { props as controlProps, setup as controlSetup } from "./control";
+import { controlProps, setupControl } from "./control";
 
-export const props = {
+export const controlScaleProps = {
   ...controlProps,
   maxWidth: {
     type: Number,
@@ -16,8 +16,8 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef) => {
-  const { options: controlOptions, methods: controlMethods } = controlSetup(
+export const setupControlScale = (props, leafletRef) => {
+  const { options: controlOptions, methods: controlMethods } = setupControl(
     props,
     leafletRef
   );

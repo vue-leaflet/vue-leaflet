@@ -1,4 +1,4 @@
-export const props = {
+export const iconProps = {
   iconUrl: {
     type: String,
     required: true,

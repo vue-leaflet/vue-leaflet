@@ -1,14 +1,14 @@
-import { props as controlProps, setup as controlSetup } from "./control";
+import { controlProps, setupControl } from "./control";
 
-export const props = {
+export const controlAttributionProps = {
   ...controlProps,
   prefix: {
     type: String,
   },
 };
 
-export const setup = (props, leafletRef) => {
-  const { options: controlOptions, methods: controlMethods } = controlSetup(
+export const setupControlAttribution = (props, leafletRef) => {
+  const { options: controlOptions, methods: controlMethods } = setupControl(
     props,
     leafletRef
   );

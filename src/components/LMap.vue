@@ -19,10 +19,7 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import {
-  props as componentProps,
-  setup as componentSetup,
-} from "../functions/component";
+import { componentProps, setupComponent } from "../functions/component";
 
 export default {
   emits: ["ready", "update:zoom", "update:center", "update:bounds"],
@@ -161,7 +158,7 @@ export default {
       layersToAdd: [],
       layersInControl: [],
     });
-    const { options: componentOptions } = componentSetup(props);
+    const { options: componentOptions } = setupComponent(props);
     const options = {
       ...componentOptions,
       minZoom: props.minZoom,

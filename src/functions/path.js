@@ -1,11 +1,11 @@
 import { onBeforeUnmount, inject } from "vue";
-import { props as layerProps, setup as layerSetup } from "./layer";
+import { layerProps, setupLayer } from "./layer";
 import {
-  props as interactiveLayerProps,
-  setup as interactiveLayerSetup,
+  interactiveLayerProps,
+  setupInteractiveLayer,
 } from "./interactiveLayer";
 
-export const props = {
+export const pathProps = {
   ...layerProps,
   ...interactiveLayerProps,
   stroke: {
@@ -49,8 +49,8 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = layerSetup(
+export const setupPath = (props, leafletRef, context) => {
+  const { options: layerOptions, methods: layerMethods } = setupLayer(
     props,
     leafletRef,
     context
@@ -58,7 +58,7 @@ export const setup = (props, leafletRef, context) => {
   const {
     options: interactiveLayerOptions,
     methods: interactiveLayerMethods,
-  } = interactiveLayerSetup(props, leafletRef, context);
+  } = setupInteractiveLayer(props, leafletRef, context);
 
   const removeLayer = inject("removeLayer");
 

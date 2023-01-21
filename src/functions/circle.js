@@ -1,9 +1,6 @@
-import {
-  props as circleMarkerProps,
-  setup as circleMarkerSetup,
-} from "./circleMarker";
+import { circleMarkerProps, setupCircleMarker } from "./circleMarker";
 
-export const props = {
+export const circleProps = {
   ...circleMarkerProps,
   /**
    * Radius of the circle in meters.
@@ -13,11 +10,11 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context) => {
+export const setupCircle = (props, leafletRef, context) => {
   const {
     options: circleMarkerOptions,
     methods: circleMarkerMethods,
-  } = circleMarkerSetup(props, leafletRef, context);
+  } = setupCircleMarker(props, leafletRef, context);
 
   const options = {
     ...circleMarkerOptions,

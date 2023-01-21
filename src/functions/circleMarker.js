@@ -1,6 +1,6 @@
-import { props as pathProps, setup as pathSetup } from "./path";
+import { pathProps as pathProps, setupPath as pathSetup } from "./path";
 
-export const props = {
+export const circleMarkerProps = {
   ...pathProps,
   /**
    * Radius of the marker in pixels.
@@ -15,7 +15,7 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context) => {
+export const setupCircleMarker = (props, leafletRef, context) => {
   const { options: pathOptions, methods: pathMethods } = pathSetup(
     props,
     leafletRef,

@@ -1,18 +1,18 @@
 import { onUnmounted, h } from "vue";
-import { props as componentProps, setup as componentSetup } from "./component";
+import { componentProps, setupComponent } from "./component";
 
-export const props = {
+export const controlProps = {
   ...componentProps,
   position: {
     type: String,
   },
 };
 
-export const setup = (props, leafletRef) => {
+export const setupControl = (props, leafletRef) => {
   const {
     options: componentOptions,
     methods: componentMethods,
-  } = componentSetup(props);
+  } = setupComponent(props);
   const options = {
     ...componentOptions,
     position: props.position,

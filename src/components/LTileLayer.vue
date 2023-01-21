@@ -6,17 +6,17 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import { props, setup as tileLayerSetup } from "../functions/tileLayer";
+import { tileLayerProps, setupTileLayer } from "../functions/tileLayer";
 
 export default {
-  props,
+  props: tileLayerProps,
   setup(props, context) {
     const leafletRef = ref({});
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = tileLayerSetup(props, leafletRef, context);
+    const { options, methods } = setupTileLayer(props, leafletRef, context);
 
     onMounted(async () => {
       const { tileLayer, DomEvent } = useGlobalLeaflet

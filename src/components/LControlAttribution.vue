@@ -1,21 +1,21 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
 import {
-  props,
-  setup as attributionControlSetup,
+  controlAttributionProps,
+  setupControlAttribution,
 } from "../functions/controlAttribution";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
 export default {
   name: "LControlAttribution",
-  props,
+  props: controlAttributionProps,
   setup(props, context) {
     const leafletRef = ref({});
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const registerControl = inject("registerControl");
 
-    const { options, methods } = attributionControlSetup(props, leafletRef);
+    const { options, methods } = setupControlAttribution(props, leafletRef);
 
     onMounted(async () => {
       const { control } = useGlobalLeaflet

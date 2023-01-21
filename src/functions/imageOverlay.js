@@ -1,9 +1,9 @@
-import { props as layerProps, setup as layerSetup } from "./layer";
+import { layerProps, setupLayer } from "./layer";
 /**
  * @typedef {import('leaflet/dist/leaflet-src.esm.js').LatLngBounds} LatLngBounds
  */
 
-export const props = {
+export const imageOverlayProps = {
   ...layerProps,
   opacity: {
     type: Number,
@@ -38,8 +38,8 @@ export const props = {
   },
 };
 
-export const setup = (setupProps, LeafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = layerSetup(
+export const setupImageOverlay = (setupProps, LeafletRef, context) => {
+  const { options: layerOptions, methods: layerMethods } = setupLayer(
     setupProps,
     LeafletRef,
     context

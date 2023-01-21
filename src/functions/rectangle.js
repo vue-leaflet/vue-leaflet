@@ -1,6 +1,6 @@
-import { props as polygonProps, setup as polygonSetup } from "./polygon";
+import { polygonProps, setupPolygon } from "./polygon";
 
-export const props = {
+export const rectangleProps = {
   ...polygonProps,
   bounds: {
     type: Array,
@@ -9,8 +9,8 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: polygonOptions, methods: polygonMethods } = polygonSetup(
+export const setupRectangle = (props, leafletRef, context) => {
+  const { options: polygonOptions, methods: polygonMethods } = setupPolygon(
     props,
     leafletRef,
     context

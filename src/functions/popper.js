@@ -1,7 +1,7 @@
 import { h } from "vue";
-import { props as componentProps, setup as componentSetup } from "./component";
+import { componentProps, setupComponent } from "./component";
 
-export const props = {
+export const popperProps = {
   ...componentProps,
   content: {
     type: String,
@@ -9,8 +9,8 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef) => {
-  const { options, methods: componentMethods } = componentSetup(props);
+export const setupPopper = (props, leafletRef) => {
+  const { options, methods: componentMethods } = setupComponent(props);
   const methods = {
     ...componentMethods,
     setContent(newVal) {

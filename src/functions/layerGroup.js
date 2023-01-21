@@ -1,12 +1,12 @@
 import { provide } from "vue";
-import { props as layerProps, setup as layerSetup } from "./layer";
+import { layerProps, setupLayer } from "./layer";
 
-export const props = {
+export const layerGroupProps = {
   ...layerProps,
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = layerSetup(
+export const setupLayerGroup = (props, leafletRef, context) => {
+  const { options: layerOptions, methods: layerMethods } = setupLayer(
     props,
     leafletRef,
     context

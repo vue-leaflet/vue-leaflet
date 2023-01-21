@@ -1,6 +1,6 @@
-import { props as componentProps, setup as componentSetup } from "./component";
+import { componentProps, setupComponent } from "./component";
 
-export const props = {
+export const interactiveLayerProps = {
   ...componentProps,
   interactive: {
     type: Boolean,
@@ -10,8 +10,8 @@ export const props = {
   },
 };
 
-export const setup = (props) => {
-  const { options: componentOptions, methods } = componentSetup(props);
+export const setupInteractiveLayer = (props) => {
+  const { options: componentOptions, methods } = setupComponent(props);
   const options = {
     ...componentOptions,
     interactive: props.interactive,

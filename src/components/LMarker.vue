@@ -7,7 +7,7 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import { props, setup as markerSetup } from "../functions/marker";
+import { markerProps, setupMarker } from "../functions/marker";
 import { render } from "../functions/layer";
 
 /**
@@ -15,7 +15,7 @@ import { render } from "../functions/layer";
  */
 export default {
   name: "LMarker",
-  props,
+  props: markerProps,
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);
@@ -32,9 +32,9 @@ export default {
       "setIcon",
       (newIcon) => leafletRef.value.setIcon && leafletRef.value.setIcon(newIcon)
     );
-    const { options, methods } = markerSetup(props, leafletRef, context);
+    const { options, methods } = setupMarker(props, leafletRef, context);
     if (options.icon === undefined) {
-      // If the options objection has a property named 'icon', then Leaflet will overwrite
+      // If the options object has a property named 'icon', then Leaflet will overwrite
       // the default icon with it for the marker, _even if it is undefined_.
       // This leads to the issue discussed in https://github.com/vue-leaflet/vue-leaflet/issues/130
       delete options.icon;

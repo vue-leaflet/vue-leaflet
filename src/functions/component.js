@@ -1,4 +1,4 @@
-export const props = {
+export const componentProps = {
   options: {
     type: Object,
     default: () => ({}),
@@ -6,6 +6,6 @@ export const props = {
   },
 };
 
-export const setup = (props) => {
+export const setupComponent = (props) => {
   return { options: props.options, methods: {} };
 };

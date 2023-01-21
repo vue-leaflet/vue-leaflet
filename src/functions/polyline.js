@@ -1,6 +1,6 @@
-import { props as pathProps, setup as pathSetup } from "./path";
+import { pathProps, setupPath } from "./path";
 
-export const props = {
+export const polylineProps = {
   ...pathProps,
   latLngs: {
     type: Array,
@@ -15,8 +15,8 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: pathOptions, methods: pathMethods } = pathSetup(
+export const setupPolyline = (props, leafletRef, context) => {
+  const { options: pathOptions, methods: pathMethods } = setupPath(
     props,
     leafletRef,
     context

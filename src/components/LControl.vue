@@ -1,10 +1,6 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import {
-  props as controlProps,
-  setup as controlSetup,
-  render,
-} from "../functions/control";
+import { controlProps, setupControl, render } from "../functions/control";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
 export default {
@@ -29,7 +25,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const registerControl = inject("registerControl");
 
-    const { options, methods } = controlSetup(props, leafletRef);
+    const { options, methods } = setupControl(props, leafletRef);
 
     onMounted(async () => {
       const { Control, DomEvent } = useGlobalLeaflet

@@ -1,6 +1,6 @@
-import { props as layerProps, setup as layerSetup } from "./layer";
+import { layerProps, setupLayer } from "./layer";
 
-export const props = {
+export const markerProps = {
   ...layerProps,
   pane: {
     type: String,
@@ -21,8 +21,8 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = layerSetup(
+export const setupMarker = (props, leafletRef, context) => {
+  const { options: layerOptions, methods: layerMethods } = setupLayer(
     props,
     leafletRef,
     context

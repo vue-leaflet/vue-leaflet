@@ -1,6 +1,6 @@
-import { props as gridLayerProps, setup as gridLayerSetup } from "./gridLayer";
+import { gridLayerProps, setupGridLayer } from "./gridLayer";
 
-export const props = {
+export const tileLayerProps = {
   ...gridLayerProps,
   tms: {
     type: Boolean,
@@ -18,11 +18,11 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context) => {
+export const setupTileLayer = (props, leafletRef, context) => {
   const {
     options: gridLayerOptions,
     methods: gridLayerMethods,
-  } = gridLayerSetup(props, leafletRef, context);
+  } = setupGridLayer(props, leafletRef, context);
   const options = {
     ...gridLayerOptions,
     tms: props.tms,

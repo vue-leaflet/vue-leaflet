@@ -1,8 +1,8 @@
 import { onUnmounted, provide, inject, h } from "vue";
-import { props as componentProps, setup as componentSetup } from "./component";
+import { componentProps, setupComponent } from "./component";
 import { isFunction } from "../utils";
 
-export const props = {
+export const layerProps = {
   ...componentProps,
   pane: {
     type: String,
@@ -25,13 +25,13 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context) => {
+export const setupLayer = (props, leafletRef, context) => {
   const addLayer = inject("addLayer");
   const removeLayer = inject("removeLayer");
   const {
     options: componentOptions,
     methods: componentMethods,
-  } = componentSetup(props);
+  } = setupComponent(props);
 
   const options = {
     ...componentOptions,
