@@ -10,7 +10,6 @@ export const props = {
    */
   radius: {
     type: Number,
-    default: null,
   },
 };
 

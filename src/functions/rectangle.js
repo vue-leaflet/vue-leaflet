@@ -4,7 +4,8 @@ export const props = {
   ...polygonProps,
   bounds: {
     type: Array,
-    default: undefined,
+    required: true,
+    custom: true,
   },
 };
 

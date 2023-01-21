@@ -2,17 +2,16 @@ import { props as pathProps, setup as pathSetup } from "./path";
 
 export const props = {
   ...pathProps,
-  latLng: {
-    type: [Object, Array],
-    custom: true,
-    default: null,
-  },
   /**
    * Radius of the marker in pixels.
    */
   radius: {
     type: Number,
-    default: null,
+  },
+  latLng: {
+    type: [Object, Array],
+    required: true,
+    custom: true,
   },
 };
 

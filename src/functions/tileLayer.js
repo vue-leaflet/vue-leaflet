@@ -4,19 +4,17 @@ export const props = {
   ...gridLayerProps,
   tms: {
     type: Boolean,
-    default: false,
   },
   subdomains: {
     type: String,
-    default: "abc",
   },
   detectRetina: {
     type: Boolean,
-    default: false,
   },
   url: {
     type: String,
-    default: null,
+    required: true,
+    custom: true,
   },
 };
 

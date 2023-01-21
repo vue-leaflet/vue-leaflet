@@ -7,7 +7,7 @@ export const props = {
   ...layerGroupProps,
   geojson: {
     type: [Object, Array],
-    default: () => ({}),
+    custom: true,
   },
 };
 

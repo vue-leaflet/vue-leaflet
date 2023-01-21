@@ -4,19 +4,15 @@ export const props = {
   ...controlProps,
   zoomInText: {
     type: String,
-    default: "+",
   },
   zoomInTitle: {
     type: String,
-    default: "Zoom in",
   },
   zoomOutText: {
     type: String,
-    default: "-",
   },
   zoomOutTitle: {
     type: String,
-    default: "Zoom out",
   },
 };
 

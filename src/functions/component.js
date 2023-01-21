@@ -2,6 +2,7 @@ export const props = {
   options: {
     type: Object,
     default: () => ({}),
+    custom: true,
   },
 };
 

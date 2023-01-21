@@ -4,17 +4,14 @@ export const props = {
   ...pathProps,
   latLngs: {
     type: Array,
-    default: () => [],
+    required: true,
+    custom: true,
   },
   smoothFactor: {
     type: Number,
-    custom: true,
-    default: 1.0,
   },
   noClip: {
     type: Boolean,
-    custom: true,
-    default: false,
   },
 };
 

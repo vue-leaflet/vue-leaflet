@@ -4,19 +4,15 @@ export const props = {
   ...controlProps,
   maxWidth: {
     type: Number,
-    default: 100,
   },
   metric: {
     type: Boolean,
-    default: true,
   },
   imperial: {
     type: Boolean,
-    default: true,
   },
   updateWhenIdle: {
     type: Boolean,
-    default: false,
   },
 };
 

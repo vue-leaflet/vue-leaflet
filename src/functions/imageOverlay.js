@@ -5,44 +5,36 @@ import { props as layerProps, setup as layerSetup } from "./layer";
 
 export const props = {
   ...layerProps,
+  opacity: {
+    type: Number,
+  },
+  alt: {
+    type: String,
+  },
+  interactive: {
+    type: Boolean,
+  },
+  crossOrigin: {
+    type: Boolean,
+  },
+  errorOverlayUrl: {
+    type: String,
+  },
+  zIndex: {
+    type: Number,
+  },
+  className: {
+    type: String,
+  },
   url: {
     type: String,
     required: true,
+    custom: true,
   },
   bounds: {
     type: [Array, Object],
     required: true,
-  },
-  opacity: {
-    type: Number,
     custom: true,
-    default: 1.0,
-  },
-  alt: {
-    type: String,
-    default: "",
-  },
-  interactive: {
-    type: Boolean,
-    default: false,
-  },
-  crossOrigin: {
-    type: Boolean,
-    default: false,
-  },
-  errorOverlayUrl: {
-    type: String,
-    custom: true,
-    default: "",
-  },
-  zIndex: {
-    type: Number,
-    custom: true,
-    default: 1,
-  },
-  className: {
-    type: String,
-    default: "",
   },
 };
 

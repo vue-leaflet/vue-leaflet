@@ -4,23 +4,18 @@ export const props = {
   ...controlProps,
   collapsed: {
     type: Boolean,
-    default: true,
   },
   autoZIndex: {
     type: Boolean,
-    default: true,
   },
   hideSingleBase: {
     type: Boolean,
-    default: false,
   },
   sortLayers: {
     type: Boolean,
-    default: false,
   },
   sortFunction: {
     type: Function,
-    default: undefined,
   },
 };
 

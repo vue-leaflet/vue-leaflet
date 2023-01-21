@@ -5,7 +5,6 @@ export const props = {
   ...componentProps,
   position: {
     type: String,
-    default: "topright",
   },
 };
 

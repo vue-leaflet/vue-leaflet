@@ -2,37 +2,32 @@ import { props as tileLayerProps, setup as tileLayerSetup } from "./tileLayer";
 
 export const props = {
   ...tileLayerProps,
-  baseUrl: {
-    type: String,
-    default: null,
-    required: true,
-  },
   layers: {
     type: String,
-    default: "",
+    required: true,
   },
   styles: {
     type: String,
-    default: "",
   },
   format: {
     type: String,
-    default: "image/jpeg",
   },
   transparent: {
     type: Boolean,
-    custom: false,
   },
   version: {
     type: String,
-    default: "1.1.1",
   },
   crs: {
-    default: null,
+    type: Object,
   },
   upperCase: {
     type: Boolean,
-    default: false,
+  },
+  baseUrl: {
+    type: String,
+    required: true,
+    custom: true,
   },
 };
 

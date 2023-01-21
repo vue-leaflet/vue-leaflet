@@ -4,8 +4,6 @@ export const props = {
   ...controlProps,
   prefix: {
     type: String,
-    default: "Vue-Leaflet",
-    custom: true,
   },
 };
 

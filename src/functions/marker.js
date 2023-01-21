@@ -4,27 +4,20 @@ export const props = {
   ...layerProps,
   pane: {
     type: String,
-    default: "markerPane",
   },
   draggable: {
     type: Boolean,
-    custom: true,
-    default: false,
+  },
+  icon: {
+    type: [Object],
+  },
+  zIndexOffset: {
+    type: Number,
   },
   latLng: {
     type: [Object, Array],
     custom: true,
-    default: null,
-  },
-  icon: {
-    type: [Object],
-    default: () => undefined,
-    custom: false,
-  },
-  zIndexOffset: {
-    type: Number,
-    custom: false,
-    default: null,
+    required: true,
   },
 };
 
