@@ -3,17 +3,17 @@ import { pathProps, setupPath } from "./path";
 
 export const polylineProps = {
   ...pathProps,
-  latLngs: {
-    type: Array,
-    required: true,
-    custom: true,
-  },
   smoothFactor: {
     type: Number,
   },
   noClip: {
     type: Boolean,
     default: undefined,
+  },
+  latLngs: {
+    type: Array,
+    required: true,
+    custom: true,
   },
 };
 
