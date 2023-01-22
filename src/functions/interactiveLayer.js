@@ -5,9 +5,11 @@ export const interactiveLayerProps = {
   ...layerProps,
   interactive: {
     type: Boolean,
+    default: undefined,
   },
   bubblingMouseEvents: {
     type: Boolean,
+    default: undefined,
   },
 };
 

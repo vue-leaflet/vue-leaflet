@@ -14,9 +14,11 @@ export const imageOverlayProps = {
   },
   interactive: {
     type: Boolean,
+    default: undefined,
   },
   crossOrigin: {
     type: Boolean,
+    default: undefined,
   },
   errorOverlayUrl: {
     type: String,

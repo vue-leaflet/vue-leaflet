@@ -5,15 +5,19 @@ export const controlLayersProps = {
   ...controlProps,
   collapsed: {
     type: Boolean,
+    default: undefined,
   },
   autoZIndex: {
     type: Boolean,
+    default: undefined,
   },
   hideSingleBase: {
     type: Boolean,
+    default: undefined,
   },
   sortLayers: {
     type: Boolean,
+    default: undefined,
   },
   sortFunction: {
     type: Function,

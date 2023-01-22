@@ -9,6 +9,7 @@ export const pathProps = {
   ...interactiveLayerProps,
   stroke: {
     type: Boolean,
+    default: undefined,
   },
   color: {
     type: String,
@@ -33,6 +34,7 @@ export const pathProps = {
   },
   fill: {
     type: Boolean,
+    default: undefined,
   },
   fillColor: {
     type: String,

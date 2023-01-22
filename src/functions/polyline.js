@@ -13,6 +13,7 @@ export const polylineProps = {
   },
   noClip: {
     type: Boolean,
+    default: undefined,
   },
 };
 

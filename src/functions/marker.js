@@ -8,6 +8,7 @@ export const markerProps = {
   },
   draggable: {
     type: Boolean,
+    default: undefined,
   },
   icon: {
     type: [Object],

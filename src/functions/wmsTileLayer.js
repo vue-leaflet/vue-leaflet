@@ -15,6 +15,7 @@ export const wmsTileLayerProps = {
   },
   transparent: {
     type: Boolean,
+    default: undefined,
   },
   version: {
     type: String,
@@ -24,6 +25,7 @@ export const wmsTileLayerProps = {
   },
   upperCase: {
     type: Boolean,
+    default: undefined,
   },
   baseUrl: {
     type: String,

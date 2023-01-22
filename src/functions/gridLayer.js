@@ -17,6 +17,7 @@ export const gridLayerProps = {
   },
   noWrap: {
     type: Boolean,
+    default: undefined,
   },
   minZoom: {
     type: Number,

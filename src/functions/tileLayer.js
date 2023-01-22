@@ -5,12 +5,14 @@ export const tileLayerProps = {
   ...gridLayerProps,
   tms: {
     type: Boolean,
+    default: undefined,
   },
   subdomains: {
     type: String,
   },
   detectRetina: {
     type: Boolean,
+    default: undefined,
   },
   url: {
     type: String,

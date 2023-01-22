@@ -8,12 +8,15 @@ export const controlScaleProps = {
   },
   metric: {
     type: Boolean,
+    default: undefined,
   },
   imperial: {
     type: Boolean,
+    default: undefined,
   },
   updateWhenIdle: {
     type: Boolean,
+    default: undefined,
   },
 };
 
