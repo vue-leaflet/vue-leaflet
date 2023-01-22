@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { layerGroupProps, setupLayerGroup } from "./layerGroup";
 
 export const geoJSONProps = {
@@ -15,10 +16,7 @@ export const setupGeoJSON = (props, leafletRef, context) => {
     context
   );
 
-  const options = {
-    ...layerOptions,
-    ...props,
-  };
+  const options = propsToLeafletOptions(props, geoJSONProps, layerOptions);
 
   const methods = {
     ...layerGroupMethods,

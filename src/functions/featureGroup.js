@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { layerGroupProps, setupLayerGroup } from "./layerGroup";
 
 export const featureGroupProps = {
@@ -10,10 +11,7 @@ export const setupFeatureGroup = (props, leafletRef) => {
     leafletRef
   );
 
-  const options = {
-    ...layerOptions,
-    ...props,
-  };
+  const options = propsToLeafletOptions(props, featureGroupProps, layerOptions);
 
   const methods = {
     ...layerGroupMethods,

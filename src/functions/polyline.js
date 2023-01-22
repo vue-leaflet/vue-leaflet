@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { pathProps, setupPath } from "./path";
 
 export const polylineProps = {
@@ -21,10 +22,8 @@ export const setupPolyline = (props, leafletRef, context) => {
     leafletRef,
     context
   );
-  const options = {
-    ...pathOptions,
-    ...props,
-  };
+
+  const options = propsToLeafletOptions(props, polylineProps, pathOptions);
 
   const methods = {
     ...pathMethods,
@@ -38,5 +37,6 @@ export const setupPolyline = (props, leafletRef, context) => {
       leafletRef.value.addLatLng(latLng);
     },
   };
+
   return { options, methods };
 };

@@ -1,4 +1,5 @@
 import { provide } from "vue";
+import { propsToLeafletOptions } from "../utils";
 import { layerProps, setupLayer } from "./layer";
 
 export const layerGroupProps = {
@@ -12,9 +13,7 @@ export const setupLayerGroup = (props, leafletRef, context) => {
     context
   );
 
-  const options = {
-    ...layerOptions,
-  };
+  const options = propsToLeafletOptions(props, layerGroupProps, layerOptions);
 
   const methods = {
     ...layerMethods,

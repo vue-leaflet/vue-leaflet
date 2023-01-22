@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { pathProps as pathProps, setupPath as pathSetup } from "./path";
 
 export const circleMarkerProps = {
@@ -21,10 +22,9 @@ export const setupCircleMarker = (props, leafletRef, context) => {
     leafletRef,
     context
   );
-  const options = {
-    ...pathOptions,
-    ...props,
-  };
+
+  const options = propsToLeafletOptions(props, circleMarkerProps, pathOptions);
+
   const methods = {
     ...pathMethods,
     setRadius(radius) {

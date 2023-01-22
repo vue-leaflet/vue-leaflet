@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { layerProps, setupLayer } from "./layer";
 
 export const markerProps = {
@@ -27,10 +28,8 @@ export const setupMarker = (props, leafletRef, context) => {
     leafletRef,
     context
   );
-  const options = {
-    ...layerOptions,
-    ...props,
-  };
+
+  const options = propsToLeafletOptions(props, markerProps, layerOptions);
 
   const methods = {
     ...layerMethods,
@@ -58,5 +57,6 @@ export const setupMarker = (props, leafletRef, context) => {
       }
     },
   };
+
   return { options, methods };
 };

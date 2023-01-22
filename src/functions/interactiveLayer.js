@@ -1,7 +1,8 @@
-import { componentProps, setupComponent } from "./component";
+import { propsToLeafletOptions } from "../utils";
+import { layerProps, setupLayer } from "./layer";
 
 export const interactiveLayerProps = {
-  ...componentProps,
+  ...layerProps,
   interactive: {
     type: Boolean,
   },
@@ -10,13 +11,18 @@ export const interactiveLayerProps = {
   },
 };
 
-export const setupInteractiveLayer = (props) => {
-  const { options: componentOptions, methods } = setupComponent(props);
-  const options = {
-    ...componentOptions,
-    interactive: props.interactive,
-    bubblingMouseEvents: props.bubblingMouseEvents,
-  };
+export const setupInteractiveLayer = (props, leafletRef, context) => {
+  const { options: layerOptions, methods } = setupLayer(
+    props,
+    leafletRef,
+    context
+  );
+
+  const options = propsToLeafletOptions(
+    props,
+    interactiveLayerProps,
+    layerOptions
+  );
 
   return { options, methods };
 };

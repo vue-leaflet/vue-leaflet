@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { layerProps, setupLayer } from "./layer";
 
 export const gridLayerProps = {
@@ -31,15 +32,8 @@ export const setupGridLayer = (props, leafletRef, context) => {
     leafletRef,
     context
   );
-  const options = {
-    ...layerOptions,
-    pane: props.pane,
-    opacity: props.opacity,
-    zIndex: props.zIndex,
-    tileSize: props.tileSize,
-    noWrap: props.noWrap,
-    minZoom: props.minZoom,
-    maxZoom: props.maxZoom,
-  };
+
+  const options = propsToLeafletOptions(props, gridLayerProps, layerOptions);
+
   return { options, methods: { ...layerMethods } };
 };

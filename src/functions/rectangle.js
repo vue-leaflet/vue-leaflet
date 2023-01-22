@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { polygonProps, setupPolygon } from "./polygon";
 
 export const rectangleProps = {
@@ -15,10 +16,8 @@ export const setupRectangle = (props, leafletRef, context) => {
     leafletRef,
     context
   );
-  const options = {
-    ...polygonOptions,
-    ...props,
-  };
+
+  const options = propsToLeafletOptions(props, rectangleProps, polygonOptions);
 
   const methods = {
     ...polygonMethods,

@@ -5,6 +5,7 @@ import {
   remapEvents,
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
+  propsToLeafletOptions,
 } from "../utils";
 import { iconProps } from "../functions/icon";
 import { componentProps, setupComponent } from "../functions/component";
@@ -47,22 +48,10 @@ export default {
       }
 
       const { options: componentOptions } = setupComponent(props);
-      const options = {
-        ...componentOptions,
-        iconUrl: props.iconUrl,
-        iconRetinaUrl: props.iconRetinaUrl,
-        iconSize: props.iconSize,
-        iconAnchor: props.iconAnchor,
-        popupAnchor: props.popupAnchor,
-        tooltipAnchor: props.tooltipAnchor,
-        shadowUrl: props.shadowUrl,
-        shadowRetinaUrl: props.shadowRetinaUrl,
-        shadowSize: props.shadowSize,
-        shadowAnchor: props.shadowAnchor,
-        bgPos: props.bgPos,
-        className: props.className,
-        html: elHtml || props.html,
-      };
+      const options = propsToLeafletOptions(props, iconProps, componentOptions);
+      if (elHtml) {
+        options.html = elHtml;
+      }
 
       iconObject = options.html ? divIcon(options) : icon(options);
       onDomEvent(iconObject, listeners);

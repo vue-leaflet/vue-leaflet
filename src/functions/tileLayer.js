@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { gridLayerProps, setupGridLayer } from "./gridLayer";
 
 export const tileLayerProps = {
@@ -23,16 +24,16 @@ export const setupTileLayer = (props, leafletRef, context) => {
     options: gridLayerOptions,
     methods: gridLayerMethods,
   } = setupGridLayer(props, leafletRef, context);
-  const options = {
-    ...gridLayerOptions,
-    tms: props.tms,
-    subdomains: props.subdomains,
-    detectRetina: props.detectRetina,
+
+  const options = propsToLeafletOptions(
+    props,
+    tileLayerProps,
+    gridLayerOptions
+  );
+
+  const methods = {
+    ...gridLayerMethods,
   };
-  return {
-    options,
-    methods: {
-      ...gridLayerMethods,
-    },
-  };
+
+  return { options, methods };
 };

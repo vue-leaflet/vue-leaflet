@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { controlProps, setupControl } from "./control";
 
 export const controlScaleProps = {
@@ -21,13 +22,12 @@ export const setupControlScale = (props, leafletRef) => {
     props,
     leafletRef
   );
-  const options = {
-    ...controlOptions,
-    maxWidth: props.maxWidth,
-    metric: props.metric,
-    imperial: props.imperial,
-    updateWhenIdle: props.updateWhenIdle,
-  };
+
+  const options = propsToLeafletOptions(
+    props,
+    controlScaleProps,
+    controlOptions
+  );
 
   return { options, methods: controlMethods };
 };

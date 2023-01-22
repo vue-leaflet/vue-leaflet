@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { tileLayerProps, setupTileLayer } from "./tileLayer";
 
 export const wmsTileLayerProps = {
@@ -36,16 +37,13 @@ export const setupWMSTileLayer = (props, leafletRef) => {
     options: tileLayerOptions,
     methods: tileLayerMethods,
   } = setupTileLayer(props, leafletRef);
-  const options = {
-    ...tileLayerOptions,
-    layers: props.layers,
-    styles: props.styles,
-    format: props.format,
-    transparent: props.transparent,
-    version: props.version,
-    crs: props.crs,
-    upperCase: props.upperCase,
-  };
+
+  const options = propsToLeafletOptions(
+    props,
+    wmsTileLayerProps,
+    tileLayerOptions
+  );
+
   return {
     options,
     methods: {

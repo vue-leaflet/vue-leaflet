@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { controlProps, setupControl } from "./control";
 
 export const controlAttributionProps = {
@@ -12,10 +13,12 @@ export const setupControlAttribution = (props, leafletRef) => {
     props,
     leafletRef
   );
-  const options = {
-    ...controlOptions,
-    prefix: props.prefix,
-  };
+
+  const options = propsToLeafletOptions(
+    props,
+    controlAttributionProps,
+    controlOptions
+  );
 
   const methods = {
     ...controlMethods,

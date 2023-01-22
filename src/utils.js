@@ -45,6 +45,24 @@ export const propsBinder = (methods, leafletElement, props) => {
   }
 };
 
+export const propsToLeafletOptions = (
+  propValues,
+  propDefinitions,
+  baseOptions = {}
+) => {
+  const output = { ...baseOptions };
+
+  for (const prop in propValues) {
+    if (propDefinitions[prop] && propDefinitions[prop].custom === true) {
+      continue;
+    }
+
+    output[prop] = propValues[prop];
+  }
+
+  return output;
+};
+
 export const remapEvents = (contextAttrs) => {
   const result = {};
   for (const attrName in contextAttrs) {

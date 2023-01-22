@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { controlProps, setupControl } from "./control";
 
 export const controlLayersProps = {
@@ -21,14 +22,12 @@ export const controlLayersProps = {
 
 export const setupControlLayers = (props, leafletRef) => {
   const { options: controlOptions } = setupControl(props, leafletRef);
-  const options = {
-    ...controlOptions,
-    collapsed: props.collapsed,
-    autoZIndex: props.autoZIndex,
-    hideSingleBase: props.hideSingleBase,
-    sortLayers: props.sortLayers,
-    sortFunction: props.sortFunction,
-  };
+
+  const options = propsToLeafletOptions(
+    props,
+    controlLayersProps,
+    controlOptions
+  );
 
   const methods = {
     addLayer(layer) {
@@ -42,5 +41,6 @@ export const setupControlLayers = (props, leafletRef) => {
       leafletRef.value.removeLayer(layer.leafletObject);
     },
   };
+
   return { options, methods };
 };

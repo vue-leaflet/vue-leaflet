@@ -11,6 +11,7 @@ export const popupProps = {
 
 export const setupPopup = (props, leafletRef) => {
   const { options, methods } = setupPopper(props, leafletRef);
+
   const unbindPopup = inject("unbindPopup");
 
   onBeforeUnmount(() => {

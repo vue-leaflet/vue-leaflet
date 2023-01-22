@@ -1,12 +1,11 @@
 import { onBeforeUnmount, inject } from "vue";
-import { layerProps, setupLayer } from "./layer";
 import {
   interactiveLayerProps,
   setupInteractiveLayer,
 } from "./interactiveLayer";
+import { propsToLeafletOptions } from "../utils";
 
 export const pathProps = {
-  ...layerProps,
   ...interactiveLayerProps,
   stroke: {
     type: Boolean,
@@ -50,37 +49,19 @@ export const pathProps = {
 };
 
 export const setupPath = (props, leafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = setupLayer(
-    props,
-    leafletRef,
-    context
-  );
   const {
     options: interactiveLayerOptions,
     methods: interactiveLayerMethods,
   } = setupInteractiveLayer(props, leafletRef, context);
 
-  const removeLayer = inject("removeLayer");
+  const options = propsToLeafletOptions(
+    props,
+    pathProps,
+    interactiveLayerOptions
+  );
 
-  const options = {
-    ...layerOptions,
-    ...interactiveLayerOptions,
-    stroke: props.stroke,
-    color: props.color,
-    weight: props.weight,
-    opacity: props.opacity,
-    lineCap: props.lineCap,
-    lineJoin: props.lineJoin,
-    dashArray: props.dashArray,
-    dashOffset: props.dashOffset,
-    fill: props.fill,
-    fillColor: props.fillColor,
-    fillOpacity: props.fillOpacity,
-    fillRule: props.fillRule,
-    className: props.className,
-  };
+  const removeLayer = inject("removeLayer");
   const methods = {
-    ...layerMethods,
     ...interactiveLayerMethods,
     setStroke(stroke) {
       leafletRef.value.setStyle({ stroke });

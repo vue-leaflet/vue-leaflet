@@ -11,6 +11,7 @@ export const popperProps = {
 
 export const setupPopper = (props, leafletRef) => {
   const { options, methods: componentMethods } = setupComponent(props);
+
   const methods = {
     ...componentMethods,
     setContent(newVal) {
@@ -19,6 +20,7 @@ export const setupPopper = (props, leafletRef) => {
       }
     },
   };
+
   return { options, methods };
 };
 

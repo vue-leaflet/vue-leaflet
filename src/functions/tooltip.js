@@ -7,6 +7,7 @@ export const tooltipProps = {
 
 export const setupTooltip = (props, leafletRef) => {
   const { options, methods } = setupPopper(props, leafletRef);
+
   const unbindTooltip = inject("unbindTooltip");
 
   onBeforeUnmount(() => {

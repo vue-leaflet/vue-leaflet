@@ -1,3 +1,4 @@
+import { propsToLeafletOptions } from "../utils";
 import { layerProps, setupLayer } from "./layer";
 /**
  * @typedef {import('leaflet/dist/leaflet-src.esm.js').LatLngBounds} LatLngBounds
@@ -38,16 +39,14 @@ export const imageOverlayProps = {
   },
 };
 
-export const setupImageOverlay = (setupProps, LeafletRef, context) => {
+export const setupImageOverlay = (props, leafletRef, context) => {
   const { options: layerOptions, methods: layerMethods } = setupLayer(
-    setupProps,
-    LeafletRef,
+    props,
+    leafletRef,
     context
   );
-  const options = {
-    ...layerOptions,
-    ...setupProps,
-  };
+
+  const options = propsToLeafletOptions(props, imageOverlayProps, layerOptions);
 
   const methods = {
     ...layerMethods,
@@ -56,54 +55,54 @@ export const setupImageOverlay = (setupProps, LeafletRef, context) => {
      * @param {number} opacity
      */
     setOpacity(opacity) {
-      return LeafletRef.value.setOpacity(opacity);
+      return leafletRef.value.setOpacity(opacity);
     },
     /**
      * Changes the URL of the image.
      * @param {string} url
      */
     setUrl(url) {
-      return LeafletRef.value.setUrl(url);
+      return leafletRef.value.setUrl(url);
     },
     /**
      * Update the bounds that this ImageOverlay covers
      * @param {LatLngBounds | Array<Array<number>>} bounds
      */
     setBounds(bounds) {
-      return LeafletRef.value.setBounds(bounds);
+      return leafletRef.value.setBounds(bounds);
     },
     /**
      * Get the bounds that this ImageOverlay covers
      * @returns {LatLngBounds}
      */
     getBounds() {
-      return LeafletRef.value.getBounds();
+      return leafletRef.value.getBounds();
     },
     /**
      * Returns the instance of HTMLImageElement used by this overlay.
      * @returns {HTMLElement}
      */
     getElement() {
-      return LeafletRef.value.getElement();
+      return leafletRef.value.getElement();
     },
     /**
      * Brings the layer to the top of all overlays.
      */
     bringToFront() {
-      return LeafletRef.value.bringToFront();
+      return leafletRef.value.bringToFront();
     },
     /**
      * Brings the layer to the bottom of all overlays.
      */
     bringToBack() {
-      return LeafletRef.value.bringToBack();
+      return leafletRef.value.bringToBack();
     },
     /**
      * Changes the zIndex of the image overlay.
      * @param {number} zIndex
      */
     setZIndex(zIndex) {
-      return LeafletRef.value.setZIndex(zIndex);
+      return leafletRef.value.setZIndex(zIndex);
     },
   };
 

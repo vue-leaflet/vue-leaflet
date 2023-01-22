@@ -1,7 +1,6 @@
 export const iconProps = {
   iconUrl: {
     type: String,
-    required: true,
   },
   iconRetinaUrl: {
     type: String,
