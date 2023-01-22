@@ -27,11 +27,6 @@ export const wmsTileLayerProps = {
     type: Boolean,
     default: undefined,
   },
-  baseUrl: {
-    type: String,
-    required: true,
-    custom: true,
-  },
 };
 
 export const setupWMSTileLayer = (props, leafletRef) => {

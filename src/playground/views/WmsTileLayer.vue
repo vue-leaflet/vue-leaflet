@@ -1,7 +1,7 @@
 <template>
   <l-map ref="map" v-model:zoom="zoom" :center="[47.41322, -1.219482]">
     <l-wms-tile-layer
-      base-url="https://maps.heigit.org/osm-wms/service"
+      url="https://maps.heigit.org/osm-wms/service"
       attribution="HeiGIT <a href='osm-wms.de'>OSM WMS</a>"
       layer-type="base"
       name="osm-wms.de"
