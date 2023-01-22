@@ -10,6 +10,9 @@
       <l-marker :lat-lng="[47.41322, -1.219482]">
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
       </l-marker>
+      <l-marker :lat-lng="[47.61322, -1.219482]">
+        <l-icon><div class="div-icon">Custom HTML icon</div></l-icon>
+      </l-marker>
     </l-map>
 
     <button @click="changeIcon">New kitten icon</button>
@@ -51,4 +54,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.div-icon {
+  background-color: skyblue;
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px blue solid;
+}
+</style>
