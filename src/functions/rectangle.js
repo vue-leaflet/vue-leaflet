@@ -1,11 +1,11 @@
 import { propsToLeafletOptions } from "../utils";
 import { polygonProps, setupPolygon } from "./polygon";
 
+polygonProps.latLngs.required = false;
 export const rectangleProps = {
   ...polygonProps,
   bounds: {
     type: Array,
-    required: true,
     custom: true,
   },
 };
