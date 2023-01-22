@@ -77,7 +77,7 @@ export default {
     });
 
     onUnmounted(() => {
-      leafletRef.value.off("tileunload", methods.unLoad);
+      leafletRef.value.off("tileunload", methods.onUnload);
     });
 
     return { root, ready, leafletObject: leafletRef };

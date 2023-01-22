@@ -365,6 +365,7 @@ export default {
 
     onBeforeUnmount(() => {
       if (blueprint.leafletRef) {
+        blueprint.leafletRef.off();
         blueprint.leafletRef.remove();
       }
     });
