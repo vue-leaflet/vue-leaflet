@@ -2,6 +2,7 @@
 import {
   computed,
   h,
+  markRaw,
   nextTick,
   onBeforeUnmount,
   onMounted,
@@ -375,7 +376,7 @@ export default {
       updateLeafletWrapper(registerControl, methods.registerControl);
       updateLeafletWrapper(registerLayerControl, methods.registerLayerControl);
 
-      blueprint.leafletRef = map(root.value, options);
+      blueprint.leafletRef = markRaw(map(root.value, options));
 
       propsBinder(methods, blueprint.leafletRef, props);
       const listeners = remapEvents(context.attrs);
