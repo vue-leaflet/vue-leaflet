@@ -6,11 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [0.8.0] - 2023-01-26
 
 ### Added
 
 - Import of Leaflet CSS in quickstart.
+- Example of using HTML inside an `LIcon` component, to create a `DivIcon`.
+
+### Fixed
+
+- Leaflet component defaults are no longer replaced with `undefined` when not set explicitly.
+- Resolved some errors caused by event handlers attempting to run after components had unmounted.
+
+### Changed
+
+- **Breaking:** `LWmsTileLayer` no longer has its own `baseUrl` property in addition to the `url` property it inherits
+  from `LTileLayer`.
 
 
 ## [0.7.0] - 2022-12-08
