@@ -3,9 +3,6 @@ import { layerProps, setupLayer } from "./layer";
 
 export const gridLayerProps = {
   ...layerProps,
-  pane: {
-    type: String,
-  },
   opacity: {
     type: Number,
   },

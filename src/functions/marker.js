@@ -3,9 +3,6 @@ import { layerProps, setupLayer } from "./layer";
 
 export const markerProps = {
   ...layerProps,
-  pane: {
-    type: String,
-  },
   draggable: {
     type: Boolean,
     default: undefined,
