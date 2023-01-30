@@ -60,10 +60,8 @@ export const propsToLeafletOptions = (
     if (!defn) continue;
     // Custom vue-leaflet props should not be passed to Leaflet.
     if (defn && defn.custom === true) continue;
-    // Vue defaults Boolean properties to `false` instead of omitting them,
-    // so they must be given explicit defaults of `undefined` and then dropped
-    // here in order to use Leaflet's default values.
-    if (defn && defn.type === Boolean && val === undefined) continue;
+    // Exclude undefined values so that Leaflet uses its own defaults.
+    if (val === undefined) continue;
 
     output[prop] = val;
   }
