@@ -1,7 +1,7 @@
 {
   "name": "@vue-leaflet/vue-leaflet",
   "author": "Nicolò Maria Mezzopera",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "license": "MIT",
   "private": false,
   "sideEffects": false,
