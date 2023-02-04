@@ -1,11 +1,19 @@
 <script>
-import { onMounted, ref, provide, inject, nextTick } from "vue";
+import {
+  onMounted,
+  ref,
+  provide,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+} from "vue";
 import {
   remapEvents,
   propsBinder,
   debounce,
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
+  cancelDebounces,
 } from "../utils.js";
 import { markerProps, setupMarker } from "../functions/marker";
 import { render } from "../functions/layer";
@@ -40,6 +48,10 @@ export default {
       delete options.icon;
     }
 
+    const eventHandlers = {
+      moveHandler: debounce(methods.latLngSync),
+    };
+
     onMounted(async () => {
       const { marker, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
@@ -49,7 +61,7 @@ export default {
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
 
-      leafletRef.value.on("move", debounce(methods.latLngSync, 100));
+      leafletRef.value.on("move");
       propsBinder(methods, leafletRef.value, props);
       addLayer({
         ...props,
@@ -59,6 +71,8 @@ export default {
       ready.value = true;
       nextTick(() => context.emit("ready", leafletRef.value));
     });
+
+    onBeforeUnmount(() => cancelDebounces(eventHandlers));
 
     return { ready, leafletObject: leafletRef };
   },
