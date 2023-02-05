@@ -41,9 +41,12 @@ export const setupLayer = (props, leafletRef, context) => {
 
   const methods = {
     ...componentMethods,
-    setAttribution(val, old) {
-      const attributionControl = this.$parent.leafletObject.attributionControl;
-      attributionControl.removeAttribution(old).addAttribution(val);
+    setAttribution(val) {
+      removeThisLayer();
+      leafletRef.value.options.attribution = val;
+      if (props.visible) {
+        addThisLayer();
+      }
     },
     setName() {
       removeThisLayer();
