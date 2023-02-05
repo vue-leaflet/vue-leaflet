@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Debounced event handlers are now cleared on unmount, resolving
   [#231 Possible Regression](https://github.com/vue-leaflet/vue-leaflet/issues/231).
+- Reworked attribution update handler to resolve
+  [#165 Error when updating attribution prop for tileLayer](https://github.com/vue-leaflet/vue-leaflet/issues/165).
 
 
 ## [0.8.1] - 2023-01-29
