@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   yet rendered, resolving
   [#170 Blinking default marker when using custom icon component](https://github.com/vue-leaflet/vue-leaflet/issues/170).
 
+### Changed
+
+- `LTileLayer` now accepts an array of strings for its `subdomains` property, as well as a single string.
+- `LWmsTileLayer` now uses the correct Leaflet option name `uppercase` instead of the previous `upperCase`.
+
 
 ## [0.8.1] - 2023-01-29
 
