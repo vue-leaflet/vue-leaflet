@@ -8,7 +8,14 @@ export const tileLayerProps = {
     default: undefined,
   },
   subdomains: {
-    type: String,
+    type: [String, Array],
+    validator: (prop) => {
+      if (typeof prop === "string") return true;
+      if (Array.isArray(prop)) {
+        return prop.every((subdomain) => typeof subdomain === "string");
+      }
+      return false;
+    },
   },
   detectRetina: {
     type: Boolean,
