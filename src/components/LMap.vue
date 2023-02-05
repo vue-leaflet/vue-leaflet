@@ -378,7 +378,7 @@ export default {
     return h(
       "div",
       { style: { width: "100%", height: "100%" }, ref: "root" },
-      this.ready ? this.$slots.default() : {}
+      this.ready && this.$slots.default ? this.$slots.default() : {}
     );
   },
 };
