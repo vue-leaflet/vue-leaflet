@@ -5,7 +5,9 @@
       layer-type="base"
       name="OpenStreetMap"
     ></l-tile-layer>
-    <l-control class="leaflet-control leaflet-demo-control"
+    <l-control
+      class="leaflet-control leaflet-demo-control"
+      position="bottomleft"
       >Hello, Map!</l-control
     >
   </l-map>
@@ -27,6 +29,8 @@ export default {
   background: white;
   border: 1px solid steelblue;
   border-radius: 0.6em;
-  padding: 0.5em;
+  padding: 1em;
+  font-size: large;
+  font-style: italic;
 }
 </style>

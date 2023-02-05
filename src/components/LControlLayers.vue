@@ -1,18 +1,21 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { props, setup as layerControlSetup } from "../functions/controlLayers";
+import {
+  controlLayersProps,
+  setupControlLayers,
+} from "../functions/controlLayers";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
 export default {
   name: "LControlLayers",
-  props,
+  props: controlLayersProps,
   setup(props, context) {
     const leafletRef = ref({});
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const registerLayerControl = inject("registerLayerControl");
 
-    const { options, methods } = layerControlSetup(props, leafletRef);
+    const { options, methods } = setupControlLayers(props, leafletRef);
 
     onMounted(async () => {
       const { control } = useGlobalLeaflet

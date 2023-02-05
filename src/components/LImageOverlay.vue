@@ -7,8 +7,8 @@ import {
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
 import {
-  props as imageOverlayProps,
-  setup as imageOverlaySetup,
+  imageOverlayProps,
+  setupImageOverlay,
 } from "../functions/imageOverlay";
 import { render } from "../functions/layer";
 
@@ -25,7 +25,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = imageOverlaySetup(props, leafletRef, context);
+    const { options, methods } = setupImageOverlay(props, leafletRef, context);
 
     onMounted(async () => {
       const { imageOverlay, DomEvent } = useGlobalLeaflet

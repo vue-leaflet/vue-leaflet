@@ -1,22 +1,17 @@
-import {
-  props as layerGroupProps,
-  setup as layerGroupSetup,
-} from "./layerGroup";
+import { propsToLeafletOptions } from "../utils";
+import { layerGroupProps, setupLayerGroup } from "./layerGroup";
 
-export const props = {
+export const featureGroupProps = {
   ...layerGroupProps,
 };
 
-export const setup = (props, leafletRef) => {
-  const { options: layerOptions, methods: layerGroupMethods } = layerGroupSetup(
+export const setupFeatureGroup = (props, leafletRef) => {
+  const { options: layerOptions, methods: layerGroupMethods } = setupLayerGroup(
     props,
     leafletRef
   );
 
-  const options = {
-    ...layerOptions,
-    ...props,
-  };
+  const options = propsToLeafletOptions(props, featureGroupProps, layerOptions);
 
   const methods = {
     ...layerGroupMethods,

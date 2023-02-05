@@ -1,24 +1,30 @@
-import { props as componentProps, setup as componentSetup } from "./component";
+import { propsToLeafletOptions } from "../utils";
+import { layerProps, setupLayer } from "./layer";
 
-export const props = {
-  ...componentProps,
+export const interactiveLayerProps = {
+  ...layerProps,
   interactive: {
     type: Boolean,
-    default: true,
+    default: undefined,
   },
   bubblingMouseEvents: {
     type: Boolean,
-    default: true,
+    default: undefined,
   },
 };
 
-export const setup = (props) => {
-  const { options: componentOptions, methods } = componentSetup(props);
-  const options = {
-    ...componentOptions,
-    interactive: props.interactive,
-    bubblingMouseEvents: props.bubblingMouseEvents,
-  };
+export const setupInteractiveLayer = (props, leafletRef, context) => {
+  const { options: layerOptions, methods } = setupLayer(
+    props,
+    leafletRef,
+    context
+  );
+
+  const options = propsToLeafletOptions(
+    props,
+    interactiveLayerProps,
+    layerOptions
+  );
 
   return { options, methods };
 };

@@ -1,56 +1,46 @@
-import { props as tileLayerProps, setup as tileLayerSetup } from "./tileLayer";
+import { propsToLeafletOptions } from "../utils";
+import { tileLayerProps, setupTileLayer } from "./tileLayer";
 
-export const props = {
+export const wmsTileLayerProps = {
   ...tileLayerProps,
-  baseUrl: {
-    type: String,
-    default: null,
-    required: true,
-  },
   layers: {
     type: String,
-    default: "",
+    required: true,
   },
   styles: {
     type: String,
-    default: "",
   },
   format: {
     type: String,
-    default: "image/jpeg",
   },
   transparent: {
     type: Boolean,
-    custom: false,
+    default: undefined,
   },
   version: {
     type: String,
-    default: "1.1.1",
   },
   crs: {
-    default: null,
+    type: Object,
   },
   uppercase: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
 };
 
-export const setup = (props, leafletRef) => {
+export const setupWMSTileLayer = (props, leafletRef) => {
   const {
     options: tileLayerOptions,
     methods: tileLayerMethods,
-  } = tileLayerSetup(props, leafletRef);
-  const options = {
-    ...tileLayerOptions,
-    layers: props.layers,
-    styles: props.styles,
-    format: props.format,
-    transparent: props.transparent,
-    version: props.version,
-    crs: props.crs,
-    uppercase: props.uppercase,
-  };
+  } = setupTileLayer(props, leafletRef);
+
+  const options = propsToLeafletOptions(
+    props,
+    wmsTileLayerProps,
+    tileLayerOptions
+  );
+
   return {
     options,
     methods: {

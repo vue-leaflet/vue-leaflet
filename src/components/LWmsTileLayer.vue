@@ -6,24 +6,27 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import { props, setup as wmsLayerSetup } from "../functions/wmsTileLayer";
+import {
+  wmsTileLayerProps,
+  setupWMSTileLayer,
+} from "../functions/wmsTileLayer";
 
 export default {
-  props,
+  props: wmsTileLayerProps,
   setup(props, context) {
     const leafletRef = ref({});
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = wmsLayerSetup(props, leafletRef);
+    const { options, methods } = setupWMSTileLayer(props, leafletRef);
 
     onMounted(async () => {
       const { tileLayer, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = tileLayer.wms(props.baseUrl, options);
+      leafletRef.value = tileLayer.wms(props.url, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

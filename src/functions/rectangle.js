@@ -1,23 +1,23 @@
-import { props as polygonProps, setup as polygonSetup } from "./polygon";
+import { propsToLeafletOptions } from "../utils";
+import { polygonProps, setupPolygon } from "./polygon";
 
-export const props = {
+polygonProps.latLngs.required = false;
+export const rectangleProps = {
   ...polygonProps,
   bounds: {
     type: Array,
-    default: undefined,
+    custom: true,
   },
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: polygonOptions, methods: polygonMethods } = polygonSetup(
+export const setupRectangle = (props, leafletRef, context) => {
+  const { options: polygonOptions, methods: polygonMethods } = setupPolygon(
     props,
     leafletRef,
     context
   );
-  const options = {
-    ...polygonOptions,
-    ...props,
-  };
+
+  const options = propsToLeafletOptions(props, rectangleProps, polygonOptions);
 
   const methods = {
     ...polygonMethods,

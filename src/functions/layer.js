@@ -1,26 +1,22 @@
 import { onUnmounted, provide, inject, h } from "vue";
-import { props as componentProps, setup as componentSetup } from "./component";
-import { isFunction } from "../utils";
+import { componentProps, setupComponent } from "./component";
+import { isFunction, propsToLeafletOptions } from "../utils";
 
-export const props = {
+export const layerProps = {
   ...componentProps,
   pane: {
     type: String,
-    default: "overlayPane",
   },
   attribution: {
     type: String,
-    default: null,
   },
   name: {
     type: String,
     custom: true,
-    default: undefined,
   },
   layerType: {
     type: String,
     custom: true,
-    default: undefined,
   },
   visible: {
     type: Boolean,
@@ -29,19 +25,15 @@ export const props = {
   },
 };
 
-export const setup = (props, leafletRef, context) => {
+export const setupLayer = (props, leafletRef, context) => {
   const addLayer = inject("addLayer");
   const removeLayer = inject("removeLayer");
   const {
     options: componentOptions,
     methods: componentMethods,
-  } = componentSetup(props);
+  } = setupComponent(props);
 
-  const options = {
-    ...componentOptions,
-    attribution: props.attribution,
-    pane: props.pane,
-  };
+  const options = propsToLeafletOptions(props, layerProps, componentOptions);
 
   const addThisLayer = () => addLayer({ leafletObject: leafletRef.value });
   const removeThisLayer = () =>
@@ -49,9 +41,12 @@ export const setup = (props, leafletRef, context) => {
 
   const methods = {
     ...componentMethods,
-    setAttribution(val, old) {
-      const attributionControl = this.$parent.leafletObject.attributionControl;
-      attributionControl.removeAttribution(old).addAttribution(val);
+    setAttribution(val) {
+      removeThisLayer();
+      leafletRef.value.options.attribution = val;
+      if (props.visible) {
+        addThisLayer();
+      }
     },
     setName() {
       removeThisLayer();

@@ -6,7 +6,7 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import { props, setup as tooltipSetup } from "../functions/tooltip";
+import { tooltipProps, setupTooltip } from "../functions/tooltip";
 import { render } from "../functions/popper";
 
 /**
@@ -14,7 +14,7 @@ import { render } from "../functions/popper";
  */
 export default {
   name: "LTooltip",
-  props,
+  props: tooltipProps,
   setup(props, context) {
     const leafletRef = ref({});
     const root = ref(null);
@@ -22,7 +22,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const bindTooltip = inject("bindTooltip");
 
-    const { options, methods } = tooltipSetup(props, leafletRef, context);
+    const { options, methods } = setupTooltip(props, leafletRef, context);
 
     onMounted(async () => {
       const { tooltip, DomEvent } = useGlobalLeaflet
