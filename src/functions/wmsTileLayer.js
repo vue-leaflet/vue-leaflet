@@ -23,7 +23,7 @@ export const wmsTileLayerProps = {
   crs: {
     type: Object,
   },
-  upperCase: {
+  uppercase: {
     type: Boolean,
     default: undefined,
   },
