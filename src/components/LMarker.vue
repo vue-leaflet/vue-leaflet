@@ -41,27 +41,29 @@ export default {
       (newIcon) => leafletRef.value.setIcon && leafletRef.value.setIcon(newIcon)
     );
     const { options, methods } = setupMarker(props, leafletRef, context);
-    if (options.icon === undefined) {
-      // If the options object has a property named 'icon', then Leaflet will overwrite
-      // the default icon with it for the marker, _even if it is undefined_.
-      // This leads to the issue discussed in https://github.com/vue-leaflet/vue-leaflet/issues/130
-      delete options.icon;
-    }
 
     const eventHandlers = {
       moveHandler: debounce(methods.latLngSync),
     };
 
     onMounted(async () => {
-      const { marker, DomEvent } = useGlobalLeaflet
+      const { marker, DomEvent, divIcon } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
+
+      // If an icon is not specified in the options but there is content in the LMarker's slot, then
+      // set the initial icon to an empty div that will be invisible until it's replaced by any calls
+      // to `setIcon` or `setParentHtml` from within the default slot. This avoids the icon flickering
+      // discussed in https://github.com/vue-leaflet/vue-leaflet/issues/170.
+      if (!options.icon && context.slots.default) {
+        options.icon = divIcon({ className: "" });
+      }
       leafletRef.value = marker(props.latLng, options);
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
 
-      leafletRef.value.on("move");
+      leafletRef.value.on("move", eventHandlers.moveHandler);
       propsBinder(methods, leafletRef.value, props);
       addLayer({
         ...props,
