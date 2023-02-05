@@ -19,6 +19,7 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
   propsToLeafletOptions,
+  cancelDebounces,
 } from "../utils.js";
 import { componentProps, setupComponent } from "../functions/component";
 
@@ -158,7 +159,7 @@ export default {
     provide(GLOBAL_LEAFLET_OPT, props.useGlobalLeaflet);
 
     const eventHandlers = {
-      moveEndHandler() {
+      moveEndHandler: debounce(() => {
         /**
          * Triggers when zoom is updated
          * @type {number,string}
@@ -175,7 +176,7 @@ export default {
          * @type {object}
          */
         context.emit("update:bounds", blueprint.leafletRef.getBounds());
-      },
+      }),
       overlayAddHandler(e) {
         const layer = blueprint.layersInControl.find((l) => l.name === e.name);
         if (layer) {
@@ -349,10 +350,7 @@ export default {
       propsBinder(methods, blueprint.leafletRef, props);
       const listeners = remapEvents(context.attrs);
 
-      blueprint.leafletRef.on(
-        "moveend",
-        debounce(eventHandlers.moveEndHandler, 100)
-      );
+      blueprint.leafletRef.on("moveend", eventHandlers.moveEndHandler);
       blueprint.leafletRef.on("overlayadd", eventHandlers.overlayAddHandler);
       blueprint.leafletRef.on(
         "overlayremove",
@@ -364,6 +362,7 @@ export default {
     });
 
     onBeforeUnmount(() => {
+      cancelDebounces(eventHandlers);
       if (blueprint.leafletRef) {
         blueprint.leafletRef.off();
         blueprint.leafletRef.remove();
@@ -372,6 +371,7 @@ export default {
 
     const leafletObject = computed(() => blueprint.leafletRef);
     const ready = computed(() => blueprint.ready);
+
     return { root, ready, leafletObject };
   },
   render() {

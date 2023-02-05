@@ -1,9 +1,9 @@
 import { watch, ref, provide } from "vue";
 
-export const debounce = (fn, time) => {
+export const debounce = (fn, time = 100) => {
   let timeout;
 
-  return function (...args) {
+  const debounced = function (...args) {
     const context = this;
     if (timeout) {
       clearTimeout(timeout);
@@ -13,6 +13,20 @@ export const debounce = (fn, time) => {
       timeout = null;
     }, time);
   };
+
+  debounced.cancel = function () {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+  };
+
+  return debounced;
+};
+
+export const cancelDebounces = function (handlerMethods) {
+  for (const handler of Object.values(handlerMethods)) {
+    handler && isFunction(handler.cancel) && handler.cancel();
+  }
 };
 
 export const capitalizeFirstLetter = (string) => {

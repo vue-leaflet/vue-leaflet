@@ -9,6 +9,13 @@ export const tileLayerProps = {
   },
   subdomains: {
     type: [Array, String],
+    validator: (prop) => {
+      if (typeof prop === "string") return true;
+      if (Array.isArray(prop)) {
+        return prop.every((subdomain) => typeof subdomain === "string");
+      }
+      return false;
+    },
   },
   detectRetina: {
     type: Boolean,
