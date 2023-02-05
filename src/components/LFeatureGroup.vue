@@ -6,11 +6,14 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import { props, setup as featureGroupSetup } from "../functions/featureGroup";
+import {
+  featureGroupProps,
+  setupFeatureGroup,
+} from "../functions/featureGroup";
 import { render } from "../functions/layer";
 
 export default {
-  props,
+  props: featureGroupProps,
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);
@@ -18,7 +21,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { methods, options } = featureGroupSetup(props, leafletRef);
+    const { methods, options } = setupFeatureGroup(props, leafletRef);
 
     onMounted(async () => {
       const { featureGroup, DomEvent } = useGlobalLeaflet

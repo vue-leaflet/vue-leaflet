@@ -1,53 +1,37 @@
-import { props as layerProps, setup as layerSetup } from "./layer";
+import { propsToLeafletOptions } from "../utils";
+import { layerProps, setupLayer } from "./layer";
 
-export const props = {
+export const gridLayerProps = {
   ...layerProps,
-  pane: {
-    type: String,
-    default: "tilePane",
-  },
   opacity: {
     type: Number,
-    custom: false,
-    default: 1.0,
   },
   zIndex: {
     type: Number,
-    default: 1,
   },
   tileSize: {
     type: Number,
-    default: 256,
   },
   noWrap: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
   minZoom: {
     type: Number,
-    default: 0,
   },
   maxZoom: {
     type: Number,
-    default: undefined,
   },
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = layerSetup(
+export const setupGridLayer = (props, leafletRef, context) => {
+  const { options: layerOptions, methods: layerMethods } = setupLayer(
     props,
     leafletRef,
     context
   );
-  const options = {
-    ...layerOptions,
-    pane: props.pane,
-    opacity: props.opacity,
-    zIndex: props.zIndex,
-    tileSize: props.tileSize,
-    noWrap: props.noWrap,
-    minZoom: props.minZoom,
-    maxZoom: props.maxZoom,
-  };
+
+  const options = propsToLeafletOptions(props, gridLayerProps, layerOptions);
+
   return { options, methods: { ...layerMethods } };
 };

@@ -6,10 +6,7 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import {
-  props as gridLayerProps,
-  setup as gridLayerSetup,
-} from "../functions/gridLayer";
+import { gridLayerProps, setupGridLayer } from "../functions/gridLayer";
 
 export default {
   props: {
@@ -28,7 +25,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = gridLayerSetup(props, leafletRef, context);
+    const { options, methods } = setupGridLayer(props, leafletRef, context);
 
     onMounted(async () => {
       const { GridLayer, DomEvent, DomUtil } = useGlobalLeaflet
@@ -80,7 +77,7 @@ export default {
     });
 
     onUnmounted(() => {
-      leafletRef.value.off("tileunload", methods.unLoad);
+      leafletRef.value.off("tileunload", methods.onUnload);
     });
 
     return { root, ready, leafletObject: leafletRef };

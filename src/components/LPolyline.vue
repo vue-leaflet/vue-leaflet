@@ -6,7 +6,7 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import { props, setup as polylineSetup } from "../functions/polyline";
+import { polylineProps, setupPolyline } from "../functions/polyline";
 import { render } from "../functions/layer";
 
 /**
@@ -14,7 +14,7 @@ import { render } from "../functions/layer";
  */
 export default {
   name: "LPolyline",
-  props,
+  props: polylineProps,
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);
@@ -22,7 +22,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = polylineSetup(props, leafletRef, context);
+    const { options, methods } = setupPolyline(props, leafletRef, context);
 
     onMounted(async () => {
       const { polyline, DomEvent } = useGlobalLeaflet

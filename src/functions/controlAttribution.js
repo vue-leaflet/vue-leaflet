@@ -1,23 +1,24 @@
-import { props as controlProps, setup as controlSetup } from "./control";
+import { propsToLeafletOptions } from "../utils";
+import { controlProps, setupControl } from "./control";
 
-export const props = {
+export const controlAttributionProps = {
   ...controlProps,
   prefix: {
     type: String,
-    default: "Vue-Leaflet",
-    custom: true,
   },
 };
 
-export const setup = (props, leafletRef) => {
-  const { options: controlOptions, methods: controlMethods } = controlSetup(
+export const setupControlAttribution = (props, leafletRef) => {
+  const { options: controlOptions, methods: controlMethods } = setupControl(
     props,
     leafletRef
   );
-  const options = {
-    ...controlOptions,
-    prefix: props.prefix,
-  };
+
+  const options = propsToLeafletOptions(
+    props,
+    controlAttributionProps,
+    controlOptions
+  );
 
   const methods = {
     ...controlMethods,

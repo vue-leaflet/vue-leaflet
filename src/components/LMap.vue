@@ -18,141 +18,127 @@ import {
   updateLeafletWrapper,
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
+  propsToLeafletOptions,
+  cancelDebounces,
 } from "../utils.js";
-import {
-  props as componentProps,
-  setup as componentSetup,
-} from "../functions/component";
+import { componentProps, setupComponent } from "../functions/component";
+
+const mapProps = {
+  ...componentProps,
+  /**
+   * The center of the map, supports .sync modifier
+   */
+  center: {
+    type: [Object, Array],
+  },
+  /**
+   * The bounds of the map, supports .sync modifier
+   */
+  bounds: {
+    type: [Array, Object],
+  },
+  /**
+   * The max bounds of the map
+   */
+  maxBounds: {
+    type: [Array, Object],
+  },
+  /**
+   * The zoom of the map, supports .sync modifier
+   */
+  zoom: {
+    type: Number,
+  },
+  /**
+   * The minZoom of the map
+   */
+  minZoom: {
+    type: Number,
+  },
+  /**
+   * The maxZoom of the map
+   */
+  maxZoom: {
+    type: Number,
+  },
+  /**
+   * The paddingBottomRight of the map
+   */
+  paddingBottomRight: {
+    type: Array,
+  },
+  /**
+   * The paddingTopLeft of the map
+   */
+  paddingTopLeft: {
+    type: Array,
+  },
+  /**
+   * The padding of the map
+   */
+  padding: {
+    type: Array,
+  },
+  /**
+   * The worldCopyJump option for the map
+   */
+  worldCopyJump: {
+    type: Boolean,
+    default: undefined,
+  },
+  /**
+   * The CRS to use for the map. Can be an object that defines a coordinate reference
+   * system for projecting geographical points into screen coordinates and back
+   * (see https://leafletjs.com/reference-1.7.1.html#crs-l-crs-base), or a string
+   * name identifying one of Leaflet's defined CRSs, such as "EPSG4326".
+   */
+  crs: {
+    type: [String, Object],
+  },
+  maxBoundsViscosity: {
+    type: Number,
+  },
+  inertia: {
+    type: Boolean,
+    default: undefined,
+  },
+  inertiaDeceleration: {
+    type: Number,
+  },
+  inertiaMaxSpeed: {
+    type: Number,
+  },
+  easeLinearity: {
+    type: Number,
+  },
+  zoomAnimation: {
+    type: Boolean,
+    default: undefined,
+  },
+  zoomAnimationThreshold: {
+    type: Number,
+  },
+  fadeAnimation: {
+    type: Boolean,
+    default: undefined,
+  },
+  markerZoomAnimation: {
+    type: Boolean,
+    default: undefined,
+  },
+  noBlockingAnimations: {
+    type: Boolean,
+    default: undefined,
+  },
+  useGlobalLeaflet: {
+    type: Boolean,
+    default: undefined,
+  },
+};
 
 export default {
   emits: ["ready", "update:zoom", "update:center", "update:bounds"],
-  props: {
-    ...componentProps,
-    /**
-     * The center of the map, supports .sync modifier
-     */
-    center: {
-      type: [Object, Array],
-      default: () => [0, 0],
-    },
-    /**
-     * The bounds of the map, supports .sync modifier
-     */
-    bounds: {
-      type: [Array, Object],
-      default: undefined,
-    },
-    /**
-     * The max bounds of the map
-     */
-    maxBounds: {
-      type: [Array, Object],
-      default: undefined,
-    },
-    /**
-     * The zoom of the map, supports .sync modifier
-     */
-    zoom: {
-      type: Number,
-      default: 0,
-    },
-    /**
-     * The minZoom of the map
-     */
-    minZoom: {
-      type: Number,
-      default: undefined,
-    },
-    /**
-     * The maxZoom of the map
-     */
-    maxZoom: {
-      type: Number,
-      default: undefined,
-    },
-    /**
-     * The paddingBottomRight of the map
-     */
-    paddingBottomRight: {
-      type: Array,
-      default: undefined,
-    },
-    /**
-     * The paddingTopLeft of the map
-     */
-    paddingTopLeft: {
-      type: Array,
-      default: undefined,
-    },
-    /**
-     * The padding of the map
-     */
-    padding: {
-      type: Array,
-      default: undefined,
-    },
-    /**
-     * The worldCopyJump option for the map
-     */
-    worldCopyJump: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * The CRS to use for the map. Can be an object that defines a coordinate reference
-     * system for projecting geographical points into screen coordinates and back
-     * (see https://leafletjs.com/reference-1.7.1.html#crs-l-crs-base), or a string
-     * name identifying one of Leaflet's defined CRSs, such as "EPSG4326".
-     */
-    crs: {
-      type: [String, Object],
-      default: "EPSG3857",
-    },
-    maxBoundsViscosity: {
-      type: Number,
-      default: undefined,
-    },
-    inertia: {
-      type: Boolean,
-      default: undefined,
-    },
-    inertiaDeceleration: {
-      type: Number,
-      default: undefined,
-    },
-    inertiaMaxSpeed: {
-      type: Number,
-      default: undefined,
-    },
-    easeLinearity: {
-      type: Number,
-      default: undefined,
-    },
-    zoomAnimation: {
-      type: Boolean,
-      default: undefined,
-    },
-    zoomAnimationThreshold: {
-      type: Number,
-      default: undefined,
-    },
-    fadeAnimation: {
-      type: Boolean,
-      default: undefined,
-    },
-    markerZoomAnimation: {
-      type: Boolean,
-      default: undefined,
-    },
-    noBlockingAnimations: {
-      type: Boolean,
-      default: false,
-    },
-    useGlobalLeaflet: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: mapProps,
   setup(props, context) {
     const root = ref(null);
     const blueprint = reactive({
@@ -161,26 +147,10 @@ export default {
       layersToAdd: [],
       layersInControl: [],
     });
-    const { options: componentOptions } = componentSetup(props);
-    const options = {
-      ...componentOptions,
-      minZoom: props.minZoom,
-      maxZoom: props.maxZoom,
-      maxBounds: props.maxBounds,
-      maxBoundsViscosity: props.maxBoundsViscosity,
-      worldCopyJump: props.worldCopyJump,
-      crs: props.crs,
-      center: props.center,
-      zoom: props.zoom,
-      inertia: props.inertia,
-      inertiaDeceleration: props.inertiaDeceleration,
-      inertiaMaxSpeed: props.inertiaMaxSpeed,
-      easeLinearity: props.easeLinearity,
-      zoomAnimation: props.zoomAnimation,
-      zoomAnimationThreshold: props.zoomAnimationThreshold,
-      fadeAnimation: props.fadeAnimation,
-      markerZoomAnimation: props.markerZoomAnimation,
-    };
+
+    const { options: componentOptions } = setupComponent(props);
+
+    const options = propsToLeafletOptions(props, mapProps, componentOptions);
 
     const addLayer = provideLeafletWrapper("addLayer");
     const removeLayer = provideLeafletWrapper("removeLayer");
@@ -189,7 +159,7 @@ export default {
     provide(GLOBAL_LEAFLET_OPT, props.useGlobalLeaflet);
 
     const eventHandlers = {
-      moveEndHandler() {
+      moveEndHandler: debounce(() => {
         /**
          * Triggers when zoom is updated
          * @type {number,string}
@@ -206,7 +176,7 @@ export default {
          * @type {object}
          */
         context.emit("update:bounds", blueprint.leafletRef.getBounds());
-      },
+      }),
       overlayAddHandler(e) {
         const layer = blueprint.layersInControl.find((l) => l.name === e.name);
         if (layer) {
@@ -380,10 +350,7 @@ export default {
       propsBinder(methods, blueprint.leafletRef, props);
       const listeners = remapEvents(context.attrs);
 
-      blueprint.leafletRef.on(
-        "moveend",
-        debounce(eventHandlers.moveEndHandler, 100)
-      );
+      blueprint.leafletRef.on("moveend", eventHandlers.moveEndHandler);
       blueprint.leafletRef.on("overlayadd", eventHandlers.overlayAddHandler);
       blueprint.leafletRef.on(
         "overlayremove",
@@ -395,13 +362,16 @@ export default {
     });
 
     onBeforeUnmount(() => {
+      cancelDebounces(eventHandlers);
       if (blueprint.leafletRef) {
+        blueprint.leafletRef.off();
         blueprint.leafletRef.remove();
       }
     });
 
     const leafletObject = computed(() => blueprint.leafletRef);
     const ready = computed(() => blueprint.ready);
+
     return { root, ready, leafletObject };
   },
   render() {

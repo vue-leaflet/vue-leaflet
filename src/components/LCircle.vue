@@ -6,7 +6,7 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import { props, setup as circleSetup } from "../functions/circle";
+import { circleProps, setupCircle } from "../functions/circle";
 import { render } from "../functions/layer";
 
 /**
@@ -14,7 +14,7 @@ import { render } from "../functions/layer";
  */
 export default {
   name: "LCircle",
-  props,
+  props: circleProps,
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);
@@ -22,7 +22,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = circleSetup(props, leafletRef, context);
+    const { options, methods } = setupCircle(props, leafletRef, context);
 
     onMounted(async () => {
       const { circle, DomEvent } = useGlobalLeaflet

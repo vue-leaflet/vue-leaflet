@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 100%;">
+  <div style="width: 100%; height: 100%">
     <l-map ref="map" v-model:zoom="zoom" :center="[47.41322, -1.219482]">
       <l-tile-layer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -9,6 +9,9 @@
 
       <l-marker :lat-lng="[47.41322, -1.219482]">
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
+      </l-marker>
+      <l-marker :lat-lng="[47.61322, -1.219482]">
+        <l-icon><div class="div-icon">Custom HTML icon</div></l-icon>
       </l-marker>
     </l-map>
 
@@ -51,4 +54,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.div-icon {
+  background-color: skyblue;
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px blue solid;
+}
+</style>
