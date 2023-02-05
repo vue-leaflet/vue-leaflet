@@ -1,9 +1,9 @@
 import { watch, ref, provide } from "vue";
 
-export const debounce = (fn, time) => {
+export const debounce = (fn, time = 100) => {
   let timeout;
 
-  return function (...args) {
+  const debounced = function (...args) {
     const context = this;
     if (timeout) {
       clearTimeout(timeout);
@@ -13,6 +13,20 @@ export const debounce = (fn, time) => {
       timeout = null;
     }, time);
   };
+
+  debounced.cancel = function () {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+  };
+
+  return debounced;
+};
+
+export const cancelDebounces = function (handlerMethods) {
+  for (const handler of Object.values(handlerMethods)) {
+    handler && isFunction(handler.cancel) && handler.cancel();
+  }
 };
 
 export const capitalizeFirstLetter = (string) => {
@@ -43,6 +57,30 @@ export const propsBinder = (methods, leafletElement, props) => {
       );
     }
   }
+};
+
+export const propsToLeafletOptions = (
+  propValues,
+  propDefinitions,
+  baseOptions = {}
+) => {
+  const output = { ...baseOptions };
+
+  for (const prop in propValues) {
+    const defn = propDefinitions[prop];
+    const val = propValues[prop];
+
+    // Unexpected props should not be converted to Leaflet options.
+    if (!defn) continue;
+    // Custom vue-leaflet props should not be passed to Leaflet.
+    if (defn && defn.custom === true) continue;
+    // Exclude undefined values so that Leaflet uses its own defaults.
+    if (val === undefined) continue;
+
+    output[prop] = val;
+  }
+
+  return output;
 };
 
 export const remapEvents = (contextAttrs) => {

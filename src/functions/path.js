@@ -1,112 +1,69 @@
 import { onBeforeUnmount, inject } from "vue";
-import { props as layerProps, setup as layerSetup } from "./layer";
 import {
-  props as interactiveLayerProps,
-  setup as interactiveLayerSetup,
+  interactiveLayerProps,
+  setupInteractiveLayer,
 } from "./interactiveLayer";
+import { propsToLeafletOptions } from "../utils";
 
-export const props = {
-  ...layerProps,
+export const pathProps = {
   ...interactiveLayerProps,
   stroke: {
     type: Boolean,
-    custom: true,
-    default: true,
+    default: undefined,
   },
   color: {
     type: String,
-    custom: true,
-    default: "#3388ff",
   },
   weight: {
     type: Number,
-    custom: true,
-    default: 3,
   },
   opacity: {
     type: Number,
-    custom: true,
-    default: 1.0,
   },
   lineCap: {
     type: String,
-    custom: true,
-    default: "round",
   },
   lineJoin: {
     type: String,
-    custom: true,
-    default: "round",
   },
   dashArray: {
     type: String,
-    custom: true,
-    default: null,
   },
   dashOffset: {
     type: String,
-    custom: true,
-    default: null,
   },
   fill: {
     type: Boolean,
-    custom: true,
-    default: false,
+    default: undefined,
   },
   fillColor: {
     type: String,
-    custom: true,
-    default: "#3388ff",
   },
   fillOpacity: {
     type: Number,
-    custom: true,
-    default: 0.2,
   },
   fillRule: {
     type: String,
-    custom: true,
-    default: "evenodd",
   },
   className: {
     type: String,
-    custom: true,
-    default: null,
   },
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = layerSetup(
-    props,
-    leafletRef,
-    context
-  );
+export const setupPath = (props, leafletRef, context) => {
   const {
     options: interactiveLayerOptions,
     methods: interactiveLayerMethods,
-  } = interactiveLayerSetup(props, leafletRef, context);
+  } = setupInteractiveLayer(props, leafletRef, context);
+
+  const options = propsToLeafletOptions(
+    props,
+    pathProps,
+    interactiveLayerOptions
+  );
 
   const removeLayer = inject("removeLayer");
-
-  const options = {
-    ...layerOptions,
-    ...interactiveLayerOptions,
-    stroke: props.stroke,
-    color: props.color,
-    weight: props.weight,
-    opacity: props.opacity,
-    lineCap: props.lineCap,
-    lineJoin: props.lineJoin,
-    dashArray: props.dashArray,
-    dashOffset: props.dashOffset,
-    fill: props.fill,
-    fillColor: props.fillColor,
-    fillOpacity: props.fillOpacity,
-    fillRule: props.fillRule,
-    className: props.className,
-  };
   const methods = {
-    ...layerMethods,
     ...interactiveLayerMethods,
     setStroke(stroke) {
       leafletRef.value.setStyle({ stroke });

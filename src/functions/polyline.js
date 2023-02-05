@@ -1,33 +1,30 @@
-import { props as pathProps, setup as pathSetup } from "./path";
+import { propsToLeafletOptions } from "../utils";
+import { pathProps, setupPath } from "./path";
 
-export const props = {
+export const polylineProps = {
   ...pathProps,
-  latLngs: {
-    type: Array,
-    default: () => [],
-  },
   smoothFactor: {
     type: Number,
-    custom: true,
-    default: 1.0,
   },
   noClip: {
     type: Boolean,
+    default: undefined,
+  },
+  latLngs: {
+    type: Array,
+    required: true,
     custom: true,
-    default: false,
   },
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: pathOptions, methods: pathMethods } = pathSetup(
+export const setupPolyline = (props, leafletRef, context) => {
+  const { options: pathOptions, methods: pathMethods } = setupPath(
     props,
     leafletRef,
     context
   );
-  const options = {
-    ...pathOptions,
-    ...props,
-  };
+
+  const options = propsToLeafletOptions(props, polylineProps, pathOptions);
 
   const methods = {
     ...pathMethods,
@@ -41,5 +38,6 @@ export const setup = (props, leafletRef, context) => {
       leafletRef.value.addLatLng(latLng);
     },
   };
+
   return { options, methods };
 };

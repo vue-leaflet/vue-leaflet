@@ -1,43 +1,33 @@
-import { props as layerProps, setup as layerSetup } from "./layer";
+import { propsToLeafletOptions } from "../utils";
+import { layerProps, setupLayer } from "./layer";
 
-export const props = {
+export const markerProps = {
   ...layerProps,
-  pane: {
-    type: String,
-    default: "markerPane",
-  },
   draggable: {
     type: Boolean,
-    custom: true,
-    default: false,
+    default: undefined,
+  },
+  icon: {
+    type: [Object],
+  },
+  zIndexOffset: {
+    type: Number,
   },
   latLng: {
     type: [Object, Array],
     custom: true,
-    default: null,
-  },
-  icon: {
-    type: [Object],
-    default: () => undefined,
-    custom: false,
-  },
-  zIndexOffset: {
-    type: Number,
-    custom: false,
-    default: null,
+    required: true,
   },
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = layerSetup(
+export const setupMarker = (props, leafletRef, context) => {
+  const { options: layerOptions, methods: layerMethods } = setupLayer(
     props,
     leafletRef,
     context
   );
-  const options = {
-    ...layerOptions,
-    ...props,
-  };
+
+  const options = propsToLeafletOptions(props, markerProps, layerOptions);
 
   const methods = {
     ...layerMethods,
@@ -65,5 +55,6 @@ export const setup = (props, leafletRef, context) => {
       }
     },
   };
+
   return { options, methods };
 };

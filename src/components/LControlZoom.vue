@@ -1,18 +1,18 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { props, setup as zoomControlSetup } from "../functions/controlZoom";
+import { controlZoomProps, setupControlZoom } from "../functions/controlZoom";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
 export default {
   name: "LControlZoom",
-  props,
+  props: controlZoomProps,
   setup(props, context) {
     const leafletRef = ref({});
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const registerControl = inject("registerControl");
 
-    const { options, methods } = zoomControlSetup(props, leafletRef);
+    const { options, methods } = setupControlZoom(props, leafletRef);
 
     onMounted(async () => {
       const { control } = useGlobalLeaflet

@@ -1,18 +1,21 @@
 <script>
 import { onMounted, ref, inject, nextTick } from "vue";
-import { props, setup as scaleControlSetup } from "../functions/controlScale";
+import {
+  controlScaleProps,
+  setupControlScale,
+} from "../functions/controlScale";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
 export default {
   name: "LControlScale",
-  props,
+  props: controlScaleProps,
   setup(props, context) {
     const leafletRef = ref({});
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const registerControl = inject("registerControl");
 
-    const { options, methods } = scaleControlSetup(props, leafletRef);
+    const { options, methods } = setupControlScale(props, leafletRef);
 
     onMounted(async () => {
       const { control } = useGlobalLeaflet

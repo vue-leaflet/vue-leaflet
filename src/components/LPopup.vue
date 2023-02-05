@@ -6,7 +6,7 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import { props, setup as popupSetup } from "../functions/popup";
+import { popupProps, setupPopup } from "../functions/popup";
 import { render } from "../functions/popper";
 
 /**
@@ -14,7 +14,7 @@ import { render } from "../functions/popper";
  */
 export default {
   name: "LPopup",
-  props,
+  props: popupProps,
   setup(props, context) {
     const leafletRef = ref({});
     const root = ref(null);
@@ -22,7 +22,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const bindPopup = inject("bindPopup");
 
-    const { options, methods } = popupSetup(props, leafletRef, context);
+    const { options, methods } = setupPopup(props, leafletRef, context);
 
     onMounted(async () => {
       const { popup, DomEvent } = useGlobalLeaflet

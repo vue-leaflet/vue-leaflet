@@ -1,19 +1,18 @@
-import { props as polylineProps, setup as polylineSetup } from "./polyline";
+import { propsToLeafletOptions } from "../utils";
+import { polylineProps, setupPolyline } from "./polyline";
 
-export const props = {
+export const polygonProps = {
   ...polylineProps,
 };
 
-export const setup = (props, leafletRef, context) => {
-  const { options: polylineOptions, methods: polylineMethods } = polylineSetup(
+export const setupPolygon = (props, leafletRef, context) => {
+  const { options: polylineOptions, methods: polylineMethods } = setupPolyline(
     props,
     leafletRef,
     context
   );
-  const options = {
-    ...polylineOptions,
-    ...props,
-  };
+
+  const options = propsToLeafletOptions(props, polygonProps, polylineOptions);
 
   const methods = {
     ...polylineMethods,

@@ -6,11 +6,11 @@ import {
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
 } from "../utils.js";
-import { props, setup as geoJSONSetup } from "../functions/geoJSON";
+import { geoJSONProps, setupGeoJSON } from "../functions/geoJSON";
 import { render } from "../functions/layer";
 
 export default {
-  props,
+  props: geoJSONProps,
   setup(props, context) {
     const leafletRef = ref({});
     const ready = ref(false);
@@ -18,7 +18,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { methods, options } = geoJSONSetup(props, leafletRef, context);
+    const { methods, options } = setupGeoJSON(props, leafletRef, context);
 
     onMounted(async () => {
       const { geoJSON, DomEvent } = useGlobalLeaflet
