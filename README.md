@@ -89,12 +89,12 @@ export default {
 ### Component playground
 
 To see the [component playground](https://github.com/vue-leaflet/vue-leaflet/tree/master/src/playground/views) in action,
-clone this repo and run the local devserver, then visit localhost:8080,
+clone this repo and run the local devserver, then visit http://127.0.0.1:5173,
 ```bash
 git clone https://github.com/vue-leaflet/vue-leaflet.git
 cd vue-leaflet
 yarn
-yarn serve
+yarn dev
 ```
 
 ### Server-side rendering (SSR)
