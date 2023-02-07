@@ -94,7 +94,7 @@ clone this repo and run the local devserver, then visit localhost:8080,
 git clone https://github.com/vue-leaflet/vue-leaflet.git
 cd vue-leaflet
 yarn
-yarn serve
+yarn dev
 ```
 
 ### Server-side rendering (SSR)
