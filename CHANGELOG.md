@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The marker icon passed to the Leaflet constructor is now only replaced with an empty div when there is
   additional content within the `<LMarker>` component, _and_ at least some of that content is something
-  other than a tooltip, resolving
+  other than a tooltip or popup, resolving
   [#269 Marker with tooltip no longer visible with v0.8.2](https://github.com/vue-leaflet/vue-leaflet/issues/269).
 
 ### Changed

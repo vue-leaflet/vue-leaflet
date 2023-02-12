@@ -73,7 +73,10 @@ export const shouldBlankIcon = (options, context) => {
   // Vue mounts the inner content and vue-leaflet updates the marker with it.
   // See https://github.com/vue-leaflet/vue-leaflet/issues/170
   const slotContent = context.slots.default && context.slots.default();
-  if (slotContent && slotContent.some((el) => el.type.name !== "LTooltip")) {
+  if (
+    slotContent &&
+    slotContent.some((el) => !["LTooltip", "LPopup"].includes(el.type.name))
+  ) {
     return true;
   }
 
