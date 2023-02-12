@@ -58,3 +58,24 @@ export const setupMarker = (props, leafletRef, context) => {
 
   return { options, methods };
 };
+
+/**
+ * Determine whether the default Leaflet icon should be replaced with a blank div initially.
+ *
+ * @param {*} options Options object returned by setupMarker
+ * @param {*} context Context object returned by setupMarker
+ * @returns boolean
+ */
+export const shouldBlankIcon = (options, context) => {
+  // If there is content within the <LMarker>, and it contains anything other than a
+  // tooltip for the marker, then the icon should be replaced with an empty div on
+  // creation so that Leaflet does not render its default icon momentarily before
+  // Vue mounts the inner content and vue-leaflet updates the marker with it.
+  // See https://github.com/vue-leaflet/vue-leaflet/issues/170
+  const slotContent = context.slots.default && context.slots.default();
+  if (slotContent && slotContent.some((el) => el.type.name !== "LTooltip")) {
+    return true;
+  }
+
+  return false;
+};

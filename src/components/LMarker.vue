@@ -15,7 +15,7 @@ import {
   GLOBAL_LEAFLET_OPT,
   cancelDebounces,
 } from "../utils.js";
-import { markerProps, setupMarker } from "../functions/marker";
+import { markerProps, setupMarker, shouldBlankIcon } from "../functions/marker";
 import { render } from "../functions/layer";
 
 /**
@@ -51,11 +51,7 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      // If an icon is not specified in the options but there is content in the LMarker's slot, then
-      // set the initial icon to an empty div that will be invisible until it's replaced by any calls
-      // to `setIcon` or `setParentHtml` from within the default slot. This avoids the icon flickering
-      // discussed in https://github.com/vue-leaflet/vue-leaflet/issues/170.
-      if (!options.icon && context.slots.default) {
+      if (shouldBlankIcon(options, context)) {
         options.icon = divIcon({ className: "" });
       }
       leafletRef.value = marker(props.latLng, options);
