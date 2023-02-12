@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [0.8.3] - 2023-02-12
 
 ### Fixed
 
@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Leaflet objects accessed via the `leafletObject` property of a `ref` are now all marked as raw, so they
   no longer return `Proxy` instances.
+
+### Added
+
+- Ability to style GeoJSON layers through `:options-style` prop.
 
 
 ## [0.8.2] - 2023-02-05
