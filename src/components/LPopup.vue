@@ -23,39 +23,39 @@ export default {
   name: "LPopup",
   props: popupProps,
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
     const root = ref(null);
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const bindPopup = inject("bindPopup");
     const unbindPopup = inject("unbindPopup");
 
-    const { options, methods } = setupPopup(props, leafletRef, context);
+    const { options, methods } = setupPopup(props, leafletObject, context);
 
     onMounted(async () => {
       const { popup, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = markRaw(popup(options));
+      leafletObject.value = markRaw(popup(options));
 
       if (props.latLng !== undefined) {
-        leafletRef.value.setLatLng(props.latLng);
+        leafletObject.value.setLatLng(props.latLng);
       }
 
-      propsBinder(methods, leafletRef.value, props);
+      propsBinder(methods, leafletObject.value, props);
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletRef.value, listeners);
-      leafletRef.value.setContent(props.content || root.value);
-      bindPopup({ leafletObject: leafletRef.value });
-      nextTick(() => context.emit("ready", leafletRef.value));
+      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.setContent(props.content || root.value);
+      bindPopup({ leafletObject: leafletObject.value });
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
 
     onBeforeUnmount(() => {
-      unbindPopup({ leafletObject: leafletRef.value });
+      unbindPopup({ leafletObject: leafletObject.value });
     });
 
-    return { root, leafletObject: leafletRef };
+    return { root, leafletObject };
   },
   render() {
     return render(this.$slots);

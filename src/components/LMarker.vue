@@ -26,22 +26,23 @@ export default {
   name: "LMarker",
   props: markerProps,
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
     const ready = ref(false);
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    provide("canSetParentHtml", () => !!leafletRef.value.getElement());
+    provide("canSetParentHtml", () => !!leafletObject.value.getElement());
     provide(
       "setParentHtml",
-      (html) => (leafletRef.value.getElement().innerHTML = html)
+      (html) => (leafletObject.value.getElement().innerHTML = html)
     );
     provide(
       "setIcon",
-      (newIcon) => leafletRef.value.setIcon && leafletRef.value.setIcon(newIcon)
+      (newIcon) =>
+        leafletObject.value.setIcon && leafletObject.value.setIcon(newIcon)
     );
-    const { options, methods } = setupMarker(props, leafletRef, context);
+    const { options, methods } = setupMarker(props, leafletObject, context);
 
     const eventHandlers = {
       moveHandler: debounce(methods.latLngSync),
@@ -55,25 +56,25 @@ export default {
       if (shouldBlankIcon(options, context)) {
         options.icon = divIcon({ className: "" });
       }
-      leafletRef.value = markRaw(marker(props.latLng, options));
+      leafletObject.value = markRaw(marker(props.latLng, options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletRef.value, listeners);
+      DomEvent.on(leafletObject.value, listeners);
 
-      leafletRef.value.on("move", eventHandlers.moveHandler);
-      propsBinder(methods, leafletRef.value, props);
+      leafletObject.value.on("move", eventHandlers.moveHandler);
+      propsBinder(methods, leafletObject.value, props);
       addLayer({
         ...props,
         ...methods,
-        leafletObject: leafletRef.value,
+        leafletObject: leafletObject.value,
       });
       ready.value = true;
-      nextTick(() => context.emit("ready", leafletRef.value));
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
 
     onBeforeUnmount(() => cancelDebounces(eventHandlers));
 
-    return { ready, leafletObject: leafletRef };
+    return { ready, leafletObject };
   },
   render() {
     return render(this.ready, this.$slots);

@@ -19,13 +19,13 @@ export default {
     },
   },
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
     const root = ref(null);
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const registerControl = inject("registerControl");
 
-    const { options, methods } = setupControl(props, leafletRef);
+    const { options, methods } = setupControl(props, leafletObject);
 
     onMounted(async () => {
       const { Control, DomEvent } = useGlobalLeaflet
@@ -38,9 +38,9 @@ export default {
         },
       });
 
-      leafletRef.value = markRaw(new LControl(options));
-      propsBinder(methods, leafletRef.value, props);
-      registerControl({ leafletObject: leafletRef.value });
+      leafletObject.value = markRaw(new LControl(options));
+      propsBinder(methods, leafletObject.value, props);
+      registerControl({ leafletObject: leafletObject.value });
 
       if (props.disableClickPropagation) {
         DomEvent.disableClickPropagation(root.value);
@@ -48,9 +48,10 @@ export default {
       if (props.disableScrollPropagation) {
         DomEvent.disableScrollPropagation(root.value);
       }
-      nextTick(() => context.emit("ready", leafletRef.value));
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
-    return { root, leafletObject: leafletRef };
+
+    return { root, leafletObject };
   },
   render() {
     return render(this.$slots);

@@ -16,35 +16,36 @@ export default {
   name: "LCircle",
   props: circleProps,
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
     const ready = ref(false);
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = setupCircle(props, leafletRef, context);
+    const { options, methods } = setupCircle(props, leafletObject, context);
 
     onMounted(async () => {
       const { circle, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = markRaw(circle(props.latLng, options));
+      leafletObject.value = markRaw(circle(props.latLng, options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletRef.value, listeners);
+      DomEvent.on(leafletObject.value, listeners);
 
-      propsBinder(methods, leafletRef.value, props);
+      propsBinder(methods, leafletObject.value, props);
 
       addLayer({
         ...props,
         ...methods,
-        leafletObject: leafletRef.value,
+        leafletObject: leafletObject.value,
       });
       ready.value = true;
-      nextTick(() => context.emit("ready", leafletRef.value));
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
-    return { ready, leafletObject: leafletRef };
+
+    return { ready, leafletObject };
   },
   render() {
     return render(this.ready, this.$slots);
