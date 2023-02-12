@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   additional content within the `<LMarker>` component, _and_ at least some of that content is something
   other than a tooltip or popup, resolving
   [#269 Marker with tooltip no longer visible with v0.8.2](https://github.com/vue-leaflet/vue-leaflet/issues/269).
+- Tweaked how popups and tooltips are unbound when they unmount, resolving
+  [#266 Vue-leaflet LPopup does not update with prop change](https://github.com/vue-leaflet/vue-leaflet/issues/266).
 
 ### Changed
 
