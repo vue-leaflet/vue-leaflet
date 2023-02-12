@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject, nextTick } from "vue";
+import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -33,7 +33,7 @@ export default {
         props.bounds && props.bounds.length
           ? latLngBounds(props.bounds)
           : latLngBounds(props.latLngs);
-      leafletRef.value = rectangle(bounds, options);
+      leafletRef.value = markRaw(rectangle(bounds, options));
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

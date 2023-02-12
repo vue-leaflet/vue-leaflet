@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject, nextTick } from "vue";
+import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import { controlZoomProps, setupControlZoom } from "../functions/controlZoom";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
@@ -19,7 +19,7 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = control.zoom(options);
+      leafletRef.value = markRaw(control.zoom(options));
       propsBinder(methods, leafletRef.value, props);
       registerControl({ leafletObject: leafletRef.value });
       nextTick(() => context.emit("ready", leafletRef.value));

@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   other than a tooltip, resolving
   [#269 Marker with tooltip no longer visible with v0.8.2](https://github.com/vue-leaflet/vue-leaflet/issues/269).
 
+### Changed
+
+- Leaflet objects accessed via the `leafletObject` property of a `ref` are now all marked as raw, so they
+  no longer return `Proxy` instances.
+
 
 ## [0.8.2] - 2023-02-05
 

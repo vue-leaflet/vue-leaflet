@@ -6,6 +6,7 @@ import {
   inject,
   nextTick,
   onBeforeUnmount,
+  markRaw,
 } from "vue";
 import {
   remapEvents,
@@ -54,7 +55,7 @@ export default {
       if (shouldBlankIcon(options, context)) {
         options.icon = divIcon({ className: "" });
       }
-      leafletRef.value = marker(props.latLng, options);
+      leafletRef.value = markRaw(marker(props.latLng, options));
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

@@ -1,5 +1,12 @@
 <script>
-import { onMounted, ref, inject, nextTick, onBeforeUnmount } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  markRaw,
+} from "vue";
 import {
   propsBinder,
   remapEvents,
@@ -30,7 +37,7 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = popup(options);
+      leafletRef.value = markRaw(popup(options));
 
       if (props.latLng !== undefined) {
         leafletRef.value.setLatLng(props.latLng);

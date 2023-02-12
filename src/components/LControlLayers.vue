@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject, nextTick } from "vue";
+import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   controlLayersProps,
   setupControlLayers,
@@ -22,7 +22,7 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = control.layers(null, null, options);
+      leafletRef.value = markRaw(control.layers(null, null, options));
 
       propsBinder(methods, leafletRef.value, props);
 

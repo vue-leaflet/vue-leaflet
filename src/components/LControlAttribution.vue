@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject, nextTick } from "vue";
+import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   controlAttributionProps,
   setupControlAttribution,
@@ -22,7 +22,7 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = control.attribution(options);
+      leafletRef.value = markRaw(control.attribution(options));
       propsBinder(methods, leafletRef.value, props);
       registerControl({ leafletObject: leafletRef.value });
       nextTick(() => context.emit("ready", leafletRef.value));

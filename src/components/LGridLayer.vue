@@ -1,5 +1,14 @@
 <script>
-import { onMounted, onUnmounted, ref, inject, nextTick, h, render } from "vue";
+import {
+  onMounted,
+  onUnmounted,
+  ref,
+  inject,
+  nextTick,
+  h,
+  render,
+  markRaw,
+} from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -59,7 +68,7 @@ export default {
         },
       });
 
-      leafletRef.value = new GLayer(options);
+      leafletRef.value = markRaw(new GLayer(options));
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);
