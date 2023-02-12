@@ -16,29 +16,30 @@ export default {
   name: "LTooltip",
   props: tooltipProps,
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
     const root = ref(null);
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const bindTooltip = inject("bindTooltip");
 
-    const { options, methods } = setupTooltip(props, leafletRef, context);
+    const { options, methods } = setupTooltip(props, leafletObject, context);
 
     onMounted(async () => {
       const { tooltip, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = markRaw(tooltip(options));
+      leafletObject.value = markRaw(tooltip(options));
 
-      propsBinder(methods, leafletRef.value, props);
+      propsBinder(methods, leafletObject.value, props);
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletRef.value, listeners);
-      leafletRef.value.setContent(props.content || root.value);
-      bindTooltip({ leafletObject: leafletRef.value });
-      nextTick(() => context.emit("ready", leafletRef.value));
+      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.setContent(props.content || root.value);
+      bindTooltip({ leafletObject: leafletObject.value });
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
-    return { root, leafletObject: leafletRef };
+
+    return { root, leafletObject };
   },
   render() {
     return render(this.$slots);

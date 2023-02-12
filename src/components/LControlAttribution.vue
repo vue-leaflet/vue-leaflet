@@ -10,24 +10,25 @@ export default {
   name: "LControlAttribution",
   props: controlAttributionProps,
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const registerControl = inject("registerControl");
 
-    const { options, methods } = setupControlAttribution(props, leafletRef);
+    const { options, methods } = setupControlAttribution(props, leafletObject);
 
     onMounted(async () => {
       const { control } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = markRaw(control.attribution(options));
-      propsBinder(methods, leafletRef.value, props);
-      registerControl({ leafletObject: leafletRef.value });
-      nextTick(() => context.emit("ready", leafletRef.value));
+      leafletObject.value = markRaw(control.attribution(options));
+      propsBinder(methods, leafletObject.value, props);
+      registerControl({ leafletObject: leafletObject.value });
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
-    return { leafletObject: leafletRef.value };
+
+    return { leafletObject };
   },
   render() {
     return null;

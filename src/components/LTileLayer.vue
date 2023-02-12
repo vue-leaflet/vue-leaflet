@@ -11,33 +11,33 @@ import { tileLayerProps, setupTileLayer } from "../functions/tileLayer";
 export default {
   props: tileLayerProps,
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = setupTileLayer(props, leafletRef, context);
+    const { options, methods } = setupTileLayer(props, leafletObject, context);
 
     onMounted(async () => {
       const { tileLayer, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = markRaw(tileLayer(props.url, options));
+      leafletObject.value = markRaw(tileLayer(props.url, options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletRef.value, listeners);
+      DomEvent.on(leafletObject.value, listeners);
 
-      propsBinder(methods, leafletRef.value, props);
+      propsBinder(methods, leafletObject.value, props);
       addLayer({
         ...props,
         ...methods,
-        leafletObject: leafletRef.value,
+        leafletObject: leafletObject.value,
       });
-      nextTick(() => context.emit("ready", leafletRef.value));
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
 
-    return { leafletObject: leafletRef };
+    return { leafletObject };
   },
   render() {
     return null;

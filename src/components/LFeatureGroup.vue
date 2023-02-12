@@ -15,34 +15,35 @@ import { render } from "../functions/layer";
 export default {
   props: featureGroupProps,
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
     const ready = ref(false);
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { methods, options } = setupFeatureGroup(props, leafletRef);
+    const { methods, options } = setupFeatureGroup(props, leafletObject);
 
     onMounted(async () => {
       const { featureGroup, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = markRaw(featureGroup(options));
+      leafletObject.value = markRaw(featureGroup(options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletRef.value, listeners);
+      DomEvent.on(leafletObject.value, listeners);
 
-      propsBinder(methods, leafletRef.value, props);
+      propsBinder(methods, leafletObject.value, props);
       addLayer({
         ...props,
         ...methods,
-        leafletObject: leafletRef.value,
+        leafletObject: leafletObject.value,
       });
       ready.value = true;
-      nextTick(() => context.emit("ready", leafletRef.value));
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
-    return { ready, leafletObject: leafletRef };
+
+    return { ready, leafletObject };
   },
   render() {
     return render(this.ready, this.$slots);

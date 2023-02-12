@@ -19,35 +19,39 @@ export default {
   name: "LImageOverlay",
   props: imageOverlayProps,
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
     const ready = ref(false);
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = setupImageOverlay(props, leafletRef, context);
+    const { options, methods } = setupImageOverlay(
+      props,
+      leafletObject,
+      context
+    );
 
     onMounted(async () => {
       const { imageOverlay, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
-      leafletRef.value = markRaw(
+      leafletObject.value = markRaw(
         imageOverlay(props.url, props.bounds, options)
       );
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletRef.value, listeners);
-      propsBinder(methods, leafletRef.value, props);
+      DomEvent.on(leafletObject.value, listeners);
+      propsBinder(methods, leafletObject.value, props);
       addLayer({
         ...props,
         ...methods,
-        leafletObject: leafletRef.value,
+        leafletObject: leafletObject.value,
       });
       ready.value = true;
-      nextTick(() => context.emit("ready", leafletRef.value));
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
 
-    return { ready, leafletObject: leafletRef };
+    return { ready, leafletObject };
   },
   render() {
     return render(this.ready, this.$slots);

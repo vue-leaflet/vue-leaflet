@@ -26,7 +26,7 @@ export default {
     },
   },
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
     const tileComponents = ref({});
     const root = ref(null);
     const ready = ref(false);
@@ -34,7 +34,7 @@ export default {
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = setupGridLayer(props, leafletRef, context);
+    const { options, methods } = setupGridLayer(props, leafletObject, context);
 
     onMounted(async () => {
       const { GridLayer, DomEvent, DomUtil } = useGlobalLeaflet
@@ -42,7 +42,7 @@ export default {
         : await import("leaflet/dist/leaflet-src.esm");
 
       methods.onUnload = (e) => {
-        const key = leafletRef.value._tileCoordsToKey(e.coords);
+        const key = leafletObject.value._tileCoordsToKey(e.coords);
         if (tileComponents[key]) {
           tileComponents[key].innerHTML = "";
           tileComponents[key] = undefined;
@@ -50,12 +50,12 @@ export default {
       };
 
       methods.setTileComponent = () => {
-        leafletRef.value.redraw();
+        leafletObject.value.redraw();
       };
 
       const GLayer = GridLayer.extend({
         createTile(coords) {
-          const key = leafletRef.value._tileCoordsToKey(coords);
+          const key = leafletObject.value._tileCoordsToKey(coords);
           tileComponents[key] = DomUtil.create("div");
 
           let vNode = h(
@@ -68,28 +68,28 @@ export default {
         },
       });
 
-      leafletRef.value = markRaw(new GLayer(options));
+      leafletObject.value = markRaw(new GLayer(options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletRef.value, listeners);
+      DomEvent.on(leafletObject.value, listeners);
 
-      leafletRef.value.on("tileunload", methods.onUnload);
+      leafletObject.value.on("tileunload", methods.onUnload);
 
-      propsBinder(methods, leafletRef.value, props);
+      propsBinder(methods, leafletObject.value, props);
       addLayer({
         ...props,
         ...methods,
-        leafletObject: leafletRef.value,
+        leafletObject: leafletObject.value,
       });
       ready.value = true;
-      nextTick(() => context.emit("ready", leafletRef.value));
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
 
     onUnmounted(() => {
-      leafletRef.value.off("tileunload", methods.onUnload);
+      leafletObject.value.off("tileunload", methods.onUnload);
     });
 
-    return { root, ready, leafletObject: leafletRef };
+    return { root, ready, leafletObject };
   },
   render() {
     if (this.ready) {

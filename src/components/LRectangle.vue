@@ -16,13 +16,13 @@ export default {
   name: "LRectangle",
   props: rectangleProps,
   setup(props, context) {
-    const leafletRef = ref({});
+    const leafletObject = ref({});
     const ready = ref(false);
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const addLayer = inject("addLayer");
 
-    const { options, methods } = setupRectangle(props, leafletRef, context);
+    const { options, methods } = setupRectangle(props, leafletObject, context);
 
     onMounted(async () => {
       const { rectangle, latLngBounds, DomEvent } = useGlobalLeaflet
@@ -33,23 +33,23 @@ export default {
         props.bounds && props.bounds.length
           ? latLngBounds(props.bounds)
           : latLngBounds(props.latLngs);
-      leafletRef.value = markRaw(rectangle(bounds, options));
+      leafletObject.value = markRaw(rectangle(bounds, options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletRef.value, listeners);
+      DomEvent.on(leafletObject.value, listeners);
 
-      propsBinder(methods, leafletRef.value, props);
+      propsBinder(methods, leafletObject.value, props);
 
       addLayer({
         ...props,
         ...methods,
-        leafletObject: leafletRef.value,
+        leafletObject: leafletObject.value,
       });
       ready.value = true;
-      nextTick(() => context.emit("ready", leafletRef.value));
+      nextTick(() => context.emit("ready", leafletObject.value));
     });
 
-    return { ready, leafletObject: leafletRef };
+    return { ready, leafletObject };
   },
   render() {
     return render(this.ready, this.$slots);
