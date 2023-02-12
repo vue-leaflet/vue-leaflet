@@ -5,7 +5,7 @@
       layer-type="base"
       name="OpenStreetMap"
     ></l-tile-layer>
-    <l-geo-json :geojson="geojson"></l-geo-json>
+    <l-geo-json :geojson="geojson" :options-style="geoStyler"></l-geo-json>
   </l-map>
 </template>
 <script>
@@ -21,6 +21,9 @@ export default {
     return {
       zoom: 8,
       geojson: null,
+      geoStyler: (feature) => ({
+        opacity: feature.properties.code / 100000,
+      }),
     };
   },
   async created() {

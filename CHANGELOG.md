@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.8.3] - 2023-02-12
+
+### Fixed
+
+- The marker icon passed to the Leaflet constructor is now only replaced with an empty div when there is
+  additional content within the `<LMarker>` component, _and_ at least some of that content is something
+  other than a tooltip or popup, resolving
+  [#269 Marker with tooltip no longer visible with v0.8.2](https://github.com/vue-leaflet/vue-leaflet/issues/269).
+- Tweaked how popups and tooltips are unbound when they unmount, resolving
+  [#266 Vue-leaflet LPopup does not update with prop change](https://github.com/vue-leaflet/vue-leaflet/issues/266).
+
+### Changed
+
+- Leaflet objects accessed via the `leafletObject` property of a `ref` are now all marked as raw, so they
+  no longer return `Proxy` instances.
+
+### Added
+
+- Ability to style GeoJSON layers through `:options-style` prop.
+
+
 ## [0.8.2] - 2023-02-05
 
 ### Fixed

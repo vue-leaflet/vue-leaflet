@@ -92,21 +92,23 @@ export const setupLayer = (props, leafletRef, context) => {
       leafletRef.value.bindTooltip(leafletObject);
     },
     unbindTooltip() {
-      const tooltip =
-        leafletRef.value && isFunction(leafletRef.value.getTooltip)
-          ? leafletRef.value.getTooltip()
-          : null;
-      if (tooltip && isFunction(tooltip.unbindTooltip)) {
-        tooltip.unbindTooltip();
+      if (leafletRef.value) {
+        if (isFunction(leafletRef.value.closeTooltip)) {
+          leafletRef.value.closeTooltip();
+        }
+        if (isFunction(leafletRef.value.unbindTooltip)) {
+          leafletRef.value.unbindTooltip();
+        }
       }
     },
     unbindPopup() {
-      const popup =
-        leafletRef.value && isFunction(leafletRef.value.getPopup)
-          ? leafletRef.value.getPopup()
-          : null;
-      if (popup && isFunction(popup.unbindPopup)) {
-        popup.unbindPopup();
+      if (leafletRef.value) {
+        if (isFunction(leafletRef.value.closePopup)) {
+          leafletRef.value.closePopup();
+        }
+        if (isFunction(leafletRef.value.unbindPopup)) {
+          leafletRef.value.unbindPopup();
+        }
       }
     },
     updateVisibleProp(value) {

@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject, nextTick } from "vue";
+import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   propsBinder,
   remapEvents,
@@ -29,7 +29,7 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = tooltip(options);
+      leafletRef.value = markRaw(tooltip(options));
 
       propsBinder(methods, leafletRef.value, props);
       const listeners = remapEvents(context.attrs);

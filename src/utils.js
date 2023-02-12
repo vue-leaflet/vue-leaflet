@@ -115,7 +115,7 @@ export const resetWebpackIcon = async (Icon) => {
 };
 
 /**
- * Wraps a placeholder function and provides it with the given name.
+ * Wrap a placeholder function and provides it with the given name.
  * The wrapper can later be updated with {@link updateLeafletWrapper}
  * to provide a different function.
  *

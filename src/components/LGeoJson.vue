@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject, nextTick } from "vue";
+import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -25,7 +25,7 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = geoJSON(props.geojson, options);
+      leafletRef.value = markRaw(geoJSON(props.geojson, options));
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletRef.value, listeners);

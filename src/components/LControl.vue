@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref, inject, nextTick } from "vue";
+import { onMounted, ref, inject, markRaw, nextTick } from "vue";
 import { controlProps, setupControl, render } from "../functions/control";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
 
@@ -38,7 +38,7 @@ export default {
         },
       });
 
-      leafletRef.value = new LControl(options);
+      leafletRef.value = markRaw(new LControl(options));
       propsBinder(methods, leafletRef.value, props);
       registerControl({ leafletObject: leafletRef.value });
 

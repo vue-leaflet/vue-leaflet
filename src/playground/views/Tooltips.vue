@@ -10,11 +10,19 @@
       <l-tooltip> Hi! I'm staying here on this location! </l-tooltip>
     </l-marker>
 
-    <l-layer-group>
-      <l-marker :lat-lng="coordinates" draggable>
-        <l-tooltip> Hi! You can drag me around! </l-tooltip>
-      </l-marker>
-    </l-layer-group>
+    <l-marker :lat-lng="coordinates" draggable>
+      <l-tooltip> Hi! You can drag me around! </l-tooltip>
+    </l-marker>
+
+    <l-marker :lat-lng="[41.7654, -87.219482]">
+      <l-icon icon-url="https://placekitten.com/32/32" :icon-size="[32, 48]" />
+      <l-tooltip> What a tiny kitten </l-tooltip>
+    </l-marker>
+
+    <l-marker :lat-lng="[41.61322, -87.219482]">
+      <l-icon><div class="div-icon">Custom HTML icon</div></l-icon>
+      <l-tooltip> And with a tooltip too! </l-tooltip>
+    </l-marker>
 
     <l-polygon
       :lat-lngs="[
@@ -68,8 +76,8 @@ import {
   LMap,
   LTileLayer,
   LMarker,
+  LIcon,
   LTooltip,
-  LLayerGroup,
   LPolygon,
   LPolyline,
   LRectangle,
@@ -82,8 +90,8 @@ export default {
     LMap,
     LTileLayer,
     LMarker,
+    LIcon,
     LTooltip,
-    LLayerGroup,
     LPolygon,
     LPolyline,
     LRectangle,
@@ -99,4 +107,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.div-icon {
+  background-color: skyblue;
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px blue solid;
+}
+</style>

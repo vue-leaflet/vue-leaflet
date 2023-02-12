@@ -1,5 +1,12 @@
 <script>
-import { onMounted, ref, inject, nextTick } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  markRaw,
+} from "vue";
 import {
   propsBinder,
   remapEvents,
@@ -21,6 +28,7 @@ export default {
 
     const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
     const bindPopup = inject("bindPopup");
+    const unbindPopup = inject("unbindPopup");
 
     const { options, methods } = setupPopup(props, leafletRef, context);
 
@@ -29,7 +37,7 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletRef.value = popup(options);
+      leafletRef.value = markRaw(popup(options));
 
       if (props.latLng !== undefined) {
         leafletRef.value.setLatLng(props.latLng);
@@ -42,6 +50,11 @@ export default {
       bindPopup({ leafletObject: leafletRef.value });
       nextTick(() => context.emit("ready", leafletRef.value));
     });
+
+    onBeforeUnmount(() => {
+      unbindPopup({ leafletObject: leafletRef.value });
+    });
+
     return { root, leafletObject: leafletRef };
   },
   render() {
