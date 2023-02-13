@@ -12,7 +12,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/lib.js"),
+      entry: path.resolve(__dirname, "src/lib.ts"),
       formats: ["es", "cjs", "umd"],
       name: "vue-leaflet",
       fileName: (fmt) => `vue-leaflet.${fmt}.js`,
