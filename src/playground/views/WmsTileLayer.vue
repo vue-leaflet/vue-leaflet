@@ -14,7 +14,7 @@
   </l-map>
 </template>
 <script>
-import { LMap, LWmsTileLayer } from "./../../components";
+import { LMap, LWmsTileLayer } from "../../components";
 
 export default {
   components: {

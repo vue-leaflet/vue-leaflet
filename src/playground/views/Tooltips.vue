@@ -83,7 +83,7 @@ import {
   LRectangle,
   LCircle,
   LCircleMarker,
-} from "./../../components";
+} from "../../components";
 
 export default {
   components: {

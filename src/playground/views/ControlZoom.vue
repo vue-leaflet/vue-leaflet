@@ -9,7 +9,7 @@
   </l-map>
 </template>
 <script>
-import { LMap, LTileLayer, LControlZoom } from "./../../components";
+import { LMap, LTileLayer, LControlZoom } from "../../components";
 
 export default {
   components: {

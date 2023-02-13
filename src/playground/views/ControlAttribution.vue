@@ -12,7 +12,7 @@
   </l-map>
 </template>
 <script>
-import { LMap, LTileLayer, LControlAttribution } from "./../../components";
+import { LMap, LTileLayer, LControlAttribution } from "../../components";
 
 export default {
   components: {
