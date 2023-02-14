@@ -8,7 +8,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "noImplicitAny": false
   },
 
   "references": [

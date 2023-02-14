@@ -1,6 +1,8 @@
-<script>
+<script lang="ts">
+import type L from "leaflet";
 import {
   computed,
+  defineComponent,
   h,
   markRaw,
   nextTick,
@@ -137,14 +139,20 @@ const mapProps = {
   },
 };
 
-export default {
+interface MapBlueprint {
+  ready: boolean;
+  leafletRef?: L.Map;
+  layersToAdd: any[]; // TODO: Proper typing
+  layersInControl: any[]; // TODO: Proper typing
+}
+export default defineComponent({
   emits: ["ready", "update:zoom", "update:center", "update:bounds"],
   props: mapProps,
   setup(props, context) {
     const root = ref(null);
-    const blueprint = reactive({
+    const blueprint = reactive<MapBlueprint>({
       ready: false,
-      leafletRef: {},
+      leafletRef: undefined,
       layersToAdd: [],
       layersInControl: [],
     });
@@ -161,6 +169,8 @@ export default {
 
     const eventHandlers = {
       moveEndHandler: debounce(() => {
+        if (!blueprint.leafletRef) return;
+
         /**
          * Triggers when zoom is updated
          * @type {number,string}
@@ -382,5 +392,5 @@ export default {
       this.ready && this.$slots.default ? this.$slots.default() : {}
     );
   },
-};
+});
 </script>
