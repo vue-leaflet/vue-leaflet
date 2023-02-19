@@ -1,6 +1,9 @@
 import { propsToLeafletOptions } from "../utils";
 import { layerProps, setupLayer } from "./layer";
 
+const unrenderedContentTypes = ["Symbol(Comment)", "Symbol(Text)"];
+const unrenderedComponentNames = ["LTooltip", "LPopup"];
+
 export const markerProps = {
   ...layerProps,
   draggable: {
@@ -73,12 +76,15 @@ export const shouldBlankIcon = (options, context) => {
   // Vue mounts the inner content and vue-leaflet updates the marker with it.
   // See https://github.com/vue-leaflet/vue-leaflet/issues/170
   const slotContent = context.slots.default && context.slots.default();
-  if (
-    slotContent &&
-    slotContent.some((el) => !["LTooltip", "LPopup"].includes(el.type.name))
-  ) {
-    return true;
-  }
 
-  return false;
+  return (
+    slotContent && slotContent.length && slotContent.some(contentIsRendered)
+  );
 };
+
+function contentIsRendered(el) {
+  if (unrenderedContentTypes.includes(el.type.toString())) return false;
+  if (unrenderedComponentNames.includes(el.type.name)) return false;
+
+  return true;
+}
