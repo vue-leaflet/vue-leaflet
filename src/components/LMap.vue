@@ -142,6 +142,7 @@ const mapProps = {
 interface MapBlueprint {
   ready: boolean;
   leafletRef?: L.Map;
+  layerControl?: L.Control.Layers;
   layersToAdd: any[]; // TODO: Proper typing
   layersInControl: any[]; // TODO: Proper typing
 }
@@ -153,6 +154,7 @@ export default defineComponent({
     const blueprint = reactive<MapBlueprint>({
       ready: false,
       leafletRef: undefined,
+      layerControl: undefined,
       layersToAdd: [],
       layersInControl: [],
     });
@@ -206,20 +208,14 @@ export default defineComponent({
       if (props.useGlobalLeaflet) {
         WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet"));
       }
-      const {
-        map,
-        CRS,
-        Icon,
-        latLngBounds,
-        latLng,
-        DomEvent,
-      } = props.useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { map, CRS, Icon, latLngBounds, latLng, DomEvent }: typeof L =
+        props.useGlobalLeaflet
+          ? WINDOW_OR_GLOBAL.L
+          : await import("leaflet/dist/leaflet-src.esm");
 
       try {
         options.beforeMapMount && (await options.beforeMapMount());
-      } catch (error) {
+      } catch (error: any) {
         console.error(
           `The following error occurred running the provided beforeMapMount hook ${error.message}`
         );
@@ -232,7 +228,7 @@ export default defineComponent({
       options.crs = optionsCrs || CRS.EPSG3857;
 
       const methods = {
-        addLayer(layer) {
+        addLayer(layer: L.Layer) {
           if (layer.layerType !== undefined) {
             if (blueprint.layerControl === undefined) {
               blueprint.layersToAdd.push(layer);
@@ -243,7 +239,7 @@ export default defineComponent({
                   layer.leafletObject._leaflet_id
               );
               if (!exist) {
-                blueprint.layerControl.addLayer(layer);
+                blueprint.layerControl!.addLayer(layer);
                 blueprint.layersInControl.push(layer);
               }
             }
