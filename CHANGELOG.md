@@ -6,12 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [0.8.4] - 2023-02-20
 
 ### Fixed
 
 - Improved how the `<LMarker>` decides when not to render the default icon, resolving an additional issue surfaced
   in [#266 Vue-leaflet LPopup does not update with prop change](https://github.com/vue-leaflet/vue-leaflet/issues/266).
+- Reinstated use of the Leaflet global `L` by default, unintentionally removed in
+  [1bb4a71](https://github.com/vue-leaflet/vue-leaflet/commit/1bb4a71fa1201f6cf392e85a707a52bd8e916b9a#diff-c062e5b98deef6d3ca2604206fe64f4ac3a74887e252285b8559ee1e08e1b932R132-R135),
+  resolving [#260 Geoman integration with Vue3 Leaflet](https://github.com/vue-leaflet/vue-leaflet/issues/260).
 
 
 ## [0.8.3] - 2023-02-12
@@ -114,7 +117,8 @@ The following releases were created before the addition of this changelog:
 * [0.1.2], 2020-10-09
 
 
-[unreleased]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.3...HEAD
+[unreleased]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.4...HEAD
+[0.8.4]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.3...v0.8.4
 [0.8.3]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.2...v0.8.3
 [0.8.2]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.1...v0.8.2
 [0.8.1]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.0...v0.8.1

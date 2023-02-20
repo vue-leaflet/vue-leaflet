@@ -133,7 +133,8 @@ const mapProps = {
   },
   useGlobalLeaflet: {
     type: Boolean,
-    default: undefined,
+    default: true,
+    custom: true,
   },
 };
 
