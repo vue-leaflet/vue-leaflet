@@ -10,9 +10,17 @@
       <l-marker :lat-lng="[47.41322, -1.219482]">
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" />
       </l-marker>
-      <l-marker :lat-lng="[47.61322, -1.219482]">
-        <l-icon><div class="div-icon">Custom HTML icon</div></l-icon>
+      <l-marker :lat-lng="[47.41323, -1.219482]"></l-marker>
+
+      <l-marker :lat-lng="[47.61322, -0.519482]">
+        <l-icon :icon-size="[21, 21]">★</l-icon>
       </l-marker>
+      <l-marker :lat-lng="[47.61322, -0.519482]"></l-marker>
+
+      <l-marker :lat-lng="[47, -1]">
+        <l-icon class-name="">Hello, Map!</l-icon>
+      </l-marker>
+      <l-marker :lat-lng="[47, -1]"></l-marker>
     </l-map>
 
     <button @click="changeIcon">New kitten icon</button>
@@ -31,8 +39,8 @@ export default {
   data() {
     return {
       zoom: 8,
-      iconWidth: 45,
-      iconHeight: 90,
+      iconWidth: 21,
+      iconHeight: 42,
     };
   },
   computed: {
@@ -55,11 +63,13 @@ export default {
 </script>
 
 <style>
-.div-icon {
-  background-color: skyblue;
-  width: fit-content;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  border: 1px blue solid;
+.leaflet-div-icon {
+  background: steelblue;
+  color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: large;
+  text-align: center;
+  line-height: 21px;
 }
 </style>
