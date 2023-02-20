@@ -20,6 +20,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "test": "vitest",
     "prepublishOnly": "npm run lint && npm run build",
     "postversion": "git push --follow-tags",
     "docs:dev": "vitepress dev docs",
@@ -43,6 +44,7 @@
     "prettier": "^2.0.5",
     "vite": "^4.1.1",
     "vitepress": "^0.6.0",
+    "vitest": "^0.28.5",
     "vue": "^3.2.25",
     "vue-router": "^4.0.0-rc.5"
   },
