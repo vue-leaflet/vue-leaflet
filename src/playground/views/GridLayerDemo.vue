@@ -8,7 +8,7 @@
 </template>
 <script>
 import { h } from "vue";
-import { LMap, LTileLayer, LGridLayer } from "./../../components";
+import { LMap, LTileLayer, LGridLayer } from "../../components";
 
 export default {
   components: {

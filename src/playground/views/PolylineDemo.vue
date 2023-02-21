@@ -4,27 +4,31 @@
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       layer-type="base"
       name="OpenStreetMap"
-      :max-zoom="10"
-    />
-    <l-tile-layer
-      url="https://s3.amazonaws.com/te512.safecast.org/{z}/{x}/{y}.png"
-      attribution="<a href='https://blog.safecast.org/about/'>SafeCast</a> (<a href='https://creativecommons.org/licenses/by-sa/3.0/'>CC-BY-SA</a>"
-      :min-zoom="5"
-      :max-zoom="7"
+    ></l-tile-layer>
+
+    <l-polyline
+      :lat-lngs="[
+        [47.334852, -1.509485],
+        [47.342596, -1.328731],
+        [47.241487, -1.190568],
+        [47.234787, -1.358337],
+      ]"
+      color="green"
     />
   </l-map>
 </template>
 <script>
-import { LMap, LTileLayer } from "./../../components";
+import { LMap, LTileLayer, LPolyline } from "../../components";
 
 export default {
   components: {
     LMap,
     LTileLayer,
+    LPolyline,
   },
   data() {
     return {
-      zoom: 2,
+      zoom: 9,
     };
   },
 };

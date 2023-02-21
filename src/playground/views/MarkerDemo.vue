@@ -1,26 +1,27 @@
 <template>
-  <l-map ref="map" v-model:zoom="zoom" :center="[44.48865, 11.3317]">
+  <l-map ref="map" v-model:zoom="zoom" :center="[47.41322, -1.219482]">
     <l-tile-layer
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       layer-type="base"
       name="OpenStreetMap"
     ></l-tile-layer>
 
-    <l-circle :lat-lng="[44.48865, 11.3317]" :radius="5000" color="green" />
+    <l-marker :lat-lng="coordinates" draggable> </l-marker>
   </l-map>
 </template>
 <script>
-import { LMap, LTileLayer, LCircle } from "./../../components";
+import { LMap, LTileLayer, LMarker } from "../../components";
 
 export default {
   components: {
     LMap,
     LTileLayer,
-    LCircle,
+    LMarker,
   },
   data() {
     return {
-      zoom: 11,
+      zoom: 2,
+      coordinates: [50, 50],
     };
   },
 };

@@ -27,7 +27,7 @@
   </div>
 </template>
 <script>
-import { LMap, LTileLayer, LMarker, LIcon } from "./../../components";
+import { LMap, LTileLayer, LMarker, LIcon } from "../../components";
 
 export default {
   components: {

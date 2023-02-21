@@ -1,6 +1,8 @@
-<script>
+<script lang="ts">
+import type L from "leaflet";
 import {
   computed,
+  defineComponent,
   h,
   markRaw,
   nextTick,
@@ -9,6 +11,7 @@ import {
   provide,
   reactive,
   ref,
+  type PropType,
 } from "vue";
 import {
   remapEvents,
@@ -24,13 +27,33 @@ import {
 } from "../utils.js";
 import { componentProps, setupComponent } from "../functions/component";
 
+interface LMapBlueprint {
+  ready: boolean;
+  leafletRef?: L.Map;
+  layerControl?: any; // TODO: Proper typing, based on argument to registerLayerControl called in LControlLayers.vue
+  layersToAdd: any[]; // TODO: Proper typing
+  layersInControl: any[]; // TODO: Proper typing
+  lastSetBounds?: L.LatLngBounds;
+  lastSetCenter?: L.LatLng;
+}
+
+interface LMapOptions extends L.MapOptions {
+  beforeMapMount?: () => any;
+}
+
+interface LLayerDefinition<T extends L.Layer> extends L.Layer {
+  layerType: "base" | "overlay" | undefined;
+  visible: boolean;
+  leafletObject: T;
+}
+
 const mapProps = {
   ...componentProps,
   /**
    * The center of the map, supports .sync modifier
    */
   center: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.PointExpression>,
   },
   /**
    * The bounds of the map, supports .sync modifier
@@ -66,19 +89,19 @@ const mapProps = {
    * The paddingBottomRight of the map
    */
   paddingBottomRight: {
-    type: Array,
+    type: [Object, Array] as PropType<L.PointExpression>,
   },
   /**
    * The paddingTopLeft of the map
    */
   paddingTopLeft: {
-    type: Array,
+    type: Object as PropType<L.PointExpression>,
   },
   /**
    * The padding of the map
    */
   padding: {
-    type: Array,
+    type: Object as PropType<L.PointExpression>,
   },
   /**
    * The worldCopyJump option for the map
@@ -138,21 +161,24 @@ const mapProps = {
   },
 };
 
-export default {
+export default defineComponent({
   emits: ["ready", "update:zoom", "update:center", "update:bounds"],
   props: mapProps,
   setup(props, context) {
-    const root = ref(null);
-    const blueprint = reactive({
+    const root = ref<HTMLElement>();
+    const blueprint = reactive<LMapBlueprint>({
       ready: false,
-      leafletRef: {},
       layersToAdd: [],
       layersInControl: [],
     });
 
     const { options: componentOptions } = setupComponent(props);
 
-    const options = propsToLeafletOptions(props, mapProps, componentOptions);
+    const options: LMapOptions = propsToLeafletOptions(
+      props,
+      mapProps,
+      componentOptions
+    );
 
     const addLayer = provideLeafletWrapper("addLayer");
     const removeLayer = provideLeafletWrapper("removeLayer");
@@ -160,8 +186,34 @@ export default {
     const registerLayerControl = provideLeafletWrapper("registerLayerControl");
     provide(GLOBAL_LEAFLET_OPT, props.useGlobalLeaflet);
 
+    const zoomPanOptions = computed(() => {
+      const result: L.ZoomPanOptions = {};
+      if (props.noBlockingAnimations) {
+        result.animate = false;
+      }
+
+      return result;
+    });
+
+    const fitBoundsOptions = computed(() => {
+      const result: L.FitBoundsOptions = zoomPanOptions.value;
+      if (props.padding) {
+        result.padding = props.padding;
+      }
+      if (props.paddingTopLeft) {
+        result.paddingTopLeft = props.paddingTopLeft;
+      }
+      if (props.paddingBottomRight) {
+        result.paddingBottomRight = props.paddingBottomRight;
+      }
+
+      return result;
+    });
+
     const eventHandlers = {
       moveEndHandler: debounce(() => {
+        if (!blueprint.leafletRef) return;
+
         /**
          * Triggers when zoom is updated
          * @type {number,string}
@@ -197,20 +249,15 @@ export default {
       if (props.useGlobalLeaflet) {
         WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet"));
       }
-      const {
-        map,
-        CRS,
-        Icon,
-        latLngBounds,
-        latLng,
-        DomEvent,
-      } = props.useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { map, CRS, Icon, latLngBounds, latLng, DomEvent }: typeof L =
+        props.useGlobalLeaflet
+          ? WINDOW_OR_GLOBAL.L
+          : await import("leaflet/dist/leaflet-src.esm");
 
       try {
+        // TODO: Is beforeMapMount still needed?
         options.beforeMapMount && (await options.beforeMapMount());
-      } catch (error) {
+      } catch (error: any) {
         console.error(
           `The following error occurred running the provided beforeMapMount hook ${error.message}`
         );
@@ -223,7 +270,7 @@ export default {
       options.crs = optionsCrs || CRS.EPSG3857;
 
       const methods = {
-        addLayer(layer) {
+        addLayer(layer: LLayerDefinition<any>) {
           if (layer.layerType !== undefined) {
             if (blueprint.layerControl === undefined) {
               blueprint.layersToAdd.push(layer);
@@ -240,7 +287,7 @@ export default {
             }
           }
           if (layer.visible !== false) {
-            blueprint.leafletRef.addLayer(layer.leafletObject);
+            blueprint.leafletRef!.addLayer(layer.leafletObject);
           }
         },
         removeLayer(layer) {
@@ -258,13 +305,13 @@ export default {
               );
             }
           }
-          blueprint.leafletRef.removeLayer(layer.leafletObject);
+          blueprint.leafletRef!.removeLayer(layer.leafletObject);
         },
 
         registerLayerControl(lControlLayer) {
           blueprint.layerControl = lControlLayer;
           blueprint.layersToAdd.forEach((layer) => {
-            blueprint.layerControl.addLayer(layer);
+            blueprint.layerControl!.addLayer(layer);
           });
           blueprint.layersToAdd = [];
 
@@ -272,39 +319,26 @@ export default {
         },
 
         registerControl(lControl) {
-          blueprint.leafletRef.addControl(lControl.leafletObject);
+          blueprint.leafletRef!.addControl(lControl.leafletObject);
         },
 
         setZoom(newVal) {
-          const zoom = blueprint.leafletRef.getZoom();
+          const zoom = blueprint.leafletRef!.getZoom();
           if (newVal !== zoom) {
-            blueprint.leafletRef.setZoom(newVal, {
-              animate: props.noBlockingAnimations ? false : null,
-            });
+            blueprint.leafletRef!.setZoom(newVal, zoomPanOptions.value);
           }
         },
 
-        setPaddingBottomRight(newVal) {
-          blueprint.paddingBottomRight = newVal;
-        },
-        setPaddingTopLeft(newVal) {
-          blueprint.paddingTopLeft = newVal;
-        },
-        setPadding(newVal) {
-          blueprint.padding = newVal;
-        },
         setCrs(newVal) {
-          const prevBounds = blueprint.leafletRef.getBounds();
-          blueprint.leafletRef.options.crs = newVal;
-          blueprint.leafletRef.fitBounds(prevBounds, {
+          const prevBounds = blueprint.leafletRef!.getBounds();
+          blueprint.leafletRef!.options.crs = newVal;
+          blueprint.leafletRef!.fitBounds(prevBounds, {
             animate: false,
             padding: [0, 0],
           });
         },
         fitBounds(bounds) {
-          blueprint.leafletRef.fitBounds(bounds, {
-            animate: this.noBlockingAnimations ? false : null,
-          });
+          blueprint.leafletRef!.fitBounds(bounds, fitBoundsOptions.value);
         },
         setBounds(newVal) {
           if (!newVal) {
@@ -315,11 +349,11 @@ export default {
             return;
           }
           const oldBounds =
-            blueprint.lastSetBounds || blueprint.leafletRef.getBounds();
+            blueprint.lastSetBounds || blueprint.leafletRef!.getBounds();
           const boundsChanged = !oldBounds.equals(newBounds, 0); // set maxMargin to 0 - check exact equals
           if (boundsChanged) {
             blueprint.lastSetBounds = newBounds;
-            blueprint.leafletRef.fitBounds(newBounds, this.fitBoundsOptions);
+            blueprint.leafletRef!.fitBounds(newBounds);
           }
         },
 
@@ -329,15 +363,14 @@ export default {
           }
           const newCenter = latLng(newVal);
           const oldCenter =
-            blueprint.lastSetCenter || blueprint.leafletRef.getCenter();
+            blueprint.lastSetCenter || blueprint.leafletRef!.getCenter();
           if (
             oldCenter.lat !== newCenter.lat ||
             oldCenter.lng !== newCenter.lng
           ) {
             blueprint.lastSetCenter = newCenter;
-            blueprint.leafletRef.panTo(newCenter, {
-              animate: this.noBlockingAnimations ? false : null,
-            });
+
+            blueprint.leafletRef!.panTo(newCenter, zoomPanOptions.value);
           }
         },
       };
@@ -347,10 +380,10 @@ export default {
       updateLeafletWrapper(registerControl, methods.registerControl);
       updateLeafletWrapper(registerLayerControl, methods.registerLayerControl);
 
-      blueprint.leafletRef = markRaw(map(root.value, options));
+      blueprint.leafletRef = markRaw(map(root.value!, options));
 
       propsBinder(methods, blueprint.leafletRef, props);
-      const listeners = remapEvents(context.attrs);
+      const listeners: any = remapEvents(context.attrs); // TODO: proper typing
 
       blueprint.leafletRef.on("moveend", eventHandlers.moveEndHandler);
       blueprint.leafletRef.on("overlayadd", eventHandlers.overlayAddHandler);
@@ -358,7 +391,7 @@ export default {
         "overlayremove",
         eventHandlers.overlayRemoveHandler
       );
-      DomEvent.on(blueprint.leafletRef, listeners);
+      DomEvent.on(blueprint.leafletRef.getContainer(), listeners);
       blueprint.ready = true;
       nextTick(() => context.emit("ready", blueprint.leafletRef));
     });
@@ -383,5 +416,5 @@ export default {
       this.ready && this.$slots.default ? this.$slots.default() : {}
     );
   },
-};
+});
 </script>

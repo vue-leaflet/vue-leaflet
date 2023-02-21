@@ -5,20 +5,15 @@
       layer-type="base"
       name="OpenStreetMap"
     ></l-tile-layer>
-    <l-feature-group>
-      <l-marker :lat-lng="[50, 50]"> </l-marker>
-    </l-feature-group>
   </l-map>
 </template>
 <script>
-import { LMap, LTileLayer, LMarker, LFeatureGroup } from "./../../components";
+import { LMap, LTileLayer } from "../../components";
 
 export default {
   components: {
     LMap,
     LTileLayer,
-    LMarker,
-    LFeatureGroup,
   },
   data() {
     return {
