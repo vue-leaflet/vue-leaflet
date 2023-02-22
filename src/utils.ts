@@ -1,30 +1,18 @@
 import { watch, ref, provide } from "vue";
+import type L from "leaflet";
 
-export const debounce = (fn, time = 100) => {
-  let timeout;
-
-  const debounced = function (...args) {
-    const context = this;
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-    timeout = setTimeout(() => {
-      fn.apply(context, args);
-      timeout = null;
-    }, time);
-  };
-
-  debounced.cancel = function () {
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-  };
-
-  return debounced;
+export const bindEventHandlers = (
+  leafletObject: L.Evented,
+  eventHandlers: L.LeafletEventHandlerFnMap
+) => {
+  for (const eventName of Object.keys(eventHandlers)) {
+    leafletObject.on(eventName, eventHandlers[eventName]);
+  }
 };
 
-export const cancelDebounces = function (handlerMethods) {
-  for (const handler of Object.values(handlerMethods)) {
+export const cancelDebounces = (handlerMethods: { [key: string]: any }) => {
+  for (const name of Object.keys(handlerMethods)) {
+    const handler = handlerMethods[name];
     handler && isFunction(handler.cancel) && handler.cancel();
   }
 };

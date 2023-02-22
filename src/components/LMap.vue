@@ -1,5 +1,6 @@
 <script lang="ts">
 import type L from "leaflet";
+import { debounce } from "ts-debounce";
 import {
   computed,
   defineComponent,
@@ -16,7 +17,7 @@ import {
 import {
   remapEvents,
   propsBinder,
-  debounce,
+  bindEventHandlers,
   resetWebpackIcon,
   provideLeafletWrapper,
   updateLeafletWrapper,
@@ -210,8 +211,8 @@ export default defineComponent({
       return result;
     });
 
-    const eventHandlers = {
-      moveEndHandler: debounce(() => {
+    const eventHandlers: L.LeafletEventHandlerFnMap = {
+      moveend: debounce((_ev: L.LeafletEvent) => {
         if (!blueprint.leafletRef) return;
 
         /**
@@ -231,14 +232,14 @@ export default defineComponent({
          */
         context.emit("update:bounds", blueprint.leafletRef.getBounds());
       }),
-      overlayAddHandler(e) {
-        const layer = blueprint.layersInControl.find((l) => l.name === e.name);
+      overlayadd(ev) {
+        const layer = blueprint.layersInControl.find((l) => l.name === ev.name);
         if (layer) {
           layer.updateVisibleProp(true);
         }
       },
-      overlayRemoveHandler(e) {
-        const layer = blueprint.layersInControl.find((l) => l.name === e.name);
+      overlayremove(ev) {
+        const layer = blueprint.layersInControl.find((l) => l.name === ev.name);
         if (layer) {
           layer.updateVisibleProp(false);
         }
@@ -385,12 +386,7 @@ export default defineComponent({
       propsBinder(methods, blueprint.leafletRef, props);
       const listeners: any = remapEvents(context.attrs); // TODO: proper typing
 
-      blueprint.leafletRef.on("moveend", eventHandlers.moveEndHandler);
-      blueprint.leafletRef.on("overlayadd", eventHandlers.overlayAddHandler);
-      blueprint.leafletRef.on(
-        "overlayremove",
-        eventHandlers.overlayRemoveHandler
-      );
+      bindEventHandlers(blueprint.leafletRef, eventHandlers);
       DomEvent.on(blueprint.leafletRef.getContainer(), listeners);
       blueprint.ready = true;
       nextTick(() => context.emit("ready", blueprint.leafletRef));
