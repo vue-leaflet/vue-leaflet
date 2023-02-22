@@ -29,10 +29,8 @@ export const tileLayerProps = {
 };
 
 export const setupTileLayer = (props, leafletRef, context) => {
-  const {
-    options: gridLayerOptions,
-    methods: gridLayerMethods,
-  } = setupGridLayer(props, leafletRef, context);
+  const { options: gridLayerOptions, methods: gridLayerMethods } =
+    setupGridLayer(props, leafletRef, context);
 
   const options = propsToLeafletOptions(
     props,

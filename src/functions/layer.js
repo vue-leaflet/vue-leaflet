@@ -28,10 +28,8 @@ export const layerProps = {
 export const setupLayer = (props, leafletRef, context) => {
   const addLayer = inject("addLayer");
   const removeLayer = inject("removeLayer");
-  const {
-    options: componentOptions,
-    methods: componentMethods,
-  } = setupComponent(props);
+  const { options: componentOptions, methods: componentMethods } =
+    setupComponent(props);
 
   const options = propsToLeafletOptions(props, layerProps, componentOptions);
 

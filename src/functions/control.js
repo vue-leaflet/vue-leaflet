@@ -10,10 +10,8 @@ export const controlProps = {
 };
 
 export const setupControl = (props, leafletRef) => {
-  const {
-    options: componentOptions,
-    methods: componentMethods,
-  } = setupComponent(props);
+  const { options: componentOptions, methods: componentMethods } =
+    setupComponent(props);
 
   const options = propsToLeafletOptions(props, controlProps, componentOptions);
 

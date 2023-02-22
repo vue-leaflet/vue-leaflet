@@ -51,10 +51,8 @@ export const pathProps = {
 };
 
 export const setupPath = (props, leafletRef, context) => {
-  const {
-    options: interactiveLayerOptions,
-    methods: interactiveLayerMethods,
-  } = setupInteractiveLayer(props, leafletRef, context);
+  const { options: interactiveLayerOptions, methods: interactiveLayerMethods } =
+    setupInteractiveLayer(props, leafletRef, context);
 
   const options = propsToLeafletOptions(
     props,

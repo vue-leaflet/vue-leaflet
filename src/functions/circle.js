@@ -12,10 +12,8 @@ export const circleProps = {
 };
 
 export const setupCircle = (props, leafletRef, context) => {
-  const {
-    options: circleMarkerOptions,
-    methods: circleMarkerMethods,
-  } = setupCircleMarker(props, leafletRef, context);
+  const { options: circleMarkerOptions, methods: circleMarkerMethods } =
+    setupCircleMarker(props, leafletRef, context);
 
   const options = propsToLeafletOptions(
     props,
