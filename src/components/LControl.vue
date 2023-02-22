@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { onMounted, ref, inject, markRaw, nextTick } from "vue";
 import { controlProps, setupControl, render } from "../functions/control";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";

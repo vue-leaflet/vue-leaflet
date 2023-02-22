@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   controlScaleProps,

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { onMounted, ref, inject, nextTick, h } from "vue";
 import {
   propsBinder,

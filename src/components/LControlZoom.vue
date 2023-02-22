@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import { controlZoomProps, setupControlZoom } from "../functions/controlZoom";
 import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import {
   onMounted,
   ref,
@@ -8,10 +8,10 @@ import {
   onBeforeUnmount,
   markRaw,
 } from "vue";
+import { debounce } from "ts-debounce";
 import {
   remapEvents,
   propsBinder,
-  debounce,
   WINDOW_OR_GLOBAL,
   GLOBAL_LEAFLET_OPT,
   cancelDebounces,
