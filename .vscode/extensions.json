@@ -1,6 +1,8 @@
 {
   "recommendations": [
     "zixuanchen.vitest-explorer",
-    "vue.volar"
+    "vue.volar",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
   ]
 }
