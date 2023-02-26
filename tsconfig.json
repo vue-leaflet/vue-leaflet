@@ -8,6 +8,9 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "types": [
+      "node",
+    ],
     "outDir": "./dist",
     "noImplicitAny": false
   },

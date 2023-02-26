@@ -17,14 +17,14 @@ export const cancelDebounces = (handlerMethods: { [key: string]: any }) => {
   }
 };
 
-export const capitalizeFirstLetter = (string) => {
-  if (!string || typeof string.charAt !== "function") {
-    return string;
+export const capitalizeFirstLetter = (s: string) => {
+  if (!s || typeof s.charAt !== "function") {
+    return s;
   }
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
-export const isFunction = (x) => typeof x === "function";
+export const isFunction = (x: any) => typeof x === "function";
 
 export const propsBinder = (methods, leafletElement, props) => {
   for (const key in props) {
@@ -103,18 +103,17 @@ export const resetWebpackIcon = async (Icon) => {
 };
 
 /**
- * Wrap a placeholder function and provides it with the given name.
+ * Wrap a placeholder function and provide it with the given name.
  * The wrapper can later be updated with {@link updateLeafletWrapper}
  * to provide a different function.
  *
  * @param {String} methodName Key used to provide the wrapper function
  */
 export const provideLeafletWrapper = (methodName) => {
-  const wrapped = ref(() =>
+  const wrapped = ref((..._args: any[]) =>
     console.warn(`Method ${methodName} has been invoked without being replaced`)
   );
-  const wrapper = (...args) => wrapped.value(...args);
-  // eslint-disable-next-line vue/no-ref-as-operand
+  const wrapper = (...args: any[]) => wrapped.value(...args);
   wrapper.wrapped = wrapped;
   provide(methodName, wrapper);
 
@@ -134,6 +133,6 @@ export const updateLeafletWrapper = (wrapper, leafletMethod) =>
 export const WINDOW_OR_GLOBAL =
   (typeof self === "object" && self.self === self && self) ||
   (typeof global === "object" && global.global === global && global) ||
-  undefined;
+  globalThis;
 
 export const GLOBAL_LEAFLET_OPT = "useGlobalLeaflet";
