@@ -27,26 +27,11 @@ import {
   cancelDebounces,
 } from "../utils.js";
 import { componentProps, setupComponent } from "../functions/component";
-
-interface LMapBlueprint {
-  ready: boolean;
-  leafletRef?: L.Map;
-  layerControl?: any; // TODO: Proper typing, based on argument to registerLayerControl called in LControlLayers.vue
-  layersToAdd: any[]; // TODO: Proper typing
-  layersInControl: any[]; // TODO: Proper typing
-  lastSetBounds?: L.LatLngBounds;
-  lastSetCenter?: L.LatLng;
-}
-
-interface LMapOptions extends L.MapOptions {
-  beforeMapMount?: () => any;
-}
-
-interface LLayerDefinition<T extends L.Layer> extends L.Layer {
-  layerType: "base" | "overlay" | undefined;
-  visible: boolean;
-  leafletObject: T;
-}
+import type {
+  ILayerDefinition,
+  IMapBlueprint,
+  IMapOptions,
+} from "../types/interfaces";
 
 const mapProps = {
   ...componentProps,
@@ -167,7 +152,7 @@ export default defineComponent({
   props: mapProps,
   setup(props, context) {
     const root = ref<HTMLElement>();
-    const blueprint = reactive<LMapBlueprint>({
+    const blueprint = reactive<IMapBlueprint>({
       ready: false,
       layersToAdd: [],
       layersInControl: [],
@@ -175,7 +160,7 @@ export default defineComponent({
 
     const { options: componentOptions } = setupComponent(props);
 
-    const options: LMapOptions = propsToLeafletOptions(
+    const options: IMapOptions = propsToLeafletOptions(
       props,
       mapProps,
       componentOptions
@@ -271,7 +256,7 @@ export default defineComponent({
       options.crs = optionsCrs || CRS.EPSG3857;
 
       const methods = {
-        addLayer(layer: LLayerDefinition<any>) {
+        addLayer(layer: ILayerDefinition<any>) {
           if (layer.layerType !== undefined) {
             if (blueprint.layerControl === undefined) {
               blueprint.layersToAdd.push(layer);
