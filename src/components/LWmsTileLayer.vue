@@ -27,7 +27,7 @@ export default {
     const { options, methods } = setupWMSTileLayer(props, leafletObject);
 
     onMounted(async () => {
-      const { tileLayer, DomEvent } = useGlobalLeaflet
+      const { tileLayer, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

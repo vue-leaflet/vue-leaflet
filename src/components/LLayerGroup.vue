@@ -26,7 +26,7 @@ export default {
     const { methods } = setupLayerGroup(props, leafletObject, context);
 
     onMounted(async () => {
-      const { layerGroup, DomEvent } = useGlobalLeaflet
+      const { layerGroup, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
       leafletObject.value = markRaw<L.LayerGroup>(layerGroup(props.options));

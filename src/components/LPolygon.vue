@@ -30,7 +30,7 @@ export default {
     const { options, methods } = setupPolygon(props, leafletObject, context);
 
     onMounted(async () => {
-      const { polygon, DomEvent } = useGlobalLeaflet
+      const { polygon, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

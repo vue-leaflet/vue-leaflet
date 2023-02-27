@@ -37,7 +37,7 @@ export default {
     );
 
     onMounted(async () => {
-      const { imageOverlay, DomEvent } = useGlobalLeaflet
+      const { imageOverlay, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
       leafletObject.value = markRaw<L.ImageOverlay>(

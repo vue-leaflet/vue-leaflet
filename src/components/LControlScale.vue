@@ -23,7 +23,7 @@ export default {
     const { options, methods } = setupControlScale(props, leafletObject);
 
     onMounted(async () => {
-      const { control } = useGlobalLeaflet
+      const { control }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

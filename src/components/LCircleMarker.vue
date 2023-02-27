@@ -37,7 +37,7 @@ export default {
     );
 
     onMounted(async () => {
-      const { circleMarker, DomEvent } = useGlobalLeaflet
+      const { circleMarker, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

@@ -30,7 +30,7 @@ export default {
     const { options, methods } = setupCircle(props, leafletObject, context);
 
     onMounted(async () => {
-      const { circle, DomEvent } = useGlobalLeaflet
+      const { circle, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

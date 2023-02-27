@@ -39,7 +39,7 @@ export default {
     const { options, methods } = setupPopup(props, leafletObject);
 
     onMounted(async () => {
-      const { popup, DomEvent } = useGlobalLeaflet
+      const { popup, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

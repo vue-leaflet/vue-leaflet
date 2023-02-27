@@ -1,4 +1,5 @@
 <script lang="ts">
+import type L from "leaflet";
 import { onMounted, ref, inject, nextTick, h } from "vue";
 import {
   propsBinder,
@@ -92,7 +93,7 @@ export default {
         DomEvent,
         divIcon: lDivIcon,
         icon: lIcon,
-      } = useGlobalLeaflet
+      }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

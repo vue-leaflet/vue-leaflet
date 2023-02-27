@@ -30,7 +30,7 @@ export default {
     const { options, methods } = setupRectangle(props, leafletObject, context);
 
     onMounted(async () => {
-      const { rectangle, latLngBounds, DomEvent } = useGlobalLeaflet
+      const { rectangle, latLngBounds, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

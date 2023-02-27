@@ -42,7 +42,7 @@ export default {
     const { options, methods } = setupGridLayer(props, leafletObject, context);
 
     onMounted(async () => {
-      const { GridLayer, DomEvent, DomUtil } = useGlobalLeaflet
+      const { GridLayer, DomEvent, DomUtil }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

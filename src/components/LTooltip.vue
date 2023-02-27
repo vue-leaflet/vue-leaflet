@@ -30,7 +30,7 @@ export default {
     const { options, methods } = setupTooltip(props, leafletObject);
 
     onMounted(async () => {
-      const { tooltip, DomEvent } = useGlobalLeaflet
+      const { tooltip, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

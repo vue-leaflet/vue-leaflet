@@ -26,7 +26,7 @@ export default {
     const { methods, options } = setupGeoJSON(props, leafletObject, context);
 
     onMounted(async () => {
-      const { geoJSON, DomEvent } = useGlobalLeaflet
+      const { geoJSON, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 

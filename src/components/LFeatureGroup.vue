@@ -29,7 +29,7 @@ export default {
     const { methods, options } = setupFeatureGroup(props, leafletObject);
 
     onMounted(async () => {
-      const { featureGroup, DomEvent } = useGlobalLeaflet
+      const { featureGroup, DomEvent }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
