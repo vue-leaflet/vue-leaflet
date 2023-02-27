@@ -15,7 +15,7 @@ export const controlZoomProps = {
   zoomOutTitle: {
     type: String,
   },
-};
+} as const;
 
 export const setupControlZoom = (props, leafletRef) => {
   const { options: controlOptions, methods: controlMethods } = setupControl(

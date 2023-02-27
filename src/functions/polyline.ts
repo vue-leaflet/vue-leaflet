@@ -15,7 +15,7 @@ export const polylineProps = {
     required: true,
     custom: true,
   },
-};
+} as const;
 
 export const setupPolyline = (props, leafletRef, context) => {
   const { options: pathOptions, methods: pathMethods } = setupPath(

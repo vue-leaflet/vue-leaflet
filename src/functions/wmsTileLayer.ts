@@ -27,11 +27,11 @@ export const wmsTileLayerProps = {
     type: Boolean,
     default: undefined,
   },
-};
+} as const;
 
-export const setupWMSTileLayer = (props, leafletRef) => {
+export const setupWMSTileLayer = (props, leafletRef, context) => {
   const { options: tileLayerOptions, methods: tileLayerMethods } =
-    setupTileLayer(props, leafletRef);
+    setupTileLayer(props, leafletRef, context);
 
   const options = propsToLeafletOptions(
     props,

@@ -8,6 +8,7 @@ import {
   nextTick,
   onBeforeUnmount,
   markRaw,
+  defineComponent,
 } from "vue";
 import { debounce } from "ts-debounce";
 import {
@@ -35,7 +36,7 @@ import {
 /**
  * Marker component, lets you add and personalize markers on the map
  */
-export default {
+export default defineComponent({
   name: "LMarker",
   props: markerProps,
   setup(props, context) {
@@ -98,5 +99,5 @@ export default {
   render() {
     return render(this.ready, this.$slots);
   },
-};
+});
 </script>

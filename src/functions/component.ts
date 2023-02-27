@@ -4,7 +4,7 @@ export const componentProps = {
     default: () => ({}),
     custom: true,
   },
-};
+} as const;
 
 export const setupComponent = (props) => {
   return { options: props.options, methods: {} };

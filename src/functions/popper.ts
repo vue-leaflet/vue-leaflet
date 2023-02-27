@@ -7,7 +7,7 @@ export const popperProps = {
     type: String,
     default: null,
   },
-};
+} as const;
 
 export const setupPopper = (props, leafletRef) => {
   const { options, methods: componentMethods } = setupComponent(props);

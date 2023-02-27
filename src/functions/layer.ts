@@ -31,7 +31,7 @@ export const layerProps = {
     custom: true,
     default: true,
   },
-};
+} as const;
 
 export const setupLayer = (props, leafletRef, context) => {
   const addLayer = assertInject(AddLayerInjection);

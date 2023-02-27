@@ -22,7 +22,7 @@ export const controlLayersProps = {
   sortFunction: {
     type: Function,
   },
-};
+} as const;
 
 export const setupControlLayers = (props, leafletRef) => {
   const { options: controlOptions } = setupControl(props, leafletRef);

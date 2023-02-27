@@ -1,6 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, markRaw } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  markRaw,
+  defineComponent,
+} from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -20,7 +27,7 @@ import {
 /**
  * ImageOverlay component, render a plain image instead of a geospatial map.
  */
-export default {
+export default defineComponent({
   name: "LImageOverlay",
   props: imageOverlayProps,
   setup(props, context) {
@@ -61,5 +68,5 @@ export default {
   render() {
     return render(this.ready, this.$slots);
   },
-};
+});
 </script>

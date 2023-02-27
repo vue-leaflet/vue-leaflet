@@ -1,6 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, markRaw } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  markRaw,
+  defineComponent,
+} from "vue";
 import {
   assertInject,
   propsBinder,
@@ -17,7 +24,7 @@ import {
 /**
  * Display a tooltip on the map
  */
-export default {
+export default defineComponent({
   name: "LTooltip",
   props: tooltipProps,
   setup(props, context) {
@@ -49,5 +56,5 @@ export default {
   render() {
     return render(this.$slots);
   },
-};
+});
 </script>

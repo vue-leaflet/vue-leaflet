@@ -9,7 +9,7 @@ export const circleProps = {
   radius: {
     type: Number,
   },
-};
+} as const;
 
 export const setupCircle = (props, leafletRef, context) => {
   const { options: circleMarkerOptions, methods: circleMarkerMethods } =

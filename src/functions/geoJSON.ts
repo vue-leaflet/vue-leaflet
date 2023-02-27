@@ -11,7 +11,7 @@ export const geoJSONProps = {
     type: [Object, Function],
     custom: true,
   },
-};
+} as const;
 
 export const setupGeoJSON = (props, leafletRef, context) => {
   const { options: layerOptions, methods: layerGroupMethods } = setupLayerGroup(

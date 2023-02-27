@@ -6,7 +6,7 @@ export const controlAttributionProps = {
   prefix: {
     type: String,
   },
-};
+} as const;
 
 export const setupControlAttribution = (props, leafletRef) => {
   const { options: controlOptions, methods: controlMethods } = setupControl(

@@ -1,6 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, markRaw } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  markRaw,
+  defineComponent,
+} from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -16,7 +23,7 @@ import {
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 
-export default {
+export default defineComponent({
   props: wmsTileLayerProps,
   setup(props, context) {
     const leafletObject = ref<L.TileLayer.WMS>();
@@ -52,5 +59,5 @@ export default {
   render() {
     return null;
   },
-};
+});
 </script>

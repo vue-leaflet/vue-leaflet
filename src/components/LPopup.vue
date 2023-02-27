@@ -7,6 +7,7 @@ import {
   nextTick,
   onBeforeUnmount,
   markRaw,
+  defineComponent,
 } from "vue";
 import {
   assertInject,
@@ -25,7 +26,7 @@ import {
 /**
  * Display a popup on the map
  */
-export default {
+export default defineComponent({
   name: "LPopup",
   props: popupProps,
   setup(props, context) {
@@ -66,5 +67,5 @@ export default {
   render() {
     return render(this.$slots);
   },
-};
+});
 </script>

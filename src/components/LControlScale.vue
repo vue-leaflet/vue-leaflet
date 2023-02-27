@@ -1,6 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, markRaw } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  markRaw,
+  defineComponent,
+} from "vue";
 import {
   controlScaleProps,
   setupControlScale,
@@ -11,7 +18,7 @@ import {
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 
-export default {
+export default defineComponent({
   name: "LControlScale",
   props: controlScaleProps,
   setup(props, context) {
@@ -38,5 +45,5 @@ export default {
   render() {
     return null;
   },
-};
+});
 </script>

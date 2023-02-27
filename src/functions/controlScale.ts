@@ -18,7 +18,7 @@ export const controlScaleProps = {
     type: Boolean,
     default: undefined,
   },
-};
+} as const;
 
 export const setupControlScale = (props, leafletRef) => {
   const { options: controlOptions, methods: controlMethods } = setupControl(

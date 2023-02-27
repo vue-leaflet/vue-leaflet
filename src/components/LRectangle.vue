@@ -1,6 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, markRaw } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  markRaw,
+  defineComponent,
+} from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -17,7 +24,7 @@ import {
 /**
  * Rectangle component, lets you add and customize rectangular regions on the map
  */
-export default {
+export default defineComponent({
   name: "LRectangle",
   props: rectangleProps,
   setup(props, context) {
@@ -59,5 +66,5 @@ export default {
   render() {
     return render(this.ready, this.$slots);
   },
-};
+});
 </script>

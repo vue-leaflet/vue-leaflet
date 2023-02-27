@@ -22,7 +22,7 @@ export const gridLayerProps = {
   maxZoom: {
     type: Number,
   },
-};
+} as const;
 
 export const setupGridLayer = (props, leafletRef, context) => {
   const { options: layerOptions, methods: layerMethods } = setupLayer(

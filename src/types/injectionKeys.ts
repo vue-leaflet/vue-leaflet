@@ -32,9 +32,5 @@ export const BindPopupInjection = Symbol() as InjectionKey<
 export const BindTooltipInjection = Symbol() as InjectionKey<
   (leafletObject: L.Layer | undefined) => void
 >;
-export const UnbindPopupInjection = Symbol() as InjectionKey<
-  (leafletObject: L.Layer | undefined) => void
->;
-export const UnbindTooltipInjection = Symbol() as InjectionKey<
-  (leafletObject: L.Layer | undefined) => void
->;
+export const UnbindPopupInjection = Symbol() as InjectionKey<() => void>;
+export const UnbindTooltipInjection = Symbol() as InjectionKey<() => void>;

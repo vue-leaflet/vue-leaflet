@@ -1,3 +1,5 @@
+import type L from "leaflet";
+import type { PropType } from "vue";
 import { propsToLeafletOptions } from "../utils";
 import { pathProps as pathProps, setupPath as pathSetup } from "./path";
 
@@ -10,13 +12,17 @@ export const circleMarkerProps = {
     type: Number,
   },
   latLng: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.LatLngExpression>,
     required: true,
     custom: true,
   },
-};
+} as const;
 
-export const setupCircleMarker = (props, leafletRef, context) => {
+export const setupCircleMarker = (
+  props,
+  leafletRef,
+  context
+): { options: L.CircleMarkerOptions; methods: any } => {
   const { options: pathOptions, methods: pathMethods } = pathSetup(
     props,
     leafletRef,

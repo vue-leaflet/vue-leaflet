@@ -1,6 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, markRaw } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  markRaw,
+  defineComponent,
+} from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -17,7 +24,7 @@ import {
 /**
  * Polygon component, lets you add and customize polygon regions on the map
  */
-export default {
+export default defineComponent({
   name: "LPolygon",
   props: polygonProps,
   setup(props, context) {
@@ -55,5 +62,5 @@ export default {
   render() {
     return render(this.ready, this.$slots);
   },
-};
+});
 </script>

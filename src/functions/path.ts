@@ -49,7 +49,7 @@ export const pathProps = {
   className: {
     type: String,
   },
-};
+} as const;
 
 export const setupPath = (props, leafletRef, context) => {
   const { options: interactiveLayerOptions, methods: interactiveLayerMethods } =

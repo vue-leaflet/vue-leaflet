@@ -39,7 +39,7 @@ export const imageOverlayProps = {
     required: true,
     custom: true,
   },
-};
+} as const;
 
 export const setupImageOverlay = (props, leafletRef, context) => {
   const { options: layerOptions, methods: layerMethods } = setupLayer(

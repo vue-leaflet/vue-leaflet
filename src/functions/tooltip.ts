@@ -5,7 +5,7 @@ import { popperProps, setupPopper } from "./popper";
 
 export const tooltipProps = {
   ...popperProps,
-};
+} as const;
 
 export const setupTooltip = (props, leafletRef) => {
   const { options, methods } = setupPopper(props, leafletRef);

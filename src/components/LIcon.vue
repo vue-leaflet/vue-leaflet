@@ -1,6 +1,6 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, h } from "vue";
+import { onMounted, ref, inject, nextTick, h, defineComponent } from "vue";
 import {
   propsBinder,
   remapEvents,
@@ -20,7 +20,7 @@ import {
 /**
  * Icon component, lets you add and custom icons to the map
  */
-export default {
+export default defineComponent({
   name: "LIcon",
   props: {
     ...iconProps,
@@ -120,5 +120,5 @@ export default {
     const content = this.$slots.default ? this.$slots.default() : undefined;
     return h("div", { ref: "root" }, content);
   },
-};
+});
 </script>

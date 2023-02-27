@@ -1,6 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, markRaw } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  markRaw,
+  defineComponent,
+} from "vue";
 import { controlZoomProps, setupControlZoom } from "@src/functions/controlZoom";
 import { propsBinder, WINDOW_OR_GLOBAL, assertInject } from "@src/utils.js";
 import {
@@ -8,7 +15,7 @@ import {
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 
-export default {
+export default defineComponent({
   name: "LControlZoom",
   props: controlZoomProps,
   setup(props, context) {
@@ -35,5 +42,5 @@ export default {
   render() {
     return null;
   },
-};
+});
 </script>

@@ -3,7 +3,7 @@ import { polylineProps, setupPolyline } from "./polyline";
 
 export const polygonProps = {
   ...polylineProps,
-};
+} as const;
 
 export const setupPolygon = (props, leafletRef, context) => {
   const { options: polylineOptions, methods: polylineMethods } = setupPolyline(

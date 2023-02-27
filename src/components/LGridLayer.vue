@@ -9,6 +9,7 @@ import {
   h,
   render,
   markRaw,
+  defineComponent,
 } from "vue";
 import {
   remapEvents,
@@ -22,7 +23,7 @@ import {
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 
-export default {
+export default defineComponent({
   props: {
     ...gridLayerProps,
     childRender: {
@@ -102,5 +103,5 @@ export default {
     }
     return null;
   },
-};
+});
 </script>

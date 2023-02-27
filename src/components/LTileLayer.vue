@@ -1,6 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, markRaw } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  markRaw,
+  defineComponent,
+} from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -13,7 +20,7 @@ import {
   UseGlobalLeafletInjection,
 } from "../types/injectionKeys";
 
-export default {
+export default defineComponent({
   props: tileLayerProps,
   setup(props, context) {
     const leafletObject = ref<L.TileLayer>();
@@ -47,5 +54,5 @@ export default {
   render() {
     return null;
   },
-};
+});
 </script>

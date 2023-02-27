@@ -6,7 +6,7 @@ export const popupProps = {
     type: [Object, Array],
     default: () => [],
   },
-};
+} as const;
 
 export const setupPopup = (props, leafletRef) => {
   const { options, methods } = setupPopper(props, leafletRef);

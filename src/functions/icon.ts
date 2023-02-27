@@ -35,4 +35,4 @@ export const iconProps = {
   className: {
     type: String,
   },
-};
+} as const;

@@ -21,7 +21,7 @@ export const markerProps = {
     custom: true,
     required: true,
   },
-};
+} as const;
 
 export const setupMarker = (props, leafletRef, context) => {
   const { options: layerOptions, methods: layerMethods } = setupLayer(

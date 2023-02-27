@@ -1,6 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, markRaw, nextTick } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  markRaw,
+  nextTick,
+  defineComponent,
+} from "vue";
 import { controlProps, setupControl, render } from "@src/functions/control";
 import { propsBinder, WINDOW_OR_GLOBAL, assertInject } from "@src/utils.js";
 import {
@@ -8,7 +15,7 @@ import {
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 
-export default {
+export default defineComponent({
   name: "LControl",
   props: {
     ...controlProps,
@@ -61,5 +68,5 @@ export default {
   render() {
     return render(this.$slots);
   },
-};
+});
 </script>

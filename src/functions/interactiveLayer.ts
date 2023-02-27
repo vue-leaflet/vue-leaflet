@@ -11,7 +11,7 @@ export const interactiveLayerProps = {
     type: Boolean,
     default: undefined,
   },
-};
+} as const;
 
 export const setupInteractiveLayer = (props, leafletRef, context) => {
   const { options: layerOptions, methods } = setupLayer(

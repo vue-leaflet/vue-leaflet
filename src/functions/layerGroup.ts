@@ -8,7 +8,7 @@ import {
 
 export const layerGroupProps = {
   ...layerProps,
-};
+} as const;
 
 export const setupLayerGroup = (props, leafletRef, context) => {
   const { options: layerOptions, methods: layerMethods } = setupLayer(

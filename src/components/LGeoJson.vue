@@ -1,6 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, markRaw } from "vue";
+import {
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  markRaw,
+  defineComponent,
+} from "vue";
 import {
   remapEvents,
   propsBinder,
@@ -14,7 +21,7 @@ import {
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 
-export default {
+export default defineComponent({
   props: geoJSONProps,
   setup(props, context) {
     const leafletObject = ref<L.GeoJSON>();
@@ -50,5 +57,5 @@ export default {
   render() {
     return render(this.ready, this.$slots);
   },
-};
+});
 </script>

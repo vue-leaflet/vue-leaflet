@@ -7,7 +7,7 @@ export const controlProps = {
   position: {
     type: String,
   },
-};
+} as const;
 
 export const setupControl = (props, leafletRef) => {
   const { options: componentOptions, methods: componentMethods } =
