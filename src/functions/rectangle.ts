@@ -1,4 +1,5 @@
-import { propsToLeafletOptions } from "../utils";
+import { propsToLeafletOptions } from "@src/utils";
+
 import { polygonProps, setupPolygon } from "./polygon";
 
 export const rectangleProps = {

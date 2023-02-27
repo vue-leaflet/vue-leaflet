@@ -1,24 +1,25 @@
 <script lang="ts">
 import type L from "leaflet";
 import {
+  defineComponent,
+  inject,
+  markRaw,
+  nextTick,
   onMounted,
   ref,
-  inject,
-  nextTick,
-  markRaw,
-  defineComponent,
 } from "vue";
-import {
-  remapEvents,
-  propsBinder,
-  WINDOW_OR_GLOBAL,
-  assertInject,
-} from "../utils.js";
-import { tileLayerProps, setupTileLayer } from "../functions/tileLayer";
+
+import { setupTileLayer, tileLayerProps } from "@src/functions/tileLayer";
 import {
   AddLayerInjection,
   UseGlobalLeafletInjection,
-} from "../types/injectionKeys";
+} from "@src/types/injectionKeys";
+import {
+  WINDOW_OR_GLOBAL,
+  assertInject,
+  propsBinder,
+  remapEvents,
+} from "@src/utils.js";
 
 export default defineComponent({
   props: tileLayerProps,

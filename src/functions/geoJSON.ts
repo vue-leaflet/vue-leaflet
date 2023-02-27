@@ -1,4 +1,5 @@
-import { propsToLeafletOptions } from "../utils";
+import { propsToLeafletOptions } from "@src/utils";
+
 import { layerGroupProps, setupLayerGroup } from "./layerGroup";
 
 export const geoJSONProps = {

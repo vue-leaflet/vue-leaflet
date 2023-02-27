@@ -1,28 +1,29 @@
 <script lang="ts">
 import type L from "leaflet";
 import {
+  defineComponent,
+  inject,
+  markRaw,
+  nextTick,
   onMounted,
   ref,
-  inject,
-  nextTick,
-  markRaw,
-  defineComponent,
 } from "vue";
-import {
-  remapEvents,
-  propsBinder,
-  WINDOW_OR_GLOBAL,
-  assertInject,
-} from "../utils.js";
+
 import {
   imageOverlayProps,
   setupImageOverlay,
-} from "../functions/imageOverlay";
-import { render } from "../functions/layer";
+} from "@src/functions/imageOverlay";
+import { render } from "@src/functions/layer";
 import {
   AddLayerInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import {
+  WINDOW_OR_GLOBAL,
+  assertInject,
+  propsBinder,
+  remapEvents,
+} from "@src/utils.js";
 
 /**
  * ImageOverlay component, render a plain image instead of a geospatial map.

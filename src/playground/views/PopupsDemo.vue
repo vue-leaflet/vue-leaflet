@@ -65,17 +65,17 @@
 </template>
 <script>
 import {
-  LMap,
-  LTileLayer,
-  LMarker,
-  LPopup,
-  LLayerGroup,
-  LPolygon,
-  LPolyline,
-  LRectangle,
   LCircle,
   LCircleMarker,
-} from "../../components";
+  LLayerGroup,
+  LMap,
+  LMarker,
+  LPolygon,
+  LPolyline,
+  LPopup,
+  LRectangle,
+  LTileLayer,
+} from "@src/components";
 
 export default {
   components: {

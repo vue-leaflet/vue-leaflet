@@ -1,27 +1,28 @@
 <script lang="ts">
 import type L from "leaflet";
 import {
-  onMounted,
-  ref,
+  defineComponent,
   inject,
+  markRaw,
   nextTick,
   onBeforeUnmount,
-  markRaw,
-  defineComponent,
+  onMounted,
+  ref,
 } from "vue";
-import {
-  assertInject,
-  propsBinder,
-  remapEvents,
-  WINDOW_OR_GLOBAL,
-} from "@src/utils.js";
-import { popupProps, setupPopup } from "@src/functions/popup";
+
 import { render } from "@src/functions/popper";
+import { popupProps, setupPopup } from "@src/functions/popup";
 import {
   BindPopupInjection,
   UnbindPopupInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import {
+  WINDOW_OR_GLOBAL,
+  assertInject,
+  propsBinder,
+  remapEvents,
+} from "@src/utils.js";
 
 /**
  * Display a popup on the map

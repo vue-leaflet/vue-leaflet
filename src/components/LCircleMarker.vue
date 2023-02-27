@@ -1,19 +1,14 @@
 <script lang="ts">
 import type L from "leaflet";
 import {
+  defineComponent,
+  inject,
+  markRaw,
+  nextTick,
   onMounted,
   ref,
-  inject,
-  nextTick,
-  markRaw,
-  defineComponent,
 } from "vue";
-import {
-  remapEvents,
-  propsBinder,
-  WINDOW_OR_GLOBAL,
-  assertInject,
-} from "@src/utils.js";
+
 import {
   circleMarkerProps,
   setupCircleMarker,
@@ -23,6 +18,12 @@ import {
   AddLayerInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import {
+  WINDOW_OR_GLOBAL,
+  assertInject,
+  propsBinder,
+  remapEvents,
+} from "@src/utils.js";
 
 /**
  * Circle Marker component, lets you add and personalize circle markers on the map

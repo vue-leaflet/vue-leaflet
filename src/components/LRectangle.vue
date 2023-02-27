@@ -1,25 +1,26 @@
 <script lang="ts">
 import type L from "leaflet";
 import {
+  defineComponent,
+  inject,
+  markRaw,
+  nextTick,
   onMounted,
   ref,
-  inject,
-  nextTick,
-  markRaw,
-  defineComponent,
 } from "vue";
-import {
-  remapEvents,
-  propsBinder,
-  WINDOW_OR_GLOBAL,
-  assertInject,
-} from "@src/utils.js";
-import { rectangleProps, setupRectangle } from "@src/functions/rectangle";
+
 import { render } from "@src/functions/layer";
+import { rectangleProps, setupRectangle } from "@src/functions/rectangle";
 import {
   AddLayerInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import {
+  WINDOW_OR_GLOBAL,
+  assertInject,
+  propsBinder,
+  remapEvents,
+} from "@src/utils.js";
 
 /**
  * Rectangle component, lets you add and customize rectangular regions on the map

@@ -2,6 +2,7 @@
 import type L from "leaflet";
 import { debounce } from "ts-debounce";
 import {
+  type PropType,
   computed,
   defineComponent,
   h,
@@ -12,26 +13,9 @@ import {
   provide,
   reactive,
   ref,
-  type PropType,
 } from "vue";
-import {
-  remapEvents,
-  propsBinder,
-  bindEventHandlers,
-  resetWebpackIcon,
-  provideLeafletWrapper,
-  updateLeafletWrapper,
-  WINDOW_OR_GLOBAL,
-  propsToLeafletOptions,
-  cancelDebounces,
-} from "@src/utils.js";
+
 import { componentProps, setupComponent } from "@src/functions/component";
-import type {
-  IControlDefinition,
-  ILayerDefinition,
-  IMapBlueprint,
-  IMapOptions,
-} from "@src/types/interfaces";
 import {
   AddLayerInjection,
   RegisterControlInjection,
@@ -39,6 +23,23 @@ import {
   RemoveLayerInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import type {
+  IControlDefinition,
+  ILayerDefinition,
+  IMapBlueprint,
+  IMapOptions,
+} from "@src/types/interfaces";
+import {
+  WINDOW_OR_GLOBAL,
+  bindEventHandlers,
+  cancelDebounces,
+  propsBinder,
+  propsToLeafletOptions,
+  provideLeafletWrapper,
+  remapEvents,
+  resetWebpackIcon,
+  updateLeafletWrapper,
+} from "@src/utils.js";
 
 const mapProps = {
   ...componentProps,

@@ -1,5 +1,6 @@
-import { propsToLeafletOptions } from "../utils";
-import { tileLayerProps, setupTileLayer } from "./tileLayer";
+import { propsToLeafletOptions } from "@src/utils";
+
+import { setupTileLayer, tileLayerProps } from "./tileLayer";
 
 export const wmsTileLayerProps = {
   ...tileLayerProps,

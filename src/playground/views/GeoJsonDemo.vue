@@ -9,7 +9,7 @@
   </l-map>
 </template>
 <script>
-import { LMap, LTileLayer, LGeoJson } from "../../components";
+import { LGeoJson, LMap, LTileLayer } from "@src/components";
 
 export default {
   components: {

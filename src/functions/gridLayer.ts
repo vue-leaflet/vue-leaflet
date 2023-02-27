@@ -1,4 +1,5 @@
-import { propsToLeafletOptions } from "../utils";
+import { propsToLeafletOptions } from "@src/utils";
+
 import { layerProps, setupLayer } from "./layer";
 
 export const gridLayerProps = {

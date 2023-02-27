@@ -1,19 +1,20 @@
 <script lang="ts">
 import type L from "leaflet";
 import {
-  onMounted,
-  ref,
+  defineComponent,
   inject,
   markRaw,
   nextTick,
-  defineComponent,
+  onMounted,
+  ref,
 } from "vue";
-import { controlProps, setupControl, render } from "@src/functions/control";
-import { propsBinder, WINDOW_OR_GLOBAL, assertInject } from "@src/utils.js";
+
+import { controlProps, render, setupControl } from "@src/functions/control";
 import {
   RegisterControlInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import { WINDOW_OR_GLOBAL, assertInject, propsBinder } from "@src/utils.js";
 
 export default defineComponent({
   name: "LControl",

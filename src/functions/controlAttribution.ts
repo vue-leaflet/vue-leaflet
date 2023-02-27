@@ -1,4 +1,5 @@
-import { propsToLeafletOptions } from "../utils";
+import { propsToLeafletOptions } from "@src/utils";
+
 import { controlProps, setupControl } from "./control";
 
 export const controlAttributionProps = {

@@ -1,30 +1,23 @@
 <script lang="ts">
 import type L from "leaflet";
-import {
-  onMounted,
-  ref,
-  provide,
-  inject,
-  nextTick,
-  onBeforeUnmount,
-  markRaw,
-  defineComponent,
-} from "vue";
 import { debounce } from "ts-debounce";
 import {
-  remapEvents,
-  propsBinder,
-  WINDOW_OR_GLOBAL,
-  cancelDebounces,
-  assertInject,
-  isFunction,
-} from "@src/utils.js";
+  defineComponent,
+  inject,
+  markRaw,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+} from "vue";
+
+import { render } from "@src/functions/layer";
 import {
   markerProps,
   setupMarker,
   shouldBlankIcon,
 } from "@src/functions/marker";
-import { render } from "@src/functions/layer";
 import {
   AddLayerInjection,
   CanSetParentHtmlInjection,
@@ -32,6 +25,14 @@ import {
   SetParentHtmlInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import {
+  WINDOW_OR_GLOBAL,
+  assertInject,
+  cancelDebounces,
+  isFunction,
+  propsBinder,
+  remapEvents,
+} from "@src/utils.js";
 
 /**
  * Marker component, lets you add and personalize markers on the map

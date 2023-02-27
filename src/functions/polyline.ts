@@ -1,4 +1,5 @@
-import { propsToLeafletOptions } from "../utils";
+import { propsToLeafletOptions } from "@src/utils";
+
 import { pathProps, setupPath } from "./path";
 
 export const polylineProps = {

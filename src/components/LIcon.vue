@@ -1,21 +1,22 @@
 <script lang="ts">
 import type L from "leaflet";
-import { onMounted, ref, inject, nextTick, h, defineComponent } from "vue";
-import {
-  propsBinder,
-  remapEvents,
-  WINDOW_OR_GLOBAL,
-  propsToLeafletOptions,
-  assertInject,
-} from "@src/utils";
-import { iconProps } from "@src/functions/icon";
+import { defineComponent, h, inject, nextTick, onMounted, ref } from "vue";
+
 import { componentProps, setupComponent } from "@src/functions/component";
+import { iconProps } from "@src/functions/icon";
 import {
   CanSetParentHtmlInjection,
   SetIconInjection,
   SetParentHtmlInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import {
+  WINDOW_OR_GLOBAL,
+  assertInject,
+  propsBinder,
+  propsToLeafletOptions,
+  remapEvents,
+} from "@src/utils";
 
 /**
  * Icon component, lets you add and custom icons to the map

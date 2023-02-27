@@ -73,17 +73,17 @@
 </template>
 <script>
 import {
-  LMap,
-  LTileLayer,
-  LMarker,
+  LCircle,
+  LCircleMarker,
   LIcon,
-  LTooltip,
+  LMap,
+  LMarker,
   LPolygon,
   LPolyline,
   LRectangle,
-  LCircle,
-  LCircleMarker,
-} from "../../components";
+  LTileLayer,
+  LTooltip,
+} from "@src/components";
 
 export default {
   components: {

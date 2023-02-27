@@ -11,7 +11,7 @@
   </l-map>
 </template>
 <script>
-import { LMap, LTileLayer, LMarker, LFeatureGroup } from "../../components";
+import { LFeatureGroup, LMap, LMarker, LTileLayer } from "@src/components";
 
 export default {
   components: {

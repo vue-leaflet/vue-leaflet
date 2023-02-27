@@ -1,5 +1,7 @@
-import { onUnmounted, h } from "vue";
-import { propsToLeafletOptions } from "../utils";
+import { h, onUnmounted } from "vue";
+
+import { propsToLeafletOptions } from "@src/utils";
+
 import { componentProps, setupComponent } from "./component";
 
 export const controlProps = {

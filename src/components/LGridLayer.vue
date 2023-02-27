@@ -1,27 +1,28 @@
 <script lang="ts">
 import type L from "leaflet";
 import {
+  defineComponent,
+  h,
+  inject,
+  markRaw,
+  nextTick,
   onMounted,
   onUnmounted,
   ref,
-  inject,
-  nextTick,
-  h,
   render,
-  markRaw,
-  defineComponent,
 } from "vue";
-import {
-  remapEvents,
-  propsBinder,
-  WINDOW_OR_GLOBAL,
-  assertInject,
-} from "@src/utils.js";
+
 import { gridLayerProps, setupGridLayer } from "@src/functions/gridLayer";
 import {
   AddLayerInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import {
+  WINDOW_OR_GLOBAL,
+  assertInject,
+  propsBinder,
+  remapEvents,
+} from "@src/utils.js";
 
 export default defineComponent({
   props: {

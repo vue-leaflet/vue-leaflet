@@ -1,7 +1,9 @@
 import type L from "leaflet";
 import type { PropType } from "vue";
-import { propsToLeafletOptions } from "../utils";
-import { pathProps as pathProps, setupPath as pathSetup } from "./path";
+
+import { propsToLeafletOptions } from "@src/utils";
+
+import { pathProps, setupPath as pathSetup } from "./path";
 
 export const circleMarkerProps = {
   ...pathProps,

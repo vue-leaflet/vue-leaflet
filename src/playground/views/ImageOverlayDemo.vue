@@ -42,9 +42,10 @@
   </div>
 </template>
 <script>
-import { ref, computed } from "vue";
-import { LMap, LImageOverlay, LMarker, LPopup } from "../../components";
 import { CRS } from "leaflet/dist/leaflet-src.esm";
+import { computed, ref } from "vue";
+
+import { LImageOverlay, LMap, LMarker, LPopup } from "@src/components";
 
 export default {
   components: {

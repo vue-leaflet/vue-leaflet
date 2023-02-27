@@ -1,25 +1,26 @@
 <script lang="ts">
 import type L from "leaflet";
 import {
+  defineComponent,
+  inject,
+  markRaw,
+  nextTick,
   onMounted,
   ref,
-  inject,
-  nextTick,
-  markRaw,
-  defineComponent,
 } from "vue";
-import {
-  assertInject,
-  propsBinder,
-  remapEvents,
-  WINDOW_OR_GLOBAL,
-} from "@src/utils.js";
-import { tooltipProps, setupTooltip } from "@src/functions/tooltip";
+
 import { render } from "@src/functions/popper";
+import { setupTooltip, tooltipProps } from "@src/functions/tooltip";
 import {
   BindTooltipInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import {
+  WINDOW_OR_GLOBAL,
+  assertInject,
+  propsBinder,
+  remapEvents,
+} from "@src/utils.js";
 
 /**
  * Display a tooltip on the map

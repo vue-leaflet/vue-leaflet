@@ -15,7 +15,7 @@
   </l-map>
 </template>
 <script>
-import { LMap, LTileLayer, LControlLayers } from "../../components";
+import { LControlLayers, LMap, LTileLayer } from "@src/components";
 
 export default {
   components: {

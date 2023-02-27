@@ -26,7 +26,7 @@
   </l-map>
 </template>
 <script>
-import { LMap, LTileLayer, LRectangle } from "../../components";
+import { LMap, LRectangle, LTileLayer } from "@src/components";
 
 export default {
   components: {

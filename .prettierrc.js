@@ -1,1 +1,5 @@
-module.exports = {}
+module.exports = {
+  "importOrder": ["^@src/(.*)$", "^[./]" ],
+  "importOrderSeparation": true, 
+  "importOrderSortSpecifiers": true 
+}

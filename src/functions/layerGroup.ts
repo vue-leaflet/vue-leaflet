@@ -1,10 +1,12 @@
 import { provide } from "vue";
-import { propsToLeafletOptions } from "../utils";
-import { layerProps, setupLayer } from "./layer";
+
 import {
   AddLayerInjection,
   RemoveLayerInjection,
 } from "@src/types/injectionKeys";
+import { propsToLeafletOptions } from "@src/utils";
+
+import { layerProps, setupLayer } from "./layer";
 
 export const layerGroupProps = {
   ...layerProps,

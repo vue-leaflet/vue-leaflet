@@ -1,5 +1,7 @@
-import { propsToLeafletOptions } from "../utils";
+import { propsToLeafletOptions } from "@src/utils";
+
 import { layerProps, setupLayer } from "./layer";
+
 /**
  * @typedef {import('leaflet/dist/leaflet-src.esm.js').LatLngBounds} LatLngBounds
  */

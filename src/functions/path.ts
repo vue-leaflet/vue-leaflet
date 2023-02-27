@@ -1,10 +1,12 @@
 import { onBeforeUnmount } from "vue";
+
+import { RemoveLayerInjection } from "@src/types/injectionKeys";
+import { assertInject, propsToLeafletOptions } from "@src/utils";
+
 import {
   interactiveLayerProps,
   setupInteractiveLayer,
 } from "./interactiveLayer";
-import { assertInject, propsToLeafletOptions } from "../utils";
-import { RemoveLayerInjection } from "@src/types/injectionKeys";
 
 export const pathProps = {
   ...interactiveLayerProps,

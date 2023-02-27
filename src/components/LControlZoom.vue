@@ -1,19 +1,20 @@
 <script lang="ts">
 import type L from "leaflet";
 import {
+  defineComponent,
+  inject,
+  markRaw,
+  nextTick,
   onMounted,
   ref,
-  inject,
-  nextTick,
-  markRaw,
-  defineComponent,
 } from "vue";
+
 import { controlZoomProps, setupControlZoom } from "@src/functions/controlZoom";
-import { propsBinder, WINDOW_OR_GLOBAL, assertInject } from "@src/utils.js";
 import {
   RegisterControlInjection,
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
+import { WINDOW_OR_GLOBAL, assertInject, propsBinder } from "@src/utils.js";
 
 export default defineComponent({
   name: "LControlZoom",
