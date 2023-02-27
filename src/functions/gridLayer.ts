@@ -33,5 +33,9 @@ export const setupGridLayer = (props, leafletRef, context) => {
 
   const options = propsToLeafletOptions(props, gridLayerProps, layerOptions);
 
-  return { options, methods: { ...layerMethods } };
+  const methods = {
+    ...layerMethods,
+  };
+
+  return { options, methods };
 };
