@@ -1,4 +1,5 @@
 <script lang="ts">
+import type L from "leaflet";
 import {
   onMounted,
   ref,
@@ -8,13 +9,18 @@ import {
   markRaw,
 } from "vue";
 import {
+  assertInject,
   propsBinder,
   remapEvents,
   WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
-} from "../utils.js";
-import { popupProps, setupPopup } from "../functions/popup";
-import { render } from "../functions/popper";
+} from "@src/utils.js";
+import { popupProps, setupPopup } from "@src/functions/popup";
+import { render } from "@src/functions/popper";
+import {
+  BindPopupInjection,
+  UnbindPopupInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 /**
  * Display a popup on the map
@@ -23,21 +29,21 @@ export default {
   name: "LPopup",
   props: popupProps,
   setup(props, context) {
-    const leafletObject = ref({});
+    const leafletObject = ref<L.Popup>();
     const root = ref(null);
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const bindPopup = inject("bindPopup");
-    const unbindPopup = inject("unbindPopup");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const bindPopup = assertInject(BindPopupInjection);
+    const unbindPopup = assertInject(UnbindPopupInjection);
 
-    const { options, methods } = setupPopup(props, leafletObject, context);
+    const { options, methods } = setupPopup(props, leafletObject);
 
     onMounted(async () => {
       const { popup, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletObject.value = markRaw(popup(options));
+      leafletObject.value = markRaw<L.Popup>(popup(options));
 
       if (props.latLng !== undefined) {
         leafletObject.value.setLatLng(props.latLng);
@@ -47,12 +53,12 @@ export default {
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletObject.value, listeners);
       leafletObject.value.setContent(props.content || root.value);
-      bindPopup({ leafletObject: leafletObject.value });
+      bindPopup(leafletObject.value);
       nextTick(() => context.emit("ready", leafletObject.value));
     });
 
     onBeforeUnmount(() => {
-      unbindPopup({ leafletObject: leafletObject.value });
+      unbindPopup(leafletObject.value);
     });
 
     return { root, leafletObject };

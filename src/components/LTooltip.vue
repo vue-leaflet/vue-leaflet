@@ -1,13 +1,18 @@
 <script lang="ts">
+import type L from "leaflet";
 import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
+  assertInject,
   propsBinder,
   remapEvents,
   WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
-} from "../utils.js";
-import { tooltipProps, setupTooltip } from "../functions/tooltip";
-import { render } from "../functions/popper";
+} from "@src/utils.js";
+import { tooltipProps, setupTooltip } from "@src/functions/tooltip";
+import { render } from "@src/functions/popper";
+import {
+  BindTooltipInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 /**
  * Display a tooltip on the map
@@ -16,26 +21,26 @@ export default {
   name: "LTooltip",
   props: tooltipProps,
   setup(props, context) {
-    const leafletObject = ref({});
+    const leafletObject = ref<L.Tooltip>();
     const root = ref(null);
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const bindTooltip = inject("bindTooltip");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const bindTooltip = assertInject(BindTooltipInjection);
 
-    const { options, methods } = setupTooltip(props, leafletObject, context);
+    const { options, methods } = setupTooltip(props, leafletObject);
 
     onMounted(async () => {
       const { tooltip, DomEvent } = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletObject.value = markRaw(tooltip(options));
+      leafletObject.value = markRaw<L.Tooltip>(tooltip(options));
 
       propsBinder(methods, leafletObject.value, props);
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletObject.value, listeners);
       leafletObject.value.setContent(props.content || root.value);
-      bindTooltip({ leafletObject: leafletObject.value });
+      bindTooltip(leafletObject.value);
       nextTick(() => context.emit("ready", leafletObject.value));
     });
 

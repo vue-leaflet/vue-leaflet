@@ -1,9 +1,10 @@
-import { onBeforeUnmount, inject } from "vue";
+import { onBeforeUnmount } from "vue";
 import {
   interactiveLayerProps,
   setupInteractiveLayer,
 } from "./interactiveLayer";
-import { propsToLeafletOptions } from "../utils";
+import { assertInject, propsToLeafletOptions } from "../utils";
+import { RemoveLayerInjection } from "@src/types/injectionKeys";
 
 export const pathProps = {
   ...interactiveLayerProps,
@@ -60,7 +61,7 @@ export const setupPath = (props, leafletRef, context) => {
     interactiveLayerOptions
   );
 
-  const removeLayer = inject("removeLayer");
+  const removeLayer = assertInject(RemoveLayerInjection);
   const methods = {
     ...interactiveLayerMethods,
     setStroke(stroke) {

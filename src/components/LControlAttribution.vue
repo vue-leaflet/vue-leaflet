@@ -1,19 +1,24 @@
 <script lang="ts">
+import type L from "leaflet";
 import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   controlAttributionProps,
   setupControlAttribution,
-} from "../functions/controlAttribution";
-import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
+} from "@src/functions/controlAttribution";
+import { propsBinder, WINDOW_OR_GLOBAL, assertInject } from "@src/utils.js";
+import {
+  RegisterControlInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 export default {
   name: "LControlAttribution",
   props: controlAttributionProps,
   setup(props, context) {
-    const leafletObject = ref({});
+    const leafletObject = ref<L.Control.Attribution>();
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const registerControl = inject("registerControl");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const registerControl = assertInject(RegisterControlInjection);
 
     const { options, methods } = setupControlAttribution(props, leafletObject);
 
@@ -22,7 +27,9 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletObject.value = markRaw(control.attribution(options));
+      leafletObject.value = markRaw<L.Control.Attribution>(
+        control.attribution(options)
+      );
       propsBinder(methods, leafletObject.value, props);
       registerControl({ leafletObject: leafletObject.value });
       nextTick(() => context.emit("ready", leafletObject.value));

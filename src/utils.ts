@@ -1,4 +1,4 @@
-import { watch, ref, provide } from "vue";
+import { watch, ref, provide, inject, type InjectionKey } from "vue";
 import type L from "leaflet";
 
 export const bindEventHandlers = (
@@ -135,4 +135,11 @@ export const WINDOW_OR_GLOBAL =
   (typeof global === "object" && global.global === global && global) ||
   globalThis;
 
-export const GLOBAL_LEAFLET_OPT = "useGlobalLeaflet";
+export const assertInject = <T>(key: InjectionKey<T> | string) => {
+  const value = inject<T>(key);
+  if (!value) {
+    throw new Error(`Attempt to inject ${key} before it was provided.`);
+  }
+
+  return value;
+};

@@ -1,19 +1,24 @@
 <script lang="ts">
+import type L from "leaflet";
 import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   controlLayersProps,
   setupControlLayers,
-} from "../functions/controlLayers";
-import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
+} from "@src/functions/controlLayers";
+import { assertInject, propsBinder, WINDOW_OR_GLOBAL } from "@src/utils.js";
+import {
+  RegisterLayerControlInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 export default {
   name: "LControlLayers",
   props: controlLayersProps,
   setup(props, context) {
-    const leafletObject = ref({});
+    const leafletObject = ref<L.Control.Layers>();
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const registerLayerControl = inject("registerLayerControl");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const registerLayerControl = assertInject(RegisterLayerControlInjection);
 
     const { options, methods } = setupControlLayers(props, leafletObject);
 
@@ -22,7 +27,9 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletObject.value = markRaw(control.layers(null, null, options));
+      leafletObject.value = markRaw<L.Control.Layers>(
+        control.layers(null, null, options)
+      );
 
       propsBinder(methods, leafletObject.value, props);
 

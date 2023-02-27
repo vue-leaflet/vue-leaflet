@@ -1,7 +1,12 @@
 <script lang="ts">
+import type L from "leaflet";
 import { onMounted, ref, inject, markRaw, nextTick } from "vue";
-import { controlProps, setupControl, render } from "../functions/control";
-import { propsBinder, WINDOW_OR_GLOBAL, GLOBAL_LEAFLET_OPT } from "../utils.js";
+import { controlProps, setupControl, render } from "@src/functions/control";
+import { propsBinder, WINDOW_OR_GLOBAL, assertInject } from "@src/utils.js";
+import {
+  RegisterControlInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 export default {
   name: "LControl",
@@ -19,11 +24,11 @@ export default {
     },
   },
   setup(props, context) {
-    const leafletObject = ref({});
+    const leafletObject = ref<L.Control>();
     const root = ref(null);
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const registerControl = inject("registerControl");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const registerControl = assertInject(RegisterControlInjection);
 
     const { options, methods } = setupControl(props, leafletObject);
 
@@ -38,7 +43,7 @@ export default {
         },
       });
 
-      leafletObject.value = markRaw(new LControl(options));
+      leafletObject.value = markRaw<L.Control>(new LControl(options));
       propsBinder(methods, leafletObject.value, props);
       registerControl({ leafletObject: leafletObject.value });
 

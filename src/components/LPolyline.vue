@@ -1,13 +1,18 @@
 <script lang="ts">
+import type L from "leaflet";
 import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   remapEvents,
   propsBinder,
   WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
-} from "../utils.js";
-import { polylineProps, setupPolyline } from "../functions/polyline";
-import { render } from "../functions/layer";
+  assertInject,
+} from "@src/utils.js";
+import { polylineProps, setupPolyline } from "@src/functions/polyline";
+import { render } from "@src/functions/layer";
+import {
+  AddLayerInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 /**
  * Polyline component, lets you add and personalize polylines on the map
@@ -16,11 +21,11 @@ export default {
   name: "LPolyline",
   props: polylineProps,
   setup(props, context) {
-    const leafletObject = ref({});
+    const leafletObject = ref<L.Polyline>();
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const addLayer = inject("addLayer");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const addLayer = assertInject(AddLayerInjection);
 
     const { options, methods } = setupPolyline(props, leafletObject, context);
 
@@ -29,7 +34,9 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletObject.value = markRaw(polyline(props.latLngs, options));
+      leafletObject.value = markRaw<L.Polyline>(
+        polyline(props.latLngs, options)
+      );
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletObject.value, listeners);

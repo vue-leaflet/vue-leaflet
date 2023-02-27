@@ -1,4 +1,5 @@
 <script lang="ts">
+import type L from "leaflet";
 import {
   onMounted,
   onUnmounted,
@@ -13,9 +14,13 @@ import {
   remapEvents,
   propsBinder,
   WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
-} from "../utils.js";
-import { gridLayerProps, setupGridLayer } from "../functions/gridLayer";
+  assertInject,
+} from "@src/utils.js";
+import { gridLayerProps, setupGridLayer } from "@src/functions/gridLayer";
+import {
+  AddLayerInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 export default {
   props: {
@@ -26,13 +31,13 @@ export default {
     },
   },
   setup(props, context) {
-    const leafletObject = ref({});
-    const tileComponents = ref({});
+    const leafletObject = ref<L.GridLayer>();
+    const tileComponents = ref({}); // TODO: typing
     const root = ref(null);
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const addLayer = inject("addLayer");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const addLayer = assertInject(AddLayerInjection);
 
     const { options, methods } = setupGridLayer(props, leafletObject, context);
 
@@ -68,7 +73,7 @@ export default {
         },
       });
 
-      leafletObject.value = markRaw(new GLayer(options));
+      leafletObject.value = markRaw<L.GridLayer>(new GLayer(options));
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletObject.value, listeners);

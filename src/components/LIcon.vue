@@ -4,11 +4,17 @@ import {
   propsBinder,
   remapEvents,
   WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
   propsToLeafletOptions,
-} from "../utils";
-import { iconProps } from "../functions/icon";
-import { componentProps, setupComponent } from "../functions/component";
+  assertInject,
+} from "@src/utils";
+import { iconProps } from "@src/functions/icon";
+import { componentProps, setupComponent } from "@src/functions/component";
+import {
+  CanSetParentHtmlInjection,
+  SetIconInjection,
+  SetParentHtmlInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 /**
  * Icon component, lets you add and custom icons to the map
@@ -20,12 +26,12 @@ export default {
     ...componentProps,
   },
   setup(props, context) {
-    const root = ref(null);
+    const root = ref(); // TODO: typing
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const canSetParentHtml = inject("canSetParentHtml");
-    const setParentHtml = inject("setParentHtml");
-    const setIcon = inject("setIcon");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const canSetParentHtml = assertInject(CanSetParentHtmlInjection);
+    const setParentHtml = assertInject(SetParentHtmlInjection);
+    const setIcon = assertInject(SetIconInjection);
 
     let onDomEvent;
     let offDomEvent;

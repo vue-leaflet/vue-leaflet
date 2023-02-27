@@ -1,6 +1,10 @@
 import { provide } from "vue";
 import { propsToLeafletOptions } from "../utils";
 import { layerProps, setupLayer } from "./layer";
+import {
+  AddLayerInjection,
+  RemoveLayerInjection,
+} from "@src/types/injectionKeys";
 
 export const layerGroupProps = {
   ...layerProps,
@@ -25,8 +29,8 @@ export const setupLayerGroup = (props, leafletRef, context) => {
     },
   };
 
-  provide("addLayer", methods.addLayer);
-  provide("removeLayer", methods.removeLayer);
+  provide(AddLayerInjection, methods.addLayer);
+  provide(RemoveLayerInjection, methods.removeLayer);
 
   return { options, methods };
 };

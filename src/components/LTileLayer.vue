@@ -1,20 +1,25 @@
 <script lang="ts">
+import type L from "leaflet";
 import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   remapEvents,
   propsBinder,
   WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
+  assertInject,
 } from "../utils.js";
 import { tileLayerProps, setupTileLayer } from "../functions/tileLayer";
+import {
+  AddLayerInjection,
+  UseGlobalLeafletInjection,
+} from "../types/injectionKeys";
 
 export default {
   props: tileLayerProps,
   setup(props, context) {
-    const leafletObject = ref({});
+    const leafletObject = ref<L.TileLayer>();
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const addLayer = inject("addLayer");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const addLayer = assertInject(AddLayerInjection);
 
     const { options, methods } = setupTileLayer(props, leafletObject, context);
 
@@ -23,7 +28,7 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletObject.value = markRaw(tileLayer(props.url, options));
+      leafletObject.value = markRaw<L.TileLayer>(tileLayer(props.url, options));
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletObject.value, listeners);

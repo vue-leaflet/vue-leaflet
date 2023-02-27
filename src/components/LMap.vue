@@ -22,16 +22,23 @@ import {
   provideLeafletWrapper,
   updateLeafletWrapper,
   WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
   propsToLeafletOptions,
   cancelDebounces,
-} from "../utils.js";
-import { componentProps, setupComponent } from "../functions/component";
+} from "@src/utils.js";
+import { componentProps, setupComponent } from "@src/functions/component";
 import type {
+  IControlDefinition,
   ILayerDefinition,
   IMapBlueprint,
   IMapOptions,
-} from "../types/interfaces";
+} from "@src/types/interfaces";
+import {
+  AddLayerInjection,
+  RegisterControlInjection,
+  RegisterLayerControlInjection,
+  RemoveLayerInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 const mapProps = {
   ...componentProps,
@@ -166,11 +173,13 @@ export default defineComponent({
       componentOptions
     );
 
-    const addLayer = provideLeafletWrapper("addLayer");
-    const removeLayer = provideLeafletWrapper("removeLayer");
-    const registerControl = provideLeafletWrapper("registerControl");
-    const registerLayerControl = provideLeafletWrapper("registerLayerControl");
-    provide(GLOBAL_LEAFLET_OPT, props.useGlobalLeaflet);
+    const addLayer = provideLeafletWrapper(AddLayerInjection);
+    const removeLayer = provideLeafletWrapper(RemoveLayerInjection);
+    const registerControl = provideLeafletWrapper(RegisterControlInjection);
+    const registerLayerControl = provideLeafletWrapper(
+      RegisterLayerControlInjection
+    );
+    provide(UseGlobalLeafletInjection, props.useGlobalLeaflet);
 
     const zoomPanOptions = computed(() => {
       const result: L.ZoomPanOptions = {};
@@ -256,7 +265,7 @@ export default defineComponent({
       options.crs = optionsCrs || CRS.EPSG3857;
 
       const methods = {
-        addLayer(layer: ILayerDefinition<any>) {
+        addLayer(layer: ILayerDefinition) {
           if (layer.layerType !== undefined) {
             if (blueprint.layerControl === undefined) {
               blueprint.layersToAdd.push(layer);
@@ -276,7 +285,7 @@ export default defineComponent({
             blueprint.leafletRef!.addLayer(layer.leafletObject);
           }
         },
-        removeLayer(layer) {
+        removeLayer(layer: ILayerDefinition<any>) {
           if (layer.layerType !== undefined) {
             if (blueprint.layerControl === undefined) {
               blueprint.layersToAdd = blueprint.layersToAdd.filter(
@@ -294,7 +303,9 @@ export default defineComponent({
           blueprint.leafletRef!.removeLayer(layer.leafletObject);
         },
 
-        registerLayerControl(lControlLayer) {
+        registerLayerControl(
+          lControlLayer: IControlDefinition<L.Control.Layers>
+        ) {
           blueprint.layerControl = lControlLayer;
           blueprint.layersToAdd.forEach((layer) => {
             blueprint.layerControl!.addLayer(layer);
@@ -304,7 +315,7 @@ export default defineComponent({
           registerControl(lControlLayer);
         },
 
-        registerControl(lControl) {
+        registerControl(lControl: IControlDefinition) {
           blueprint.leafletRef!.addControl(lControl.leafletObject);
         },
 

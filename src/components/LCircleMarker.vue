@@ -1,16 +1,21 @@
 <script lang="ts">
+import type L from "leaflet";
 import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   remapEvents,
   propsBinder,
   WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
-} from "../utils.js";
+  assertInject,
+} from "@src/utils.js";
 import {
   circleMarkerProps,
   setupCircleMarker,
-} from "../functions/circleMarker";
-import { render } from "../functions/layer";
+} from "@src/functions/circleMarker";
+import { render } from "@src/functions/layer";
+import {
+  AddLayerInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 /**
  * Circle Marker component, lets you add and personalize circle markers on the map
@@ -19,11 +24,11 @@ export default {
   name: "LCircleMarker",
   props: circleMarkerProps,
   setup(props, context) {
-    const leafletObject = ref({});
+    const leafletObject = ref<L.CircleMarker>();
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const addLayer = inject("addLayer");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const addLayer = assertInject(AddLayerInjection);
 
     const { options, methods } = setupCircleMarker(
       props,
@@ -36,7 +41,9 @@ export default {
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletObject.value = markRaw(circleMarker(props.latLng, options));
+      leafletObject.value = markRaw<L.CircleMarker>(
+        circleMarker(props.latLng, options)
+      );
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletObject.value, listeners);

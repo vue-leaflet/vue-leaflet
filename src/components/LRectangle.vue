@@ -1,13 +1,18 @@
 <script lang="ts">
+import type L from "leaflet";
 import { onMounted, ref, inject, nextTick, markRaw } from "vue";
 import {
   remapEvents,
   propsBinder,
   WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
-} from "../utils.js";
-import { rectangleProps, setupRectangle } from "../functions/rectangle";
-import { render } from "../functions/layer";
+  assertInject,
+} from "@src/utils.js";
+import { rectangleProps, setupRectangle } from "@src/functions/rectangle";
+import { render } from "@src/functions/layer";
+import {
+  AddLayerInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 /**
  * Rectangle component, lets you add and customize rectangular regions on the map
@@ -16,11 +21,11 @@ export default {
   name: "LRectangle",
   props: rectangleProps,
   setup(props, context) {
-    const leafletObject = ref({});
+    const leafletObject = ref<L.Rectangle>();
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const addLayer = inject("addLayer");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const addLayer = assertInject(AddLayerInjection);
 
     const { options, methods } = setupRectangle(props, leafletObject, context);
 
@@ -33,7 +38,7 @@ export default {
         props.bounds && props.bounds.length
           ? latLngBounds(props.bounds)
           : latLngBounds(props.latLngs);
-      leafletObject.value = markRaw(rectangle(bounds, options));
+      leafletObject.value = markRaw<L.Rectangle>(rectangle(bounds, options));
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletObject.value, listeners);

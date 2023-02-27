@@ -1,4 +1,5 @@
 <script lang="ts">
+import type L from "leaflet";
 import {
   onMounted,
   ref,
@@ -13,11 +14,23 @@ import {
   remapEvents,
   propsBinder,
   WINDOW_OR_GLOBAL,
-  GLOBAL_LEAFLET_OPT,
   cancelDebounces,
-} from "../utils.js";
-import { markerProps, setupMarker, shouldBlankIcon } from "../functions/marker";
-import { render } from "../functions/layer";
+  assertInject,
+  isFunction,
+} from "@src/utils.js";
+import {
+  markerProps,
+  setupMarker,
+  shouldBlankIcon,
+} from "@src/functions/marker";
+import { render } from "@src/functions/layer";
+import {
+  AddLayerInjection,
+  CanSetParentHtmlInjection,
+  SetIconInjection,
+  SetParentHtmlInjection,
+  UseGlobalLeafletInjection,
+} from "@src/types/injectionKeys";
 
 /**
  * Marker component, lets you add and personalize markers on the map
@@ -26,21 +39,27 @@ export default {
   name: "LMarker",
   props: markerProps,
   setup(props, context) {
-    const leafletObject = ref({});
+    const leafletObject = ref<L.Marker>();
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(GLOBAL_LEAFLET_OPT);
-    const addLayer = inject("addLayer");
+    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
+    const addLayer = assertInject(AddLayerInjection);
 
-    provide("canSetParentHtml", () => !!leafletObject.value.getElement());
     provide(
-      "setParentHtml",
-      (html) => (leafletObject.value.getElement().innerHTML = html)
+      CanSetParentHtmlInjection,
+      () => !!leafletObject.value?.getElement()
     );
+    provide(SetParentHtmlInjection, (html: string) => {
+      const el =
+        isFunction(leafletObject.value?.getElement) &&
+        leafletObject.value?.getElement();
+      if (!el) return;
+      el.innerHTML = html;
+    });
     provide(
-      "setIcon",
-      (newIcon) =>
-        leafletObject.value.setIcon && leafletObject.value.setIcon(newIcon)
+      SetIconInjection,
+      (newIcon: L.DivIcon | L.Icon) =>
+        leafletObject.value?.setIcon && leafletObject.value.setIcon(newIcon)
     );
     const { options, methods } = setupMarker(props, leafletObject, context);
 
@@ -56,7 +75,7 @@ export default {
       if (shouldBlankIcon(options, context)) {
         options.icon = divIcon({ className: "" });
       }
-      leafletObject.value = markRaw(marker(props.latLng, options));
+      leafletObject.value = markRaw<L.Marker>(marker(props.latLng, options));
 
       const listeners = remapEvents(context.attrs);
       DomEvent.on(leafletObject.value, listeners);

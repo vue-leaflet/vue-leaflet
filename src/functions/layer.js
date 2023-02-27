@@ -1,6 +1,14 @@
-import { onUnmounted, provide, inject, h } from "vue";
+import { onUnmounted, provide, h } from "vue";
 import { componentProps, setupComponent } from "./component";
-import { isFunction, propsToLeafletOptions } from "../utils";
+import { assertInject, isFunction, propsToLeafletOptions } from "@src/utils";
+import {
+  AddLayerInjection,
+  BindPopupInjection,
+  BindTooltipInjection,
+  RemoveLayerInjection,
+  UnbindPopupInjection,
+  UnbindTooltipInjection,
+} from "@src/types/injectionKeys";
 
 export const layerProps = {
   ...componentProps,
@@ -26,8 +34,8 @@ export const layerProps = {
 };
 
 export const setupLayer = (props, leafletRef, context) => {
-  const addLayer = inject("addLayer");
-  const removeLayer = inject("removeLayer");
+  const addLayer = assertInject(AddLayerInjection);
+  const removeLayer = assertInject(RemoveLayerInjection);
   const { options: componentOptions, methods: componentMethods } =
     setupComponent(props);
 
@@ -67,7 +75,7 @@ export const setupLayer = (props, leafletRef, context) => {
         }
       }
     },
-    bindPopup({ leafletObject }) {
+    bindPopup(leafletObject) {
       if (!leafletRef.value || !isFunction(leafletRef.value.bindPopup)) {
         console.warn(
           "Attempt to bind popup before bindPopup method available on layer."
@@ -78,7 +86,7 @@ export const setupLayer = (props, leafletRef, context) => {
 
       leafletRef.value.bindPopup(leafletObject);
     },
-    bindTooltip({ leafletObject }) {
+    bindTooltip(leafletObject) {
       if (!leafletRef.value || !isFunction(leafletRef.value.bindTooltip)) {
         console.warn(
           "Attempt to bind tooltip before bindTooltip method available on layer."
@@ -119,10 +127,10 @@ export const setupLayer = (props, leafletRef, context) => {
     },
   };
 
-  provide("bindPopup", methods.bindPopup);
-  provide("bindTooltip", methods.bindTooltip);
-  provide("unbindTooltip", methods.unbindTooltip);
-  provide("unbindPopup", methods.unbindPopup);
+  provide(BindPopupInjection, methods.bindPopup);
+  provide(BindTooltipInjection, methods.bindTooltip);
+  provide(UnbindPopupInjection, methods.unbindPopup);
+  provide(UnbindTooltipInjection, methods.unbindTooltip);
 
   onUnmounted(() => {
     methods.unbindPopup();
