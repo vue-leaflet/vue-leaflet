@@ -38,14 +38,14 @@ export default defineComponent({
     const { options, methods } = setupCircle(props, leafletObject, context);
 
     onMounted(async () => {
-      const { circle, DomEvent }: typeof L = useGlobalLeaflet
+      const { circle }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
       leafletObject.value = markRaw<L.Circle>(circle(props.latLng, options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);
 

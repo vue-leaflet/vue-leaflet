@@ -1,6 +1,6 @@
-import { onUnmounted, provide, h } from "vue";
-import { componentProps, setupComponent } from "./component";
-import { assertInject, isFunction, propsToLeafletOptions } from "@src/utils";
+import type L from "leaflet";
+import { type Ref, h, onUnmounted, provide } from "vue";
+
 import {
   AddLayerInjection,
   BindPopupInjection,
@@ -9,6 +9,9 @@ import {
   UnbindPopupInjection,
   UnbindTooltipInjection,
 } from "@src/types/injectionKeys";
+import { assertInject, isFunction, propsToLeafletOptions } from "@src/utils";
+
+import { componentProps, setupComponent } from "./component";
 
 export const layerProps = {
   ...componentProps,
@@ -33,13 +36,21 @@ export const layerProps = {
   },
 } as const;
 
-export const setupLayer = (props, leafletRef, context) => {
+export const setupLayer = <T extends L.Layer>(
+  props,
+  leafletRef: Ref<T>,
+  context
+) => {
   const addLayer = assertInject(AddLayerInjection);
   const removeLayer = assertInject(RemoveLayerInjection);
   const { options: componentOptions, methods: componentMethods } =
     setupComponent(props);
 
-  const options = propsToLeafletOptions(props, layerProps, componentOptions);
+  const options = propsToLeafletOptions<L.LayerOptions>(
+    props,
+    layerProps,
+    componentOptions
+  );
 
   const addThisLayer = () => addLayer({ leafletObject: leafletRef.value });
   const removeThisLayer = () =>

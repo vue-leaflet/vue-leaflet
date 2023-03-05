@@ -1,3 +1,5 @@
+import type L from "leaflet";
+
 import { propsToLeafletOptions } from "@src/utils";
 
 import { layerProps, setupLayer } from "./layer";
@@ -32,7 +34,11 @@ export const setupGridLayer = (props, leafletRef, context) => {
     context
   );
 
-  const options = propsToLeafletOptions(props, gridLayerProps, layerOptions);
+  const options = propsToLeafletOptions<L.GridLayerOptions>(
+    props,
+    gridLayerProps,
+    layerOptions
+  );
 
   const methods = {
     ...layerMethods,

@@ -19,19 +19,20 @@ export const circleMarkerProps = {
     custom: true,
   },
 } as const;
+export type LCircleMarkerProps = typeof circleMarkerProps;
 
-export const setupCircleMarker = (
-  props,
-  leafletRef,
-  context
-): { options: L.CircleMarkerOptions; methods: any } => {
+export const setupCircleMarker = (props, leafletRef, context) => {
   const { options: pathOptions, methods: pathMethods } = pathSetup(
     props,
     leafletRef,
     context
   );
 
-  const options = propsToLeafletOptions(props, circleMarkerProps, pathOptions);
+  const options = propsToLeafletOptions<L.CircleMarkerOptions>(
+    props,
+    circleMarkerProps,
+    pathOptions
+  );
 
   const methods = {
     ...pathMethods,

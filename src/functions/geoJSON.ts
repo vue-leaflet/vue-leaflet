@@ -1,3 +1,5 @@
+import type L from "leaflet";
+
 import { propsToLeafletOptions } from "@src/utils";
 
 import { layerGroupProps, setupLayerGroup } from "./layerGroup";
@@ -21,7 +23,11 @@ export const setupGeoJSON = (props, leafletRef, context) => {
     context
   );
 
-  const options = propsToLeafletOptions(props, geoJSONProps, layerOptions);
+  const options = propsToLeafletOptions<L.GeoJSONOptions>(
+    props,
+    geoJSONProps,
+    layerOptions
+  );
   if (Object.prototype.hasOwnProperty.call(props, "optionsStyle")) {
     options.style = props.optionsStyle;
   }

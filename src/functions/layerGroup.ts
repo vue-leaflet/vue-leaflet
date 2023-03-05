@@ -1,3 +1,4 @@
+import type L from "leaflet";
 import { provide } from "vue";
 
 import {
@@ -19,7 +20,11 @@ export const setupLayerGroup = (props, leafletRef, context) => {
     context
   );
 
-  const options = propsToLeafletOptions(props, layerGroupProps, layerOptions);
+  const options = propsToLeafletOptions<L.InteractiveLayerOptions>(
+    props,
+    layerGroupProps,
+    layerOptions
+  );
 
   const methods = {
     ...layerMethods,

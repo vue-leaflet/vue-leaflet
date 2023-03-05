@@ -1,3 +1,4 @@
+import type L from "leaflet";
 import { onBeforeUnmount } from "vue";
 
 import { RemoveLayerInjection } from "@src/types/injectionKeys";
@@ -57,7 +58,7 @@ export const setupPath = (props, leafletRef, context) => {
   const { options: interactiveLayerOptions, methods: interactiveLayerMethods } =
     setupInteractiveLayer(props, leafletRef, context);
 
-  const options = propsToLeafletOptions(
+  const options = propsToLeafletOptions<L.PathOptions>(
     props,
     pathProps,
     interactiveLayerOptions

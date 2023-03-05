@@ -9,7 +9,11 @@ import {
   ref,
 } from "vue";
 
-import { controlProps, render, setupControl } from "@src/functions/control";
+import {
+  controlProps,
+  renderLControl,
+  setupControl,
+} from "@src/functions/control";
 import {
   RegisterControlInjection,
   UseGlobalLeafletInjection,
@@ -33,7 +37,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const leafletObject = ref<L.Control>();
-    const root = ref(null);
+    const root = ref<HTMLInputElement>();
 
     const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const registerControl = assertInject(RegisterControlInjection);
@@ -55,10 +59,10 @@ export default defineComponent({
       propsBinder(methods, leafletObject.value, props);
       registerControl({ leafletObject: leafletObject.value });
 
-      if (props.disableClickPropagation) {
+      if (props.disableClickPropagation && root.value) {
         DomEvent.disableClickPropagation(root.value);
       }
-      if (props.disableScrollPropagation) {
+      if (props.disableScrollPropagation && root.value) {
         DomEvent.disableScrollPropagation(root.value);
       }
       nextTick(() => context.emit("ready", leafletObject.value));
@@ -67,7 +71,7 @@ export default defineComponent({
     return { root, leafletObject };
   },
   render() {
-    return render(this.$slots);
+    return renderLControl(this.$slots);
   },
 });
 </script>

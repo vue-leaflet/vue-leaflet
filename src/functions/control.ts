@@ -1,3 +1,4 @@
+import type L from "leaflet";
 import { h, onUnmounted } from "vue";
 
 import { propsToLeafletOptions } from "@src/utils";
@@ -15,7 +16,11 @@ export const setupControl = (props, leafletRef) => {
   const { options: componentOptions, methods: componentMethods } =
     setupComponent(props);
 
-  const options = propsToLeafletOptions(props, controlProps, componentOptions);
+  const options = propsToLeafletOptions<L.ControlOptions>(
+    props,
+    controlProps,
+    componentOptions
+  );
 
   const methods = {
     ...componentMethods,
@@ -35,7 +40,7 @@ export const setupControl = (props, leafletRef) => {
   return { options, methods };
 };
 
-export const render = (slots) => {
+export const renderLControl = (slots) => {
   if (slots.default) {
     return h("div", { ref: "root" }, slots.default());
   }

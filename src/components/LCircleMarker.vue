@@ -45,7 +45,7 @@ export default defineComponent({
     );
 
     onMounted(async () => {
-      const { circleMarker, DomEvent }: typeof L = useGlobalLeaflet
+      const { circleMarker }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
@@ -54,7 +54,7 @@ export default defineComponent({
       );
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);
 

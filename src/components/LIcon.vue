@@ -1,5 +1,5 @@
 <script lang="ts">
-import type L from "leaflet";
+import L from "leaflet";
 import { defineComponent, h, inject, nextTick, onMounted, ref } from "vue";
 
 import { componentProps, setupComponent } from "@src/functions/component";
@@ -28,7 +28,7 @@ export default defineComponent({
     ...componentProps,
   },
   setup(props, context) {
-    const root = ref(); // TODO: typing
+    const root = ref<HTMLInputElement>();
 
     const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const canSetParentHtml = assertInject(CanSetParentHtmlInjection);
@@ -56,7 +56,11 @@ export default defineComponent({
       }
 
       const { options: componentOptions } = setupComponent(props);
-      const options = propsToLeafletOptions(props, iconProps, componentOptions);
+      const options = propsToLeafletOptions<L.DivIconOptions>(
+        props,
+        iconProps,
+        componentOptions
+      );
       if (elHtml) {
         options.html = elHtml;
       }
@@ -106,7 +110,7 @@ export default defineComponent({
       propsBinder(methods, {}, props);
 
       const observer = new MutationObserver(scheduleHtmlSwap);
-      observer.observe(root.value, {
+      observer.observe(root.value!, {
         attributes: true,
         childList: true,
         characterData: true,

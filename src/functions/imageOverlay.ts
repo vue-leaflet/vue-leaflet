@@ -1,3 +1,5 @@
+import type L from "leaflet";
+
 import { propsToLeafletOptions } from "@src/utils";
 
 import { layerProps, setupLayer } from "./layer";
@@ -50,7 +52,11 @@ export const setupImageOverlay = (props, leafletRef, context) => {
     context
   );
 
-  const options = propsToLeafletOptions(props, imageOverlayProps, layerOptions);
+  const options = propsToLeafletOptions<L.ImageOverlayOptions>(
+    props,
+    imageOverlayProps,
+    layerOptions
+  );
 
   const methods = {
     ...layerMethods,

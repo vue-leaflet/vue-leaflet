@@ -36,7 +36,7 @@ export default defineComponent({
         : await import("leaflet/dist/leaflet-src.esm");
 
       leafletObject.value = markRaw<L.Control.Layers>(
-        control.layers(null, null, options)
+        control.layers(undefined, undefined, options)
       );
 
       propsBinder(methods, leafletObject.value, props);

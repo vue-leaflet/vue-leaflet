@@ -1,5 +1,7 @@
-import { watch, ref, provide, inject, type InjectionKey } from "vue";
 import type L from "leaflet";
+import { type InjectionKey, inject, provide, ref, watch } from "vue";
+
+export declare type Data = Record<string, unknown>;
 
 export const bindEventHandlers = (
   leafletObject: L.Evented,
@@ -47,11 +49,11 @@ export const propsBinder = (methods, leafletElement, props) => {
   }
 };
 
-export const propsToLeafletOptions = (
+export const propsToLeafletOptions = <T>(
   propValues,
   propDefinitions,
   baseOptions = {}
-) => {
+): T => {
   const output = { ...baseOptions };
 
   for (const prop in propValues) {
@@ -68,10 +70,10 @@ export const propsToLeafletOptions = (
     output[prop] = val;
   }
 
-  return output;
+  return output as T;
 };
 
-export const remapEvents = (contextAttrs) => {
+export const remapEvents = (contextAttrs: Data): L.LeafletEventHandlerFnMap => {
   const result = {};
   for (const attrName in contextAttrs) {
     if (

@@ -34,17 +34,21 @@ export default defineComponent({
     const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const addLayer = assertInject(AddLayerInjection);
 
-    const { methods, options } = setupFeatureGroup(props, leafletObject);
+    const { methods, options } = setupFeatureGroup(
+      props,
+      leafletObject,
+      context
+    );
 
     onMounted(async () => {
-      const { featureGroup, DomEvent }: typeof L = useGlobalLeaflet
+      const { featureGroup }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletObject.value = markRaw<L.FeatureGroup>(featureGroup(options));
+      leafletObject.value = markRaw<L.FeatureGroup>(featureGroup(options)); // TODO: Feature group array of children
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);
       addLayer({
