@@ -38,14 +38,14 @@ export default defineComponent({
     const { options, methods } = setupPolygon(props, leafletObject, context);
 
     onMounted(async () => {
-      const { polygon, DomEvent }: typeof L = useGlobalLeaflet
+      const { polygon }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
       leafletObject.value = markRaw<L.Polygon>(polygon(props.latLngs, options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);
 

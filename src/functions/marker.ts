@@ -1,4 +1,5 @@
 import type L from "leaflet";
+import type { PropType } from "vue";
 
 import { propsToLeafletOptions } from "@src/utils";
 
@@ -14,13 +15,13 @@ export const markerProps = {
     default: undefined,
   },
   icon: {
-    type: [Object],
+    type: [Object] as PropType<L.Icon>,
   },
   zIndexOffset: {
     type: Number,
   },
   latLng: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.LatLngExpression>,
     custom: true,
     required: true,
   },

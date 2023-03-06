@@ -1,4 +1,5 @@
 import type L from "leaflet";
+import type { PropType } from "vue";
 
 import { propsToLeafletOptions } from "@src/utils";
 
@@ -39,7 +40,7 @@ export const imageOverlayProps = {
     custom: true,
   },
   bounds: {
-    type: [Array, Object],
+    type: [Array, Object] as PropType<L.LatLngBoundsExpression>,
     required: true,
     custom: true,
   },

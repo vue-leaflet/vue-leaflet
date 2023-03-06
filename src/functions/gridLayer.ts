@@ -1,4 +1,5 @@
 import type L from "leaflet";
+import type { PropType } from "vue";
 
 import { propsToLeafletOptions } from "@src/utils";
 
@@ -13,7 +14,7 @@ export const gridLayerProps = {
     type: Number,
   },
   tileSize: {
-    type: Number,
+    type: [Number, Array, Object] as PropType<Number | L.PointExpression>,
   },
   noWrap: {
     type: Boolean,

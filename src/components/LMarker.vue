@@ -70,7 +70,7 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      const { marker, DomEvent, divIcon }: typeof L = useGlobalLeaflet
+      const { marker, divIcon }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
@@ -80,7 +80,7 @@ export default defineComponent({
       leafletObject.value = markRaw<L.Marker>(marker(props.latLng, options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       leafletObject.value.on("move", eventHandlers.moveHandler);
       propsBinder(methods, leafletObject.value, props);

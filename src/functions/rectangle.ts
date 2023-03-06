@@ -1,4 +1,5 @@
 import type L from "leaflet";
+import type { PropType } from "vue";
 
 import { propsToLeafletOptions } from "@src/utils";
 
@@ -11,7 +12,7 @@ export const rectangleProps = {
     required: false,
   },
   bounds: {
-    type: Array,
+    type: Object as PropType<L.LatLngExpression[]>,
     custom: true,
   },
 } as const;

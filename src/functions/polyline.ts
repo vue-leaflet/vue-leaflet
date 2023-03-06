@@ -1,4 +1,5 @@
 import type L from "leaflet";
+import type { PropType } from "vue";
 
 import { propsToLeafletOptions } from "@src/utils";
 
@@ -14,7 +15,7 @@ export const polylineProps = {
     default: undefined,
   },
   latLngs: {
-    type: Array,
+    type: Array as PropType<L.LatLngExpression[]>,
     required: true,
     custom: true,
   },

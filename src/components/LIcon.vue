@@ -1,5 +1,5 @@
 <script lang="ts">
-import L from "leaflet";
+import type L from "leaflet";
 import { defineComponent, h, inject, nextTick, onMounted, ref } from "vue";
 
 import { componentProps, setupComponent } from "@src/functions/component";

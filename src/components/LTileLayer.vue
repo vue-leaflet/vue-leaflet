@@ -32,14 +32,14 @@ export default defineComponent({
     const { options, methods } = setupTileLayer(props, leafletObject, context);
 
     onMounted(async () => {
-      const { tileLayer, DomEvent }: typeof L = useGlobalLeaflet
+      const { tileLayer }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
       leafletObject.value = markRaw<L.TileLayer>(tileLayer(props.url, options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);
       addLayer({

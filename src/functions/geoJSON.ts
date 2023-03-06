@@ -1,4 +1,6 @@
+import type { GeoJsonObject } from "geojson";
 import type L from "leaflet";
+import type { PropType } from "vue";
 
 import { propsToLeafletOptions } from "@src/utils";
 
@@ -7,11 +9,11 @@ import { layerGroupProps, setupLayerGroup } from "./layerGroup";
 export const geoJSONProps = {
   ...layerGroupProps,
   geojson: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<GeoJsonObject | GeoJsonObject[]>,
     custom: true,
   },
   optionsStyle: {
-    type: [Object, Function],
+    type: Function as PropType<L.StyleFunction>,
     custom: true,
   },
 } as const;

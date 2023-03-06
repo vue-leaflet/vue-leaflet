@@ -32,10 +32,14 @@ export default defineComponent({
     const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const addLayer = assertInject(AddLayerInjection);
 
-    const { options, methods } = setupWMSTileLayer(props, leafletObject);
+    const { options, methods } = setupWMSTileLayer(
+      props,
+      leafletObject,
+      context
+    );
 
     onMounted(async () => {
-      const { tileLayer, DomEvent }: typeof L = useGlobalLeaflet
+      const { tileLayer }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
@@ -44,7 +48,7 @@ export default defineComponent({
       );
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);
       addLayer({

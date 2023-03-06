@@ -1,5 +1,5 @@
 import type L from "leaflet";
-import { h, onUnmounted } from "vue";
+import { type PropType, h, onUnmounted } from "vue";
 
 import { propsToLeafletOptions } from "@src/utils";
 
@@ -8,7 +8,7 @@ import { componentProps, setupComponent } from "./component";
 export const controlProps = {
   ...componentProps,
   position: {
-    type: String,
+    type: String as PropType<L.ControlPosition>,
   },
 } as const;
 

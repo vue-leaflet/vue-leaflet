@@ -1,9 +1,12 @@
+import type L from "leaflet";
+import type { PropType } from "vue";
+
 import { popperProps, setupPopper } from "./popper";
 
 export const popupProps = {
   ...popperProps,
   latLng: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.LatLngExpression>,
     default: () => [],
   },
 } as const;

@@ -1,5 +1,5 @@
 import type L from "leaflet";
-import { type Ref, h, onUnmounted, provide } from "vue";
+import { type PropType, type Ref, h, onUnmounted, provide } from "vue";
 
 import {
   AddLayerInjection,
@@ -11,6 +11,7 @@ import {
 } from "@src/types/injectionKeys";
 import { assertInject, isFunction, propsToLeafletOptions } from "@src/utils";
 
+import type { LayerType } from "../types/enums/LayerType";
 import { componentProps, setupComponent } from "./component";
 
 export const layerProps = {
@@ -26,7 +27,7 @@ export const layerProps = {
     custom: true,
   },
   layerType: {
-    type: String,
+    type: String as PropType<LayerType>,
     custom: true,
   },
   visible: {

@@ -1,3 +1,6 @@
+import type L from "leaflet";
+import type { PropType } from "vue";
+
 export const iconProps = {
   iconUrl: {
     type: String,
@@ -6,16 +9,16 @@ export const iconProps = {
     type: String,
   },
   iconSize: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.PointExpression>,
   },
   iconAnchor: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.PointExpression>,
   },
   popupAnchor: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.PointExpression>,
   },
   tooltipAnchor: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.PointExpression>,
   },
   shadowUrl: {
     type: String,
@@ -24,13 +27,13 @@ export const iconProps = {
     type: String,
   },
   shadowSize: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.PointExpression>,
   },
   shadowAnchor: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.PointExpression>,
   },
   bgPos: {
-    type: [Object, Array],
+    type: [Object, Array] as PropType<L.PointExpression>,
   },
   className: {
     type: String,

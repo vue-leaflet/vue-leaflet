@@ -34,14 +34,14 @@ export default defineComponent({
     const { methods, options } = setupGeoJSON(props, leafletObject, context);
 
     onMounted(async () => {
-      const { geoJSON, DomEvent }: typeof L = useGlobalLeaflet
+      const { geoJSON }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
       leafletObject.value = markRaw<L.GeoJSON>(geoJSON(props.geojson, options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);
       addLayer({

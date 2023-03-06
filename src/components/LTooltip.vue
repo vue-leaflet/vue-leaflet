@@ -38,7 +38,7 @@ export default defineComponent({
     const { options, methods } = setupTooltip(props, leafletObject);
 
     onMounted(async () => {
-      const { tooltip, DomEvent }: typeof L = useGlobalLeaflet
+      const { tooltip }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
@@ -46,8 +46,8 @@ export default defineComponent({
 
       propsBinder(methods, leafletObject.value, props);
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
-      leafletObject.value.setContent(props.content || root.value);
+      leafletObject.value.on(listeners);
+      leafletObject.value.setContent(props.content || root.value || "");
       bindTooltip(leafletObject.value);
       nextTick(() => context.emit("ready", leafletObject.value));
     });

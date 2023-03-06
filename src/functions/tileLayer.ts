@@ -1,4 +1,5 @@
 import type L from "leaflet";
+import type { PropType } from "vue";
 
 import { propsToLeafletOptions } from "@src/utils";
 
@@ -11,7 +12,7 @@ export const tileLayerProps = {
     default: undefined,
   },
   subdomains: {
-    type: [String, Array],
+    type: [String, Array] as PropType<String | String[]>,
     validator: (prop) => {
       if (typeof prop === "string") return true;
       if (Array.isArray(prop)) {

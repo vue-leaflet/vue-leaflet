@@ -44,7 +44,7 @@ export default defineComponent({
     const { options, methods } = setupGridLayer(props, leafletObject, context);
 
     onMounted(async () => {
-      const { GridLayer, DomEvent, DomUtil }: typeof L = useGlobalLeaflet
+      const { GridLayer, DomUtil }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
@@ -78,7 +78,7 @@ export default defineComponent({
       leafletObject.value = markRaw<L.GridLayer>(new GLayer(options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       leafletObject.value.on("tileunload", methods.onUnload);
 

@@ -41,7 +41,7 @@ export default defineComponent({
     const { options, methods } = setupPopup(props, leafletObject);
 
     onMounted(async () => {
-      const { popup, DomEvent }: typeof L = useGlobalLeaflet
+      const { popup }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
@@ -53,14 +53,14 @@ export default defineComponent({
 
       propsBinder(methods, leafletObject.value, props);
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
-      leafletObject.value.setContent(props.content || root.value);
+      leafletObject.value.on(listeners);
+      leafletObject.value.setContent(props.content || root.value || "");
       bindPopup(leafletObject.value);
       nextTick(() => context.emit("ready", leafletObject.value));
     });
 
     onBeforeUnmount(() => {
-      unbindPopup(leafletObject.value);
+      unbindPopup();
     });
 
     return { root, leafletObject };

@@ -38,18 +38,17 @@ export default defineComponent({
     const { options, methods } = setupRectangle(props, leafletObject, context);
 
     onMounted(async () => {
-      const { rectangle, latLngBounds, DomEvent }: typeof L = useGlobalLeaflet
+      const { rectangle, latLngBounds }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      const bounds =
-        props.bounds && props.bounds.length
-          ? latLngBounds(props.bounds)
-          : latLngBounds(props.latLngs);
+      const bounds = props.bounds
+        ? latLngBounds(props.bounds)
+        : latLngBounds(props.latLngs || []);
       leafletObject.value = markRaw<L.Rectangle>(rectangle(bounds, options));
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);
 

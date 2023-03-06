@@ -45,7 +45,7 @@ export default defineComponent({
     );
 
     onMounted(async () => {
-      const { imageOverlay, DomEvent }: typeof L = useGlobalLeaflet
+      const { imageOverlay }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
       leafletObject.value = markRaw<L.ImageOverlay>(
@@ -53,7 +53,7 @@ export default defineComponent({
       );
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
       propsBinder(methods, leafletObject.value, props);
       addLayer({
         ...props,

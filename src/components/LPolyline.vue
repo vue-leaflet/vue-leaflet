@@ -38,7 +38,7 @@ export default defineComponent({
     const { options, methods } = setupPolyline(props, leafletObject, context);
 
     onMounted(async () => {
-      const { polyline, DomEvent }: typeof L = useGlobalLeaflet
+      const { polyline }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
@@ -47,7 +47,7 @@ export default defineComponent({
       );
 
       const listeners = remapEvents(context.attrs);
-      DomEvent.on(leafletObject.value, listeners);
+      leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);
 
