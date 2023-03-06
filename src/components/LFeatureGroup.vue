@@ -45,7 +45,9 @@ export default defineComponent({
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      leafletObject.value = markRaw<L.FeatureGroup>(featureGroup(options)); // TODO: Feature group array of children
+      leafletObject.value = markRaw<L.FeatureGroup>(
+        featureGroup(undefined, options)
+      );
 
       const listeners = remapEvents(context.attrs);
       leafletObject.value.on(listeners);

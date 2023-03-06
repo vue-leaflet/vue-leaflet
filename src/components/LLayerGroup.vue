@@ -37,7 +37,9 @@ export default defineComponent({
       const { layerGroup }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
-      leafletObject.value = markRaw<L.LayerGroup>(layerGroup(props.options));
+      leafletObject.value = markRaw<L.LayerGroup>(
+        layerGroup(undefined, props.options)
+      );
 
       const listeners = remapEvents(context.attrs);
       leafletObject.value.on(listeners);
