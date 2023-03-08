@@ -1,18 +1,22 @@
 <script lang="ts">
 import type L from "leaflet";
 import {
+  type PropType,
   defineComponent,
   h,
   inject,
   markRaw,
   nextTick,
   onMounted,
-  onUnmounted,
   ref,
-  render,
 } from "vue";
 
-import { gridLayerProps, setupGridLayer } from "@src/functions/gridLayer";
+import {
+  CreateVueGridLayer,
+  type VueGridLayerTileRenderer,
+  gridLayerProps,
+  setupGridLayer,
+} from "@src/functions/gridLayer";
 import {
   AddLayerInjection,
   UseGlobalLeafletInjection,
@@ -28,13 +32,12 @@ export default defineComponent({
   props: {
     ...gridLayerProps,
     childRender: {
-      type: Function,
+      type: Function as PropType<VueGridLayerTileRenderer>,
       required: true,
     },
   },
   setup(props, context) {
     const leafletObject = ref<L.GridLayer>();
-    const tileComponents = ref({}); // TODO: typing
     const root = ref(null);
     const ready = ref(false);
 
@@ -44,43 +47,20 @@ export default defineComponent({
     const { options, methods } = setupGridLayer(props, leafletObject, context);
 
     onMounted(async () => {
-      const { GridLayer, DomUtil }: typeof L = useGlobalLeaflet
+      const { GridLayer, DomUtil, Util }: typeof L = useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
         : await import("leaflet/dist/leaflet-src.esm");
 
-      methods.onUnload = (e) => {
-        const key = leafletObject.value._tileCoordsToKey(e.coords);
-        if (tileComponents[key]) {
-          tileComponents[key].innerHTML = "";
-          tileComponents[key] = undefined;
-        }
-      };
-
-      methods.setTileComponent = () => {
-        leafletObject.value.redraw();
-      };
-
-      const GLayer = GridLayer.extend({
-        createTile(coords) {
-          const key = leafletObject.value._tileCoordsToKey(coords);
-          tileComponents[key] = DomUtil.create("div");
-
-          let vNode = h(
-            { setup: props.childRender, props: ["coords"] },
-            { coords }
-          );
-          render(vNode, tileComponents[key]);
-
-          return tileComponents[key];
-        },
-      });
-
+      const GLayer = CreateVueGridLayer(
+        GridLayer,
+        DomUtil,
+        Util,
+        props.childRender
+      );
       leafletObject.value = markRaw<L.GridLayer>(new GLayer(options));
 
       const listeners = remapEvents(context.attrs);
       leafletObject.value.on(listeners);
-
-      leafletObject.value.on("tileunload", methods.onUnload);
 
       propsBinder(methods, leafletObject.value, props);
       addLayer({
@@ -90,10 +70,6 @@ export default defineComponent({
       });
       ready.value = true;
       nextTick(() => context.emit("ready", leafletObject.value));
-    });
-
-    onUnmounted(() => {
-      leafletObject.value.off("tileunload", methods.onUnload);
     });
 
     return { root, ready, leafletObject };
