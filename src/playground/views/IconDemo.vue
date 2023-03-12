@@ -26,7 +26,9 @@
     <button @click="changeIcon">New kitten icon</button>
   </div>
 </template>
-<script>
+<script lang="ts">
+import type L from "leaflet";
+
 import { LIcon, LMap, LMarker, LTileLayer } from "@src/components";
 
 export default {
@@ -47,7 +49,7 @@ export default {
     iconUrl() {
       return `https://placekitten.com/${this.iconWidth}/${this.iconHeight}`;
     },
-    iconSize() {
+    iconSize(): L.PointExpression {
       return [this.iconWidth, this.iconHeight];
     },
   },

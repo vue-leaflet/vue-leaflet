@@ -14,7 +14,7 @@
     <l-control-layers />
   </l-map>
 </template>
-<script>
+<script lang="ts">
 import { LControlLayers, LMap, LTileLayer } from "@src/components";
 
 export default {

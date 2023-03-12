@@ -71,7 +71,9 @@
     </l-circle-marker>
   </l-map>
 </template>
-<script>
+<script lang="ts">
+import type L from "leaflet";
+
 import {
   LCircle,
   LCircleMarker,
@@ -101,7 +103,7 @@ export default {
   data() {
     return {
       zoom: 9,
-      coordinates: [41.75, -87.65],
+      coordinates: [41.75, -87.65] as L.LatLngTuple,
     };
   },
 };

@@ -41,7 +41,8 @@
     </ul>
   </div>
 </template>
-<script>
+<script lang="ts">
+import type L from "leaflet";
 import { CRS } from "leaflet/dist/leaflet-src.esm";
 import { computed, ref } from "vue";
 
@@ -73,10 +74,13 @@ export default {
       { coordinates: { lng: 100, lat: 50 } },
     ]);
 
-    const bounds = computed(() => [
-      [0, 0],
-      [height.value, width.value],
-    ]);
+    const bounds = computed(
+      () =>
+        [
+          [0, 0],
+          [height.value, width.value],
+        ] as L.LatLngBoundsLiteral
+    );
     const crs = CRS.Simple;
 
     return {

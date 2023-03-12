@@ -8,7 +8,7 @@
     <l-geo-json :geojson="geojson" :options-style="geoStyler"></l-geo-json>
   </l-map>
 </template>
-<script>
+<script lang="ts">
 import { LGeoJson, LMap, LTileLayer } from "@src/components";
 
 export default {
@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       zoom: 8,
-      geojson: null,
+      geojson: undefined,
       geoStyler: (feature) => ({
         opacity: feature.properties.code / 100000,
       }),

@@ -12,7 +12,7 @@
     >
   </l-map>
 </template>
-<script>
+<script lang="ts">
 import { LControl, LMap, LTileLayer } from "@src/components";
 
 export default {

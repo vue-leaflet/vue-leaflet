@@ -9,7 +9,7 @@
     <l-circle-marker :lat-lng="[41.89026, 12.49238]" :radius="50" />
   </l-map>
 </template>
-<script>
+<script lang="ts">
 import { LCircleMarker, LMap, LTileLayer } from "@src/components";
 
 export default {

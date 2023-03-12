@@ -20,7 +20,7 @@
     />
   </l-map>
 </template>
-<script>
+<script lang="ts">
 import { LMap, LPolygon, LTileLayer } from "@src/components";
 
 export default {

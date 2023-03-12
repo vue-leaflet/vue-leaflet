@@ -13,7 +13,7 @@
     />
   </l-map>
 </template>
-<script>
+<script lang="ts">
 import { LMap, LWmsTileLayer } from "@src/components";
 
 export default {

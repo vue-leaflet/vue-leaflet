@@ -8,7 +8,7 @@
     <l-control-zoom position="bottomright" zoom-in-text="*" zoom-out-text="/" />
   </l-map>
 </template>
-<script>
+<script lang="ts">
 import { LControlZoom, LMap, LTileLayer } from "@src/components";
 
 export default {

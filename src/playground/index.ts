@@ -1,7 +1,8 @@
+import "leaflet/dist/leaflet.css";
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
+
 import App from "./App.vue";
-import "leaflet/dist/leaflet.css";
 import Home from "./views/DemoHome.vue";
 
 const routes = [

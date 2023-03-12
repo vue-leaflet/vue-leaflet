@@ -8,7 +8,7 @@
     <l-control-scale position="bottomleft" />
   </l-map>
 </template>
-<script>
+<script lang="ts">
 import { LControlScale, LMap, LTileLayer } from "@src/components";
 
 export default {

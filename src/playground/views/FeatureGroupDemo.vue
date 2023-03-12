@@ -10,7 +10,7 @@
     </l-feature-group>
   </l-map>
 </template>
-<script>
+<script lang="ts">
 import { LFeatureGroup, LMap, LMarker, LTileLayer } from "@src/components";
 
 export default {

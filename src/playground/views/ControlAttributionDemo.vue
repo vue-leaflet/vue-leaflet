@@ -11,7 +11,7 @@
     />
   </l-map>
 </template>
-<script>
+<script lang="ts">
 import { LControlAttribution, LMap, LTileLayer } from "@src/components";
 
 export default {

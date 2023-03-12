@@ -9,7 +9,9 @@
     <l-marker :lat-lng="coordinates" draggable> </l-marker>
   </l-map>
 </template>
-<script>
+<script lang="ts">
+import type L from "leaflet";
+
 import { LMap, LMarker, LTileLayer } from "@src/components";
 
 export default {
@@ -21,7 +23,7 @@ export default {
   data() {
     return {
       zoom: 2,
-      coordinates: [50, 50],
+      coordinates: [50, 50] as L.LatLngExpression,
     };
   },
 };
