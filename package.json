@@ -12,6 +12,7 @@
     "dist/",
     "src/"
   ],
+  "types": "./dist/src/lib.d.ts",
   "repository": {
     "type": "git",
     "url": "git@github.com:vue-leaflet/vue-leaflet.git"
@@ -32,12 +33,17 @@
     "vue": "^3.2.25"
   },
   "peerDependencies": {
+    "@types/leaflet": "^1.5.7",
     "leaflet": "^1.6.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/leaflet": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
-    "@types/leaflet": "^1.5.7",
     "@types/node": "^18.13.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
@@ -53,6 +59,7 @@
     "ts-debounce": "^4.0.0",
     "typescript": "^4.9.5",
     "vite": "^4.1.1",
+    "vite-plugin-dts": "^2.1.0",
     "vitepress": "^0.6.0",
     "vitest": "^0.28.5",
     "vue-router": "^4.0.0-rc.5",
