@@ -6,12 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [0.9.0] - 2023-03-12
 
 ### Added
 
 - [Vitest](https://vitest.dev/), and a few initial tests.
-- TypeScript, and initial conversion of `LMap` to begin using it.
+- TypeScript type declarations in compiled output.
+
+### Changed
+
+- Converted codebase to TypeScript, finally closing
+  [#1 Typescript support](https://github.com/vue-leaflet/vue-leaflet/issues/1).
 
 
 ## [0.8.4] - 2023-02-20
@@ -125,7 +130,8 @@ The following releases were created before the addition of this changelog:
 * [0.1.2], 2020-10-09
 
 
-[unreleased]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.4...HEAD
+[unreleased]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.4...v0.9.0
 [0.8.4]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.3...v0.8.4
 [0.8.3]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.2...v0.8.3
 [0.8.2]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.1...v0.8.2
