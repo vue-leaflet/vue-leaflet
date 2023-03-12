@@ -90,4 +90,4 @@ export const CreateVueGridLayer = (
         this.tileComponents[key] = undefined;
       }
     },
-  });
+  }) as (new (options: L.GridLayerOptions) => L.GridLayer) & typeof L.Class;

@@ -1,6 +1,7 @@
 import type L from "leaflet";
 import type { InjectionKey } from "vue";
-import type { ILayerDefinition, IControlDefinition } from "./interfaces";
+
+import type { IControlDefinition, ILayerDefinition } from "./interfaces";
 
 export const UseGlobalLeafletInjection = Symbol() as InjectionKey<boolean>;
 export const AddLayerInjection = Symbol() as InjectionKey<

@@ -245,10 +245,17 @@ export default defineComponent({
       if (props.useGlobalLeaflet) {
         WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet"));
       }
-      const { map, CRS, Icon, latLngBounds, latLng, DomEvent }: typeof L =
-        props.useGlobalLeaflet
-          ? WINDOW_OR_GLOBAL.L
-          : await import("leaflet/dist/leaflet-src.esm");
+      const {
+        map,
+        CRS,
+        Icon,
+        latLngBounds,
+        latLng,
+        DomEvent,
+        stamp,
+      }: typeof L = props.useGlobalLeaflet
+        ? WINDOW_OR_GLOBAL.L
+        : await import("leaflet/dist/leaflet-src.esm");
 
       try {
         // TODO: Is beforeMapMount still needed?
@@ -272,9 +279,7 @@ export default defineComponent({
               blueprint.layersToAdd.push(layer);
             } else {
               const exist = blueprint.layersInControl.find(
-                (l) =>
-                  l.leafletObject._leaflet_id ===
-                  layer.leafletObject._leaflet_id
+                (l) => stamp(l.leafletObject) === stamp(layer.leafletObject)
               );
               if (!exist) {
                 blueprint.layerControl.addLayer(layer);
@@ -286,7 +291,7 @@ export default defineComponent({
             blueprint.leafletRef!.addLayer(layer.leafletObject);
           }
         },
-        removeLayer(layer: ILayerDefinition<any>) {
+        removeLayer(layer: ILayerDefinition) {
           if (layer.layerType !== undefined) {
             if (blueprint.layerControl === undefined) {
               blueprint.layersToAdd = blueprint.layersToAdd.filter(
@@ -295,9 +300,7 @@ export default defineComponent({
             } else {
               blueprint.layerControl.removeLayer(layer.leafletObject);
               blueprint.layersInControl = blueprint.layersInControl.filter(
-                (l) =>
-                  l.leafletObject._leaflet_id !==
-                  layer.leafletObject._leaflet_id
+                (l) => stamp(l.leafletObject) !== stamp(layer.leafletObject)
               );
             }
           }
@@ -348,7 +351,8 @@ export default defineComponent({
           }
           const oldBounds =
             blueprint.lastSetBounds || blueprint.leafletRef!.getBounds();
-          const boundsChanged = !oldBounds.equals(newBounds, 0); // set maxMargin to 0 - check exact equals
+          // TODO: Remove `as any` if @types/leaflet adds the second argument to the method signature
+          const boundsChanged = !(oldBounds as any).equals(newBounds, 0); // set maxMargin to 0 - check exact equals
           if (boundsChanged) {
             blueprint.lastSetBounds = newBounds;
             blueprint.leafletRef!.fitBounds(newBounds);

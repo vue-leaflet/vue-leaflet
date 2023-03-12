@@ -1,4 +1,5 @@
 import { h } from "vue";
+
 import { componentProps, setupComponent } from "./component";
 
 export const popperProps = {
