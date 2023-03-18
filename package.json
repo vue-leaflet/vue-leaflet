@@ -23,8 +23,9 @@
     "build": "run-p type-check build-only",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "prepublishOnly": "npm run lint && npm run build",
+    "lint": "yarn lint-cmd --fix src",
+    "lint-only": "eslint src --ext .ts,.vue --ignore-path .gitignore",
+    "prepublishOnly": "yarn lint && yarn run build",
     "postversion": "git push --follow-tags",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs"
