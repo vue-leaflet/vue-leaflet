@@ -1,4 +1,5 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
+
 import { capitalizeFirstLetter } from "@src/utils";
 
 describe("capitalizeFirstLetter", () => {

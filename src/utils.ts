@@ -137,10 +137,12 @@ export const WINDOW_OR_GLOBAL =
   (typeof global === "object" && global.global === global && global) ||
   globalThis;
 
-export const assertInject = <T>(key: InjectionKey<T> | string) => {
+export const assertInject = <T>(key: InjectionKey<T>) => {
   const value = inject<T>(key);
-  if (!value) {
-    throw new Error(`Attempt to inject ${key} before it was provided.`);
+  if (value === undefined) {
+    throw new Error(
+      `Attempt to inject ${key.description} before it was provided.`
+    );
   }
 
   return value;
