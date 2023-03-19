@@ -8,9 +8,9 @@ import {
   UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 
-describe("LControlAttribution", () => {
+describe.each([true, false])("LControlAttribution", (useGlobalLeaflet) => {
   const mockRegisterControl = vi.fn();
-  const getWrapper = async () => {
+  const getWrapper = async (shouldUseL) => {
     const wrapper = shallowMount(LControlAttribution, {
       propsData: {
         position: "topright",
@@ -18,7 +18,7 @@ describe("LControlAttribution", () => {
       },
       global: {
         provide: {
-          [UseGlobalLeafletInjection as symbol]: true,
+          [UseGlobalLeafletInjection as symbol]: () => shouldUseL,
           [RegisterControlInjection as symbol]: mockRegisterControl,
         },
       },
@@ -32,14 +32,17 @@ describe("LControlAttribution", () => {
     mockRegisterControl.mockReset();
   });
 
-  it("emits a ready event", async () => {
-    const wrapper = await getWrapper();
+  it(`emits a ready event with the Leaflet object, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
+    const wrapper = await getWrapper(useGlobalLeaflet);
 
-    expect(wrapper.emitted("ready")).to.have.length(1);
+    expect(wrapper.emitted()).to.have.property("ready");
+    const readyEvent = wrapper.emitted("ready");
+    expect(readyEvent).to.have.length(1);
+    expect(readyEvent![0]).to.deep.equal([wrapper.vm.leafletObject]);
   });
 
-  it("creates a Leaflet object with expected properties", async () => {
-    const wrapper = await getWrapper();
+  it(`creates a Leaflet object with expected properties, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
+    const wrapper = await getWrapper(useGlobalLeaflet);
 
     expect(wrapper.vm.leafletObject).to.exist;
     const leafletObject = wrapper.vm.leafletObject!;
@@ -47,8 +50,8 @@ describe("LControlAttribution", () => {
     expect(leafletObject?.options.position).to.equal("topright");
   });
 
-  it("registers its Leaflet object", async () => {
-    const wrapper = await getWrapper();
+  it(`registers its Leaflet object, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
+    const wrapper = await getWrapper(useGlobalLeaflet);
 
     expect(mockRegisterControl).toHaveBeenCalledTimes(1);
     expect(mockRegisterControl).toHaveBeenCalledWith({
@@ -56,8 +59,8 @@ describe("LControlAttribution", () => {
     });
   });
 
-  it("sets the prefix value", async () => {
-    const wrapper = await getWrapper();
+  it(`updates the prefix, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
+    const wrapper = await getWrapper(useGlobalLeaflet);
     expect(wrapper.vm.leafletObject?.options.prefix);
 
     wrapper.setProps({ prefix: "new prefix" });
@@ -66,8 +69,8 @@ describe("LControlAttribution", () => {
     expect(wrapper.vm.leafletObject?.options.prefix).to.equal("new prefix");
   });
 
-  it("sets a new position value", async () => {
-    const wrapper = await getWrapper();
+  it(`updates the position, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
+    const wrapper = await getWrapper(useGlobalLeaflet);
 
     wrapper.setProps({ position: "bottomleft" });
 
@@ -75,8 +78,8 @@ describe("LControlAttribution", () => {
     expect(wrapper.vm.leafletObject?.options.position).to.equal("bottomleft");
   });
 
-  it("removes itself from the map on unmount", async () => {
-    const wrapper = await getWrapper();
+  it(`removes itself from the map on unmount, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
+    const wrapper = await getWrapper(useGlobalLeaflet);
     const removeSpy = vi.spyOn(wrapper.vm.leafletObject!, "remove");
 
     wrapper.unmount();
