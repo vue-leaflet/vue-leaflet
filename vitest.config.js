@@ -11,6 +11,10 @@ export default mergeConfig(
       exclude: ["node_modules"],
       globals: true,
       environment: "jsdom",
+      coverage: {
+        provider: "c8",
+        reporter: ["text", "json", "html"],
+      },
     },
   })
 );

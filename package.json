@@ -19,7 +19,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "test": "vitest",
+    "test": "vitest --coverage",
     "build": "run-p type-check build-only",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
@@ -48,6 +48,7 @@
     "@types/leaflet": "^1.9.3",
     "@types/node": "^18.13.0",
     "@vitejs/plugin-vue": "^4.0.0",
+    "@vitest/coverage-c8": "^0.29.3",
     "@vue/compiler-dom": "^3.2.47",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
@@ -67,7 +68,7 @@
     "vite": "^4.1.1",
     "vite-plugin-dts": "^2.1.0",
     "vitepress": "^0.6.0",
-    "vitest": "^0.28.5",
+    "vitest": "~0.29.0",
     "vue-router": "^4.0.0-rc.5",
     "vue-tsc": "^1.0.24"
   },
