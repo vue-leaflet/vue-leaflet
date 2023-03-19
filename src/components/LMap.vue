@@ -351,8 +351,7 @@ export default defineComponent({
           }
           const oldBounds =
             blueprint.lastSetBounds || blueprint.leafletRef!.getBounds();
-          // TODO: Remove `as any` if @types/leaflet adds the second argument to the method signature
-          const boundsChanged = !(oldBounds as any).equals(newBounds, 0); // set maxMargin to 0 - check exact equals
+          const boundsChanged = !oldBounds.equals(newBounds, 0); // set maxMargin to 0 - check exact equals
           if (boundsChanged) {
             blueprint.lastSetBounds = newBounds;
             blueprint.leafletRef!.fitBounds(newBounds);

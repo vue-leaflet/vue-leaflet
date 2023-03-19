@@ -37,8 +37,7 @@ export const layerProps = {
   },
 } as const;
 
-// TODO: Remove extra {options} definition if @types/leaflet updates to include it on Layer
-export const setupLayer = <T extends L.Layer & { options: L.LayerOptions }>(
+export const setupLayer = <T extends L.Layer>(
   props,
   leafletRef: Ref<T>,
   context
