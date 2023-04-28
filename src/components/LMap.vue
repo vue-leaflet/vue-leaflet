@@ -156,6 +156,7 @@ const mapProps = {
 };
 
 export default defineComponent({
+  inheritAttrs: false,
   emits: ["ready", "update:zoom", "update:center", "update:bounds"],
   props: mapProps,
   setup(props, context) {
@@ -251,7 +252,6 @@ export default defineComponent({
         Icon,
         latLngBounds,
         latLng,
-        DomEvent,
         stamp,
       }: typeof L = props.useGlobalLeaflet
         ? WINDOW_OR_GLOBAL.L
@@ -387,7 +387,7 @@ export default defineComponent({
       const listeners: any = remapEvents(context.attrs); // TODO: proper typing
 
       bindEventHandlers(blueprint.leafletRef, eventHandlers);
-      DomEvent.on(blueprint.leafletRef.getContainer(), listeners);
+      bindEventHandlers(blueprint.leafletRef, listeners);
       blueprint.ready = true;
       nextTick(() => context.emit("ready", blueprint.leafletRef));
     });
