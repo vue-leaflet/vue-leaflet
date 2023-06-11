@@ -1,3 +1,3 @@
 export * from "./components";
-export * as injectionKeys from "./types/injectionKeys"
-export * as functions from "./functions"
+export * as InjectionKeys from "./types/injectionKeys";
+export * as Functions from "./functions";
