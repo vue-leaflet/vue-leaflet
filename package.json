@@ -24,7 +24,7 @@
     "type-check": "vue-tsc --noEmit",
     "lint": "yarn lint-cmd --fix src",
     "lint-only": "eslint src --ext .ts,.vue --ignore-path .gitignore",
-    "prepublishOnly": "yarn lint && yarn run build",
+    "prepublishOnly": "yarn lint && yarn build",
     "postversion": "git push --follow-tags",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs"
