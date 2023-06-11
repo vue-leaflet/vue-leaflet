@@ -9,8 +9,7 @@
   "unpkg": "dist/vue-leaflet.umd.js",
   "module": "dist/vue-leaflet.es.js",
   "files": [
-    "dist/",
-    "src/"
+    "dist/"
   ],
   "types": "./dist/src/lib.d.ts",
   "repository": {
