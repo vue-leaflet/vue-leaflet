@@ -9,8 +9,7 @@
   "unpkg": "dist/vue-leaflet.umd.js",
   "module": "dist/vue-leaflet.es.js",
   "files": [
-    "dist/",
-    "src/"
+    "dist/"
   ],
   "types": "./dist/src/lib.d.ts",
   "repository": {
@@ -25,7 +24,7 @@
     "type-check": "vue-tsc --noEmit",
     "lint": "yarn lint-cmd --fix src",
     "lint-only": "eslint src --ext .ts,.vue --ignore-path .gitignore",
-    "prepublishOnly": "yarn lint && yarn run build",
+    "prepublishOnly": "yarn lint && yarn build",
     "postversion": "git push --follow-tags",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs"
