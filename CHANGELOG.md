@@ -10,15 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Injection keys and exported values from function folder are now accessible through the lib.
+- The [Leaflet `className` option](https://leafletjs.com/reference.html#gridlayer-classname) is now available on `LGridLayer` and components that extend it.
 
 ### Fixed
 
-- Playground now works again after upgrade to TypeScript.
-- Fixed LMap event-handlers, closing [#287 Click event not working with 0.9.0](https://github.com/vue-leaflet/vue-leaflet/issues/287).
+- Playground works again after upgrade to TypeScript.
+- LMap events fire once only, and with Leaflet arguments, closing
+  [#287 Click event not working with 0.9.0](https://github.com/vue-leaflet/vue-leaflet/issues/287).
 
 ### Changed
 
-- **Breaking:** The `src/` folder is no longer included in the build. Please use the new exports to access the injection keys and libary functions.
+- **Breaking:** The `src` directory is no longer included in the build. Please use the new exports to access the injection keys and libary functions.
 
 ## [0.9.0] - 2023-03-12
 
