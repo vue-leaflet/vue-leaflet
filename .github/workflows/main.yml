@@ -45,7 +45,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.ref }}-${{ github.sha }}-setup
       
       - name: Lint
-        run: yarn lint-only --max-warnings=0
+        run: yarn run lint-cmd --max-warnings=0
   
   build:
     name: Build vue-leaflet
