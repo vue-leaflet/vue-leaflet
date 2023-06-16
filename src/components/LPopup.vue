@@ -52,7 +52,7 @@ export default defineComponent({
       }
 
       propsBinder(methods, leafletObject.value, props);
-      const listeners = remapEvents(context.attrs);
+      const { listeners } = remapEvents(context.attrs);
       leafletObject.value.on(listeners);
       leafletObject.value.setContent(props.content || root.value || "");
       bindPopup(leafletObject.value);

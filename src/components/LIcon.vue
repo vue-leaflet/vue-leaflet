@@ -50,7 +50,7 @@ export default defineComponent({
         return;
       }
 
-      const listeners = remapEvents(context.attrs);
+      const { listeners } = remapEvents(context.attrs);
       if (iconObject) {
         offDomEvent(iconObject, listeners);
       }

@@ -47,7 +47,7 @@ export default defineComponent({
         : latLngBounds(props.latLngs || []);
       leafletObject.value = markRaw<L.Rectangle>(rectangle(bounds, options));
 
-      const listeners = remapEvents(context.attrs);
+      const { listeners } = remapEvents(context.attrs);
       leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);

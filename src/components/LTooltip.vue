@@ -45,7 +45,7 @@ export default defineComponent({
       leafletObject.value = markRaw<L.Tooltip>(tooltip(options));
 
       propsBinder(methods, leafletObject.value, props);
-      const listeners = remapEvents(context.attrs);
+      const { listeners } = remapEvents(context.attrs);
       leafletObject.value.on(listeners);
       leafletObject.value.setContent(props.content || root.value || "");
       bindTooltip(leafletObject.value);

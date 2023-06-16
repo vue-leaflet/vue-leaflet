@@ -30,6 +30,7 @@ import type {
   IMapOptions,
 } from "@src/types/interfaces";
 import {
+  type Data,
   WINDOW_OR_GLOBAL,
   bindEventHandlers,
   cancelDebounces,
@@ -40,6 +41,8 @@ import {
   resetWebpackIcon,
   updateLeafletWrapper,
 } from "@src/utils.js";
+
+type StyleableAttrs = Data & { style: Data };
 
 const mapProps = {
   ...componentProps,
@@ -174,6 +177,7 @@ export default defineComponent({
       mapProps,
       componentOptions
     );
+    const { listeners, attrs } = remapEvents(context.attrs);
 
     const addLayer = provideLeafletWrapper(AddLayerInjection);
     const removeLayer = provideLeafletWrapper(RemoveLayerInjection);
@@ -246,16 +250,10 @@ export default defineComponent({
       if (props.useGlobalLeaflet) {
         WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet"));
       }
-      const {
-        map,
-        CRS,
-        Icon,
-        latLngBounds,
-        latLng,
-        stamp,
-      }: typeof L = props.useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { map, CRS, Icon, latLngBounds, latLng, stamp }: typeof L =
+        props.useGlobalLeaflet
+          ? WINDOW_OR_GLOBAL.L
+          : await import("leaflet/dist/leaflet-src.esm");
 
       try {
         // TODO: Is beforeMapMount still needed?
@@ -384,7 +382,6 @@ export default defineComponent({
       blueprint.leafletRef = markRaw(map(root.value!, options));
 
       propsBinder(methods, blueprint.leafletRef, props);
-      const listeners: any = remapEvents(context.attrs); // TODO: proper typing
 
       bindEventHandlers(blueprint.leafletRef, eventHandlers);
       bindEventHandlers(blueprint.leafletRef, listeners);
@@ -403,12 +400,19 @@ export default defineComponent({
     const leafletObject = computed(() => blueprint.leafletRef);
     const ready = computed(() => blueprint.ready);
 
-    return { root, ready, leafletObject };
+    return { root, ready, leafletObject, attrs };
   },
-  render() {
+  render({ attrs }: { attrs: StyleableAttrs }) {
+    if (!attrs.style) attrs.style = {};
+    if (!attrs.style.width) attrs.style.width = "100%";
+    if (!attrs.style.height) attrs.style.height = "100%";
+
     return h(
       "div",
-      { style: { width: "100%", height: "100%" }, ref: "root" },
+      {
+        ...attrs,
+        ref: "root",
+      },
       this.ready && this.$slots.default ? this.$slots.default() : {}
     );
   },

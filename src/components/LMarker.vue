@@ -79,7 +79,7 @@ export default defineComponent({
       }
       leafletObject.value = markRaw<L.Marker>(marker(props.latLng, options));
 
-      const listeners = remapEvents(context.attrs);
+      const { listeners } = remapEvents(context.attrs);
       leafletObject.value.on(listeners);
 
       leafletObject.value.on("move", eventHandlers.moveHandler);

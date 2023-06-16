@@ -46,7 +46,7 @@ export default defineComponent({
         polyline(props.latLngs, options)
       );
 
-      const listeners = remapEvents(context.attrs);
+      const { listeners } = remapEvents(context.attrs);
       leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);
