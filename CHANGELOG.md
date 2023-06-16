@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Playground now works again after upgrade to TypeScript.
+- Fixed LMap event-handlers. Original issue here:(https://github.com/vue-leaflet/vue-leaflet/issues/287)
 
 ### Changed
 
