@@ -59,7 +59,7 @@ export default defineComponent({
       );
       leafletObject.value = markRaw<L.GridLayer>(new GLayer(options));
 
-      const listeners = remapEvents(context.attrs);
+      const { listeners } = remapEvents(context.attrs);
       leafletObject.value.on(listeners);
 
       propsBinder(methods, leafletObject.value, props);

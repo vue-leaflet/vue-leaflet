@@ -52,7 +52,7 @@ export default defineComponent({
         imageOverlay(props.url, props.bounds, options)
       );
 
-      const listeners = remapEvents(context.attrs);
+      const { listeners } = remapEvents(context.attrs);
       leafletObject.value.on(listeners);
       propsBinder(methods, leafletObject.value, props);
       addLayer({

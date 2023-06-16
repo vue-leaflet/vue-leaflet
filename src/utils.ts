@@ -2,6 +2,10 @@ import type L from "leaflet";
 import { type InjectionKey, inject, provide, ref, watch } from "vue";
 
 export declare type Data = Record<string, unknown>;
+export declare type ListenersAndAttrs = {
+  listeners: L.LeafletEventHandlerFnMap;
+  attrs: Data;
+};
 
 export const bindEventHandlers = (
   leafletObject: L.Evented,
@@ -73,8 +77,9 @@ export const propsToLeafletOptions = <T>(
   return output as T;
 };
 
-export const remapEvents = (contextAttrs: Data): L.LeafletEventHandlerFnMap => {
-  const result = {};
+export const remapEvents = (contextAttrs: Data): ListenersAndAttrs => {
+  const listeners: L.LeafletEventHandlerFnMap = {};
+  const attrs: Data = {};
   for (const attrName in contextAttrs) {
     if (
       attrName.startsWith("on") &&
@@ -82,10 +87,13 @@ export const remapEvents = (contextAttrs: Data): L.LeafletEventHandlerFnMap => {
       attrName !== "onReady"
     ) {
       const eventName = attrName.slice(2).toLocaleLowerCase();
-      result[eventName] = contextAttrs[attrName];
+      listeners[eventName] = contextAttrs[attrName];
+    } else {
+      attrs[attrName] = contextAttrs[attrName];
     }
   }
-  return result;
+
+  return { listeners, attrs };
 };
 
 export const resetWebpackIcon = async (Icon) => {

@@ -14,11 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Playground now works again after upgrade to TypeScript.
-- Fixed LMap event-handlers. Original issue here:(https://github.com/vue-leaflet/vue-leaflet/issues/287)
+- Fixed LMap event-handlers, closing [#287 Click event not working with 0.9.0](https://github.com/vue-leaflet/vue-leaflet/issues/287).
 
 ### Changed
 
-- **Breaking:** `src/` folder is no longer included in the build. Please use the new exported keys if you wanna access the injection keys or any function.
+- **Breaking:** The `src/` folder is no longer included in the build. Please use the new exports to access the injection keys and libary functions.
 
 ## [0.9.0] - 2023-03-12
 
