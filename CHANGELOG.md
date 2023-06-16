@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.1] - 2023-06-16
+
+### Added
+
+- Utility functions are exported from the library.
+
 ## [0.10.0] - 2023-06-15
 
 ### Added
@@ -138,7 +144,8 @@ The following releases were created before the addition of this changelog:
 - [0.2.0], 2020-10-30
 - [0.1.2], 2020-10-09
 
-[unreleased]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.10.0...HEAD
+[unreleased]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.10.1...HEAD
+[0.10.1]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.10.0...v0.10.1
 [0.10.0]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.4...v0.9.0
 [0.8.4]: https://github.com/vue-leaflet/vue-leaflet/compare/v0.8.3...v0.8.4
