@@ -403,9 +403,9 @@ export default defineComponent({
     return { root, ready, leafletObject, attrs };
   },
   render({ attrs }: { attrs: StyleableAttrs }) {
-    attrs.style ??= {};
-    attrs.style["width"] ??= "100%";
-    attrs.style["height"] ??= "100%";
+    if (!attrs.style) attrs.style = {};
+    if (!attrs.style.width) attrs.style.width = "100%";
+    if (!attrs.style.height) attrs.style.height = "100%";
 
     return h(
       "div",
