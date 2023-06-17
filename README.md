@@ -156,3 +156,66 @@ export default {
 };
 </script>
 ```
+
+### Accessing leaflet api
+```vue
+<template>
+  <l-map ref="myMapRef" @ready="onMapReady" > </l-map>
+</template>
+```
+> **TIP** We are alos using map event `@ready` to ensure that you can access `leafletObject` after it is's loaded.
+> The `nextTick` usage is example in case if it is needed for your use case.
+
+Composition API:
+```vue
+<script>
+import { ref, defineComponent, nextTick } from 'vue';
+import { LMap } from "@vue-leaflet/vue-leaflet";
+
+import "leaflet/dist/leaflet.css"
+
+export default defineComponent({
+  name: 'leafletMap',
+  components: {
+    LMap
+  },
+  
+  setup () {
+    const myMapRef = ref(null);
+
+    const onMapReady = async () => {
+      await nextTick()
+      poiMapRef.value.leafletObject.ANY_LEAFLET_MAP_METHOD();
+    }
+
+
+    return {
+      myMapRef,
+      onMapReady,
+    };
+  }
+})
+</script>
+```
+
+Using Options API:
+
+> **TIP** Template stays the same as before.
+
+```vue
+<script>
+import { LMap } from "@vue-leaflet/vue-leaflet";
+import "leaflet/dist/leaflet.css"
+
+export default {
+  components: {
+    LMap,
+  },
+  methods(){
+    onMapReady(){
+      this.$refs.myMapRef.leafletObject.ANY_LEAFLET_MAP_METHOD();
+    }
+  }
+}
+</script>
+```
