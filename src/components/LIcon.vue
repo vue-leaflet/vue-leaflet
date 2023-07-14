@@ -1,6 +1,6 @@
 <script lang="ts">
 import type L from "leaflet";
-import { defineComponent, h, inject, nextTick, onMounted, ref } from "vue";
+import { defineComponent, h, nextTick, onMounted, ref } from "vue";
 
 import { componentProps, setupComponent } from "@src/functions/component";
 import { iconProps } from "@src/functions/icon";
@@ -8,11 +8,10 @@ import {
   CanSetParentHtmlInjection,
   SetIconInjection,
   SetParentHtmlInjection,
-  UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 import {
-  WINDOW_OR_GLOBAL,
   assertInject,
+  getLeaflet,
   propsBinder,
   propsToLeafletOptions,
   remapEvents,
@@ -30,7 +29,6 @@ export default defineComponent({
   setup(props, context) {
     const root = ref<HTMLInputElement>();
 
-    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const canSetParentHtml = assertInject(CanSetParentHtmlInjection);
     const setParentHtml = assertInject(SetParentHtmlInjection);
     const setIcon = assertInject(SetIconInjection);
@@ -98,9 +96,7 @@ export default defineComponent({
         DomEvent,
         divIcon: lDivIcon,
         icon: lIcon,
-      }: typeof L = useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      }: typeof L = await getLeaflet();
 
       onDomEvent = DomEvent.on;
       offDomEvent = DomEvent.off;

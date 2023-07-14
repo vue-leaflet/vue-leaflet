@@ -3,14 +3,11 @@ import "leaflet";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import LControlAttribution from "@src/components/LControlAttribution.vue";
-import {
-  RegisterControlInjection,
-  UseGlobalLeafletInjection,
-} from "@src/types/injectionKeys";
+import { RegisterControlInjection } from "@src/types/injectionKeys";
 
-describe.each([true, false])("LControlAttribution", (useGlobalLeaflet) => {
+describe.each([true, false])("LControlAttribution", () => {
   const mockRegisterControl = vi.fn();
-  const getWrapper = async (shouldUseL) => {
+  const getWrapper = async () => {
     const wrapper = shallowMount(LControlAttribution, {
       propsData: {
         position: "topright",
@@ -18,7 +15,6 @@ describe.each([true, false])("LControlAttribution", (useGlobalLeaflet) => {
       },
       global: {
         provide: {
-          [UseGlobalLeafletInjection as symbol]: () => shouldUseL,
           [RegisterControlInjection as symbol]: mockRegisterControl,
         },
       },
@@ -32,8 +28,8 @@ describe.each([true, false])("LControlAttribution", (useGlobalLeaflet) => {
     mockRegisterControl.mockReset();
   });
 
-  it(`emits a ready event with the Leaflet object, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
-    const wrapper = await getWrapper(useGlobalLeaflet);
+  it(`emits a ready event with the Leaflet object`, async () => {
+    const wrapper = await getWrapper();
 
     expect(wrapper.emitted()).to.have.property("ready");
     const readyEvent = wrapper.emitted("ready");
@@ -41,8 +37,8 @@ describe.each([true, false])("LControlAttribution", (useGlobalLeaflet) => {
     expect(readyEvent![0]).to.deep.equal([wrapper.vm.leafletObject]);
   });
 
-  it(`creates a Leaflet object with expected properties, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
-    const wrapper = await getWrapper(useGlobalLeaflet);
+  it(`creates a Leaflet object with expected properties`, async () => {
+    const wrapper = await getWrapper();
 
     expect(wrapper.vm.leafletObject).to.exist;
     const leafletObject = wrapper.vm.leafletObject!;
@@ -50,8 +46,8 @@ describe.each([true, false])("LControlAttribution", (useGlobalLeaflet) => {
     expect(leafletObject?.options.position).to.equal("topright");
   });
 
-  it(`registers its Leaflet object, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
-    const wrapper = await getWrapper(useGlobalLeaflet);
+  it(`registers its Leaflet object`, async () => {
+    const wrapper = await getWrapper();
 
     expect(mockRegisterControl).toHaveBeenCalledTimes(1);
     expect(mockRegisterControl).toHaveBeenCalledWith({
@@ -59,8 +55,8 @@ describe.each([true, false])("LControlAttribution", (useGlobalLeaflet) => {
     });
   });
 
-  it(`updates the prefix, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
-    const wrapper = await getWrapper(useGlobalLeaflet);
+  it(`updates the prefix`, async () => {
+    const wrapper = await getWrapper();
     expect(wrapper.vm.leafletObject?.options.prefix);
 
     wrapper.setProps({ prefix: "new prefix" });
@@ -69,8 +65,8 @@ describe.each([true, false])("LControlAttribution", (useGlobalLeaflet) => {
     expect(wrapper.vm.leafletObject?.options.prefix).to.equal("new prefix");
   });
 
-  it(`updates the position, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
-    const wrapper = await getWrapper(useGlobalLeaflet);
+  it(`updates the position`, async () => {
+    const wrapper = await getWrapper();
 
     wrapper.setProps({ position: "bottomleft" });
 
@@ -78,8 +74,8 @@ describe.each([true, false])("LControlAttribution", (useGlobalLeaflet) => {
     expect(wrapper.vm.leafletObject?.options.position).to.equal("bottomleft");
   });
 
-  it(`removes itself from the map on unmount, with useGlobalLeaflet ${useGlobalLeaflet}`, async () => {
-    const wrapper = await getWrapper(useGlobalLeaflet);
+  it(`removes itself from the map on unmount`, async () => {
+    const wrapper = await getWrapper();
     const removeSpy = vi.spyOn(wrapper.vm.leafletObject!, "remove");
 
     wrapper.unmount();

@@ -155,3 +155,17 @@ export const assertInject = <T>(key: InjectionKey<T>) => {
 
   return value;
 };
+
+let leafletPromise: Promise<typeof L> | undefined;
+
+export const getLeaflet = (useGlobalLeaflet = true) => {
+  if (leafletPromise) return leafletPromise;
+  if (useGlobalLeaflet) {
+    leafletPromise = WINDOW_OR_GLOBAL.L
+      ? Promise.resolve(WINDOW_OR_GLOBAL.L)
+      : import("leaflet");
+  } else {
+    leafletPromise = import("leaflet/dist/leaflet-src.esm");
+  }
+  return leafletPromise;
+};

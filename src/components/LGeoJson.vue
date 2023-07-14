@@ -1,23 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import {
-  defineComponent,
-  inject,
-  markRaw,
-  nextTick,
-  onMounted,
-  ref,
-} from "vue";
+import { defineComponent, markRaw, nextTick, onMounted, ref } from "vue";
 
 import { geoJSONProps, setupGeoJSON } from "@src/functions/geoJSON";
 import { render } from "@src/functions/layer";
+import { AddLayerInjection } from "@src/types/injectionKeys";
 import {
-  AddLayerInjection,
-  UseGlobalLeafletInjection,
-} from "@src/types/injectionKeys";
-import {
-  WINDOW_OR_GLOBAL,
   assertInject,
+  getLeaflet,
   propsBinder,
   remapEvents,
 } from "@src/utils.js";
@@ -28,15 +18,12 @@ export default defineComponent({
     const leafletObject = ref<L.GeoJSON>();
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const addLayer = assertInject(AddLayerInjection);
 
     const { methods, options } = setupGeoJSON(props, leafletObject, context);
 
     onMounted(async () => {
-      const { geoJSON }: typeof L = useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { geoJSON }: typeof L = await getLeaflet();
 
       leafletObject.value = markRaw<L.GeoJSON>(geoJSON(props.geojson, options));
 

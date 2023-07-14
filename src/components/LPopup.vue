@@ -2,7 +2,6 @@
 import type L from "leaflet";
 import {
   defineComponent,
-  inject,
   markRaw,
   nextTick,
   onBeforeUnmount,
@@ -15,11 +14,10 @@ import { popupProps, setupPopup } from "@src/functions/popup";
 import {
   BindPopupInjection,
   UnbindPopupInjection,
-  UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 import {
-  WINDOW_OR_GLOBAL,
   assertInject,
+  getLeaflet,
   propsBinder,
   remapEvents,
 } from "@src/utils.js";
@@ -34,16 +32,13 @@ export default defineComponent({
     const leafletObject = ref<L.Popup>();
     const root = ref(null);
 
-    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const bindPopup = assertInject(BindPopupInjection);
     const unbindPopup = assertInject(UnbindPopupInjection);
 
     const { options, methods } = setupPopup(props, leafletObject);
 
     onMounted(async () => {
-      const { popup }: typeof L = useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { popup }: typeof L = await getLeaflet();
 
       leafletObject.value = markRaw<L.Popup>(popup(options));
 

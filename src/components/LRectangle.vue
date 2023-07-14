@@ -1,23 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import {
-  defineComponent,
-  inject,
-  markRaw,
-  nextTick,
-  onMounted,
-  ref,
-} from "vue";
+import { defineComponent, markRaw, nextTick, onMounted, ref } from "vue";
 
 import { render } from "@src/functions/layer";
 import { rectangleProps, setupRectangle } from "@src/functions/rectangle";
+import { AddLayerInjection } from "@src/types/injectionKeys";
 import {
-  AddLayerInjection,
-  UseGlobalLeafletInjection,
-} from "@src/types/injectionKeys";
-import {
-  WINDOW_OR_GLOBAL,
   assertInject,
+  getLeaflet,
   propsBinder,
   remapEvents,
 } from "@src/utils.js";
@@ -32,15 +22,12 @@ export default defineComponent({
     const leafletObject = ref<L.Rectangle>();
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const addLayer = assertInject(AddLayerInjection);
 
     const { options, methods } = setupRectangle(props, leafletObject, context);
 
     onMounted(async () => {
-      const { rectangle, latLngBounds }: typeof L = useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { rectangle, latLngBounds }: typeof L = await getLeaflet();
 
       const bounds = props.bounds
         ? latLngBounds(props.bounds)

@@ -3,7 +3,6 @@ import type L from "leaflet";
 import { debounce } from "ts-debounce";
 import {
   defineComponent,
-  inject,
   markRaw,
   nextTick,
   onBeforeUnmount,
@@ -23,12 +22,11 @@ import {
   CanSetParentHtmlInjection,
   SetIconInjection,
   SetParentHtmlInjection,
-  UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 import {
-  WINDOW_OR_GLOBAL,
   assertInject,
   cancelDebounces,
+  getLeaflet,
   isFunction,
   propsBinder,
   remapEvents,
@@ -44,7 +42,6 @@ export default defineComponent({
     const leafletObject = ref<L.Marker>();
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const addLayer = assertInject(AddLayerInjection);
 
     provide(
@@ -70,9 +67,7 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      const { marker, divIcon }: typeof L = useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { marker, divIcon }: typeof L = await getLeaflet();
 
       if (shouldBlankIcon(options, context)) {
         options.icon = divIcon({ className: "" });

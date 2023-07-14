@@ -4,7 +4,6 @@ import {
   type PropType,
   defineComponent,
   h,
-  inject,
   markRaw,
   nextTick,
   onMounted,
@@ -17,13 +16,10 @@ import {
   gridLayerProps,
   setupGridLayer,
 } from "@src/functions/gridLayer";
+import { AddLayerInjection } from "@src/types/injectionKeys";
 import {
-  AddLayerInjection,
-  UseGlobalLeafletInjection,
-} from "@src/types/injectionKeys";
-import {
-  WINDOW_OR_GLOBAL,
   assertInject,
+  getLeaflet,
   propsBinder,
   remapEvents,
 } from "@src/utils.js";
@@ -41,15 +37,12 @@ export default defineComponent({
     const root = ref(null);
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const addLayer = assertInject(AddLayerInjection);
 
     const { options, methods } = setupGridLayer(props, leafletObject, context);
 
     onMounted(async () => {
-      const { GridLayer, DomUtil, Util }: typeof L = useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { GridLayer, DomUtil, Util }: typeof L = await getLeaflet();
 
       const GLayer = CreateVueGridLayer(
         GridLayer,
