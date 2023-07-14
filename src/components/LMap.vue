@@ -10,7 +10,6 @@ import {
   nextTick,
   onBeforeUnmount,
   onMounted,
-  provide,
   reactive,
   ref,
 } from "vue";
@@ -18,7 +17,6 @@ import {
 import { componentProps, setupComponent } from "@src/functions/component";
 import {
   AddLayerInjection,
-  LeafletPromiseInjection,
   RegisterControlInjection,
   RegisterLayerControlInjection,
   RemoveLayerInjection,
@@ -186,7 +184,8 @@ export default defineComponent({
       RegisterLayerControlInjection
     );
 
-    provide(LeafletPromiseInjection, getLeaflet(props.useGlobalLeaflet));
+    // Ensures leaflet module ref used by all components is initialized as early as possible.
+    getLeaflet(props.useGlobalLeaflet);
 
     const zoomPanOptions = computed(() => {
       const result: L.ZoomPanOptions = {};
