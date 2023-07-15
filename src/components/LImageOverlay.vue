@@ -1,26 +1,16 @@
 <script lang="ts">
 import type L from "leaflet";
-import {
-  defineComponent,
-  inject,
-  markRaw,
-  nextTick,
-  onMounted,
-  ref,
-} from "vue";
+import { defineComponent, markRaw, nextTick, onMounted, ref } from "vue";
 
 import {
   imageOverlayProps,
   setupImageOverlay,
 } from "@src/functions/imageOverlay";
 import { render } from "@src/functions/layer";
+import { AddLayerInjection } from "@src/types/injectionKeys";
 import {
-  AddLayerInjection,
-  UseGlobalLeafletInjection,
-} from "@src/types/injectionKeys";
-import {
-  WINDOW_OR_GLOBAL,
   assertInject,
+  getLeaflet,
   propsBinder,
   remapEvents,
 } from "@src/utils.js";
@@ -35,7 +25,6 @@ export default defineComponent({
     const leafletObject = ref<L.ImageOverlay>();
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const addLayer = assertInject(AddLayerInjection);
 
     const { options, methods } = setupImageOverlay(
@@ -45,9 +34,7 @@ export default defineComponent({
     );
 
     onMounted(async () => {
-      const { imageOverlay }: typeof L = useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { imageOverlay }: typeof L = await getLeaflet();
       leafletObject.value = markRaw<L.ImageOverlay>(
         imageOverlay(props.url, props.bounds, options)
       );

@@ -1,24 +1,14 @@
 <script lang="ts">
 import type L from "leaflet";
-import {
-  defineComponent,
-  inject,
-  markRaw,
-  nextTick,
-  onMounted,
-  ref,
-} from "vue";
+import { defineComponent, markRaw, nextTick, onMounted, ref } from "vue";
 
 import {
   controlProps,
   renderLControl,
   setupControl,
 } from "@src/functions/control";
-import {
-  RegisterControlInjection,
-  UseGlobalLeafletInjection,
-} from "@src/types/injectionKeys";
-import { WINDOW_OR_GLOBAL, assertInject, propsBinder } from "@src/utils.js";
+import { RegisterControlInjection } from "@src/types/injectionKeys";
+import { assertInject, getLeaflet, propsBinder } from "@src/utils.js";
 
 export default defineComponent({
   name: "LControl",
@@ -39,15 +29,12 @@ export default defineComponent({
     const leafletObject = ref<L.Control>();
     const root = ref<HTMLInputElement>();
 
-    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const registerControl = assertInject(RegisterControlInjection);
 
     const { options, methods } = setupControl(props, leafletObject);
 
     onMounted(async () => {
-      const { Control, DomEvent }: typeof L = useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { Control, DomEvent }: typeof L = await getLeaflet();
 
       const LControl = Control.extend({
         onAdd() {

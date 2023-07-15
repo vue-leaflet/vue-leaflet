@@ -1,23 +1,13 @@
 <script lang="ts">
 import type L from "leaflet";
-import {
-  defineComponent,
-  inject,
-  markRaw,
-  nextTick,
-  onMounted,
-  ref,
-} from "vue";
+import { defineComponent, markRaw, nextTick, onMounted, ref } from "vue";
 
 import { render } from "@src/functions/layer";
 import { layerGroupProps, setupLayerGroup } from "@src/functions/layerGroup";
+import { AddLayerInjection } from "@src/types/injectionKeys";
 import {
-  AddLayerInjection,
-  UseGlobalLeafletInjection,
-} from "@src/types/injectionKeys";
-import {
-  WINDOW_OR_GLOBAL,
   assertInject,
+  getLeaflet,
   propsBinder,
   remapEvents,
 } from "@src/utils.js";
@@ -28,15 +18,12 @@ export default defineComponent({
     const leafletObject = ref<L.LayerGroup>();
     const ready = ref(false);
 
-    const useGlobalLeaflet = inject(UseGlobalLeafletInjection);
     const addLayer = assertInject(AddLayerInjection);
 
     const { methods } = setupLayerGroup(props, leafletObject, context);
 
     onMounted(async () => {
-      const { layerGroup }: typeof L = useGlobalLeaflet
-        ? WINDOW_OR_GLOBAL.L
-        : await import("leaflet/dist/leaflet-src.esm");
+      const { layerGroup }: typeof L = await getLeaflet();
       leafletObject.value = markRaw<L.LayerGroup>(
         layerGroup(undefined, props.options)
       );

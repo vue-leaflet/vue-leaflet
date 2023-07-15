@@ -10,7 +10,6 @@ import {
   nextTick,
   onBeforeUnmount,
   onMounted,
-  provide,
   reactive,
   ref,
 } from "vue";
@@ -21,7 +20,6 @@ import {
   RegisterControlInjection,
   RegisterLayerControlInjection,
   RemoveLayerInjection,
-  UseGlobalLeafletInjection,
 } from "@src/types/injectionKeys";
 import type {
   IControlDefinition,
@@ -31,9 +29,9 @@ import type {
 } from "@src/types/interfaces";
 import {
   type Data,
-  WINDOW_OR_GLOBAL,
   bindEventHandlers,
   cancelDebounces,
+  getLeaflet,
   propsBinder,
   propsToLeafletOptions,
   provideLeafletWrapper,
@@ -185,7 +183,9 @@ export default defineComponent({
     const registerLayerControl = provideLeafletWrapper(
       RegisterLayerControlInjection
     );
-    provide(UseGlobalLeafletInjection, props.useGlobalLeaflet);
+
+    // Ensures leaflet module ref used by all components is initialized as early as possible.
+    getLeaflet(props.useGlobalLeaflet);
 
     const zoomPanOptions = computed(() => {
       const result: L.ZoomPanOptions = {};
@@ -247,14 +247,8 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      if (props.useGlobalLeaflet) {
-        WINDOW_OR_GLOBAL.L = WINDOW_OR_GLOBAL.L || (await import("leaflet"));
-      }
-      const { map, CRS, Icon, latLngBounds, latLng, stamp }: typeof L =
-        props.useGlobalLeaflet
-          ? WINDOW_OR_GLOBAL.L
-          : await import("leaflet/dist/leaflet-src.esm");
-
+      const leaflet: typeof L = await getLeaflet();
+      const { map, CRS, Icon, latLngBounds, latLng, stamp } = leaflet;
       try {
         // TODO: Is beforeMapMount still needed?
         options.beforeMapMount && (await options.beforeMapMount());
