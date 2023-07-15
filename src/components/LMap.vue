@@ -159,7 +159,7 @@ const mapProps = {
 };
 
 export default defineComponent({
-  inheritAttrs: false,
+  inheritAttrs: true,
   emits: ["ready", "update:zoom", "update:center", "update:bounds"],
   props: mapProps,
   setup(props, context) {
