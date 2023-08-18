@@ -30,6 +30,10 @@ export const wmsTileLayerProps = {
     type: Boolean,
     default: undefined,
   },
+  cql_filter: {
+    type: String,
+    default: undefined,
+  },
 } as const;
 
 export const setupWMSTileLayer = (props, leafletRef, context) => {
