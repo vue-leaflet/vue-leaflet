@@ -15,7 +15,7 @@ export const markerProps = {
     default: undefined,
   },
   icon: {
-    type: [Object] as PropType<L.Icon>,
+    type: [Object] as PropType<L.Icon | L.DivIcon>,
   },
   zIndexOffset: {
     type: Number,
