@@ -156,3 +156,11 @@ export default {
 };
 </script>
 ```
+
+## Geojson Resources 
+
+- [world-geojson](https://github.com/georgique/world-geojson)
+- [datameet-maps](https://github.com/datameet/maps)
+- [geoplot-data](https://github.com/ResidentMario/geoplot-data)
+- [indian-district-boundaries](https://github.com/guneetnarula/indian-district-boundaries)
+- [maps-geojson](https://github.com/adarshbiradar/maps-geojson)
