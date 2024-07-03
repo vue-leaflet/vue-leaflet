@@ -6,6 +6,7 @@
       <router-link to="/tile-layer">TileLayer</router-link>
       <router-link to="/wms-tile-layer">WmsTileLayer</router-link>
       <router-link to="/image-overlay">ImageOverlay</router-link>
+      <router-link to="/svg-overlay">SVGOverlay</router-link>
       <router-link to="/feature-group">Feature Group</router-link>
       <router-link to="/circle">Circle</router-link>
       <router-link to="/circle-marker">CircleMarker</router-link>
