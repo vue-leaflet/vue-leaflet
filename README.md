@@ -19,6 +19,7 @@ or join the [discussions](https://github.com/vue-leaflet/vue-leaflet/discussions
 - LGeoJson
 - LIcon
 - LImageOverlay
+- LVideoOverlay
 - LMap
 - LMarker
 - LPolygon
