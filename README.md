@@ -86,6 +86,9 @@ export default {
 <style></style>
 ```
 
+If you are on Linux, make sure to add the `:useGlobalLeaflet="false"` attribute to your `l-map` component, or
+[vite will otherwise fail](https://github.com/vue-leaflet/vue-leaflet/issues/339).
+
 ### Component playground
 
 To see the [component playground](https://github.com/vue-leaflet/vue-leaflet/tree/master/src/playground/views) in action,
