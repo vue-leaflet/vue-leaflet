@@ -23,6 +23,7 @@ import {
 } from "@src/utils.js";
 
 export default defineComponent({
+  name: "LLayerGroup",
   props: layerGroupProps,
   setup(props, context) {
     const leafletObject = ref<L.LayerGroup>();

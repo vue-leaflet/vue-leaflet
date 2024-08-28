@@ -159,6 +159,7 @@ const mapProps = {
 };
 
 export default defineComponent({
+  name: "LMap",
   inheritAttrs: false,
   emits: ["ready", "update:zoom", "update:center", "update:bounds"],
   props: mapProps,

@@ -25,6 +25,7 @@ import {
 } from "@src/utils.js";
 
 export default defineComponent({
+  name: "LWMSTileLayer",
   props: wmsTileLayerProps,
   setup(props, context) {
     const leafletObject = ref<L.TileLayer.WMS>();

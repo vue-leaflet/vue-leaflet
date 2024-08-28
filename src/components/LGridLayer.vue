@@ -29,6 +29,7 @@ import {
 } from "@src/utils.js";
 
 export default defineComponent({
+  name: "LGridLayer",
   props: {
     ...gridLayerProps,
     childRender: {

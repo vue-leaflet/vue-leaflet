@@ -23,6 +23,7 @@ import {
 } from "@src/utils.js";
 
 export default defineComponent({
+  name: "LGeoJson",
   props: geoJSONProps,
   setup(props, context) {
     const leafletObject = ref<L.GeoJSON>();

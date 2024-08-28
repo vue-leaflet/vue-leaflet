@@ -22,6 +22,7 @@ import {
 } from "@src/utils.js";
 
 export default defineComponent({
+  name: "LTileLayer",
   props: tileLayerProps,
   setup(props, context) {
     const leafletObject = ref<L.TileLayer>();

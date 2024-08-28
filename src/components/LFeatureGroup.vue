@@ -26,6 +26,7 @@ import {
 } from "@src/utils.js";
 
 export default defineComponent({
+  name: "LFeatureGroup",
   props: featureGroupProps,
   setup(props, context) {
     const leafletObject = ref<L.FeatureGroup>();
