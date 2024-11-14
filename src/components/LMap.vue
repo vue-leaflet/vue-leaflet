@@ -50,7 +50,7 @@ const mapProps = {
    * The center of the map, supports .sync modifier
    */
   center: {
-    type: [Object, Array] as PropType<L.PointExpression>,
+    type: [Object, Array] as PropType<L.LatLngExpression>,
   },
   /**
    * The bounds of the map, supports .sync modifier
