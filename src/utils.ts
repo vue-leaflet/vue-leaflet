@@ -19,7 +19,7 @@ export const bindEventHandlers = (
 export const cancelDebounces = (handlerMethods: { [key: string]: any }) => {
   for (const name of Object.keys(handlerMethods)) {
     const handler = handlerMethods[name];
-    handler && isFunction(handler.cancel) && handler.cancel();
+    handler && isFunction(handler.cancel) && handler.cancel('Vue-Leaflet: Cleanup');
   }
 };
 
